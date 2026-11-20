@@ -18,3 +18,16 @@
 ```
 
 - `main`의 `data/`에는 팀 공용 원천 파일과 폴더 구조를 공유합니다. Bronze·Silver·Gold 처리는 각자의 작업 브랜치에서 진행합니다.
+
+## 실행
+
+```bash
+python -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python src/01_bronze.py         # 원천 → Bronze
+.venv/bin/python src/01_bronze_check.py   # Bronze 검증
+.venv/bin/python src/02_normalize.py      # Bronze → Silver
+.venv/bin/python src/02_normalize_check.py  # Silver 검증
+```
+
+- 원천 문제 정리: `docs/AS-IS.md`
+- 메타데이터 설명: `meta/README.md`

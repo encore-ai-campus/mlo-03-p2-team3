@@ -1,0 +1,13 @@
+LOAD_FILE,SRC_SYSTEM,SHA256,ROW_CNT,LOAD_DTM,BRONZE_FILE
+order/bet_order.csv,bet,8d6d42cd659a2078ae0cee76802eba9e4026521fdfa0cd8e8814ae19e427fa92,27907,2026-11-20 14:26:05,data/01_bronze/bet_order.parquet
+order/bet_ticket.csv,bet,73cc9d4c44f0f3c619794d13b1812d78b93101b7410d2b406ec235a3fafa8169,523416,2026-11-20 14:26:05,data/01_bronze/bet_ticket.parquet
+member/MBR_MASTER.csv,mbr,dcf7b54484cfa7b746683f9cb828d4425657f2a8db1dfb4459a4336d557fdb0f,4383,2026-11-20 14:26:05,data/01_bronze/MBR_MASTER.parquet
+horse/HR_WEEKLY_SNAPSHOT.csv,hms,5d20204a142c02780f8f74cda8604e90ea3200deb9633fd40a673bb1fa5d5833,52642,2026-11-20 14:26:05,data/01_bronze/HR_WEEKLY_SNAPSHOT.parquet
+horse/TR_WEEKLY_SNAPSHOT.csv,hms,c90403c4d0af81a81f3834cc6895c44909d5243efa8acb7aee9847bcfd04be40,954,2026-11-20 14:26:05,data/01_bronze/TR_WEEKLY_SNAPSHOT.parquet
+race/RC_RACE.csv,rms,3ce54819daf283252da21e8782ab0fbfce922b1b2ba82ec8cd00b0a9066ca41d,386,2026-11-20 14:26:05,data/01_bronze/RC_RACE.parquet
+race/RC_ENTRY.csv,rms,e434dc5043bbd72c88eb2bac3e2f183a5caaafef8d75a180d82dbef85b1ff3eb,3666,2026-11-20 14:26:05,data/01_bronze/RC_ENTRY.parquet
+race/RC_ODDS.csv,rms,dc42d689f43edb5251e4d39f0bd179f8d8c704153e50754e746110243fa6415c,3666,2026-11-20 14:26:05,data/01_bronze/RC_ODDS.parquet
+race/RC_RESULT.csv,rms,e291da290b2b80a36a1b2d202e58489572d842982e0652edbdd7e8a521612392,3666,2026-11-20 14:26:05,data/01_bronze/RC_RESULT.parquet
+race/RC_SALES.csv,rms,8bd0df57ec7139136879cb94c5de518360273b80f81a483f5343b218af01cac8,3088,2026-11-20 14:26:05,data/01_bronze/RC_SALES.parquet
+horse/HR_VET_HIST.csv,vms,75ff0fd6ca1736bcc83d7fb1b09429217d2d593443dbfe142da53179dba81231,1488,2026-11-20 14:26:05,data/01_bronze/HR_VET_HIST.parquet
+event/race_change_events.jsonl,mongodb,c589dfe8e4681e320f0a7ba490ed631cbd39629c7e42b69d26049cc8d2d1543c,149,2026-11-20 14:26:05,data/01_bronze/race_change_events.parquet
