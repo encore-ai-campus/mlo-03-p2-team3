@@ -19,6 +19,20 @@
 
 - `main`의 `data/`에는 팀 공용 원천 파일과 폴더 구조를 공유합니다. Bronze·Silver·Gold 처리는 각자의 작업 브랜치에서 진행합니다.
 
+## 공용 원천의 Bronze·Silver 처리
+
+`feat/fct-horse-medical`에서 공용 원천 12개를 Bronze Parquet 12개로 적재하고, 팀 공용 매핑 규칙에 맞춰 Silver 14개 테이블로 표준화합니다. 경주 매출 합계와 진료 유형 브리지는 별도 테이블로 생성합니다.
+
+```powershell
+python -m pip install -r requirements.txt
+python src/01_bronze.py
+python src/01_bronze_check.py
+python src/02_normalize.py
+python src/02_normalize_check.py
+```
+
+[전체 원천 AS-IS 프로파일링](docs/AS-IS.md) · [팀 공용 매핑 규칙](meta/mapping_rules.md) · [파일별 입출력과 검증 기록](meta/README.md)
+
 ## 진료 이력 데이터
 
 원천은 `data/00_origin/horse/HR_VET_HIST.csv`이며, 진료 이력 1,488행과 6개 컬럼으로 구성됩니다.
@@ -36,8 +50,8 @@
 
 | 단계 | 산출물 | 검증 결과 |
 |---|---|---|
-| Bronze | `HR_VET_HIST_RAW.parquet`, `HR_VET_HIST_LOAD.json` | 원천과 동일한 1,488행 × 6열. 컬럼명·순서·셀 값이 일치하며 적재 기록에 원천 경로와 KST 적재 시각을 저장 |
-| Silver 진료 이력 | `HR_VET_HIST.parquet` | 1,488행 × 7열. 컬럼명·날짜·타입·결측값을 표준화하고 레코드별 `VET_SEQ`를 부여 |
-| Silver 진료 유형 브리지 | `HR_VET_TYPE_BRIDGE.parquet` | 1,664행 × 2열. 진료명 항목을 개별 행으로 나눠 `VET_SEQ`로 연결 |
+| Bronze | `HR_VET_HIST.parquet`, `bronze_load_log.csv` | 1,488행. 원천 6개 컬럼의 이름·순서·값을 보존하고 추적용 컬럼 4개를 추가 |
+| Silver 진료 이력 | `HR_VET_HIST.parquet` | 1,488행. 표준 컬럼 7개와 원천 행 번호 `_SRC_ROW_NO`를 저장 |
+| Silver 진료 유형 브리지 | `HR_VET_TYPE_BRIDGE.parquet` | 1,664행. 표준 컬럼 2개와 `_SRC_ROW_NO`를 저장하고 `VET_SEQ`로 진료 이력에 연결 |
 
 [AS-IS 상세 프로파일링](docs/HR_VET_HIST_AS_IS.md) · [파일별 입출력과 컬럼 매핑](meta/HR_VET_HIST_DATA_DICTIONARY.md)
