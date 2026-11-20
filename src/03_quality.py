@@ -162,13 +162,10 @@ def build_clean_manifest() -> dict:
 
 def _write_clean_manifest() -> None:
     data = json.dumps(build_clean_manifest(), sort_keys=True, indent=2) + "\n"
-    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=C.CLEAN_DIR, delete=False) as handle:
-        temporary = Path(handle.name)
-        handle.write(data)
-    try:
+    with tempfile.TemporaryDirectory(dir=C.CLEAN_DIR, prefix=".manifest-") as directory:
+        temporary = Path(directory) / "_manifest.json"
+        temporary.write_text(data, encoding="utf-8")
         os.replace(temporary, C.CLEAN_DIR / "_manifest.json")
-    finally:
-        temporary.unlink(missing_ok=True)
 
 
 # ---------------------------------------------------------------- 본 처리
