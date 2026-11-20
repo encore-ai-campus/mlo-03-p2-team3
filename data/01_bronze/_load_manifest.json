@@ -1,0 +1,76 @@
+{
+  "sources": {
+    "event/race_change_events.jsonl": {
+      "sha256": "c589dfe8e4681e320f0a7ba490ed631cbd39629c7e42b69d26049cc8d2d1543c",
+      "output_file": "event/race_change_events.parquet",
+      "row_count": 149,
+      "load_dtm": "2026-11-20T14:31:23+09:00"
+    },
+    "horse/HR_VET_HIST.csv": {
+      "sha256": "75ff0fd6ca1736bcc83d7fb1b09429217d2d593443dbfe142da53179dba81231",
+      "output_file": "horse/HR_VET_HIST.parquet",
+      "row_count": 1488,
+      "load_dtm": "2026-11-20T14:31:23+09:00"
+    },
+    "horse/HR_WEEKLY_SNAPSHOT.csv": {
+      "sha256": "5d20204a142c02780f8f74cda8604e90ea3200deb9633fd40a673bb1fa5d5833",
+      "output_file": "horse/HR_WEEKLY_SNAPSHOT.parquet",
+      "row_count": 52642,
+      "load_dtm": "2026-11-20T14:31:23+09:00"
+    },
+    "horse/TR_WEEKLY_SNAPSHOT.csv": {
+      "sha256": "c90403c4d0af81a81f3834cc6895c44909d5243efa8acb7aee9847bcfd04be40",
+      "output_file": "horse/TR_WEEKLY_SNAPSHOT.parquet",
+      "row_count": 954,
+      "load_dtm": "2026-11-20T14:31:23+09:00"
+    },
+    "member/MBR_MASTER.csv": {
+      "sha256": "dcf7b54484cfa7b746683f9cb828d4425657f2a8db1dfb4459a4336d557fdb0f",
+      "output_file": "member/MBR_MASTER.parquet",
+      "row_count": 4383,
+      "load_dtm": "2026-11-20T14:31:23+09:00"
+    },
+    "order/bet_order.csv": {
+      "sha256": "8d6d42cd659a2078ae0cee76802eba9e4026521fdfa0cd8e8814ae19e427fa92",
+      "output_file": "order/bet_order.parquet",
+      "row_count": 27907,
+      "load_dtm": "2026-11-20T14:31:23+09:00"
+    },
+    "order/bet_ticket.csv": {
+      "sha256": "73cc9d4c44f0f3c619794d13b1812d78b93101b7410d2b406ec235a3fafa8169",
+      "output_file": "order/bet_ticket.parquet",
+      "row_count": 523416,
+      "load_dtm": "2026-11-20T14:31:23+09:00"
+    },
+    "race/RC_ENTRY.csv": {
+      "sha256": "e434dc5043bbd72c88eb2bac3e2f183a5caaafef8d75a180d82dbef85b1ff3eb",
+      "output_file": "race/RC_ENTRY.parquet",
+      "row_count": 3666,
+      "load_dtm": "2026-11-20T14:31:25+09:00"
+    },
+    "race/RC_ODDS.csv": {
+      "sha256": "dc42d689f43edb5251e4d39f0bd179f8d8c704153e50754e746110243fa6415c",
+      "output_file": "race/RC_ODDS.parquet",
+      "row_count": 3666,
+      "load_dtm": "2026-11-20T14:31:25+09:00"
+    },
+    "race/RC_RACE.csv": {
+      "sha256": "3ce54819daf283252da21e8782ab0fbfce922b1b2ba82ec8cd00b0a9066ca41d",
+      "output_file": "race/RC_RACE.parquet",
+      "row_count": 386,
+      "load_dtm": "2026-11-20T14:31:25+09:00"
+    },
+    "race/RC_RESULT.csv": {
+      "sha256": "e291da290b2b80a36a1b2d202e58489572d842982e0652edbdd7e8a521612392",
+      "output_file": "race/RC_RESULT.parquet",
+      "row_count": 3666,
+      "load_dtm": "2026-11-20T14:31:25+09:00"
+    },
+    "race/RC_SALES.csv": {
+      "sha256": "8bd0df57ec7139136879cb94c5de518360273b80f81a483f5343b218af01cac8",
+      "output_file": "race/RC_SALES.parquet",
+      "row_count": 3088,
+      "load_dtm": "2026-11-20T14:31:25+09:00"
+    }
+  }
+}

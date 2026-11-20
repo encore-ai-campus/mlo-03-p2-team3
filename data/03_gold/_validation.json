@@ -1,0 +1,59 @@
+{
+  "source_rows": {
+    "BET_TICKET": 522364,
+    "BET_ORDER": 27907,
+    "MBR_MASTER": 4383,
+    "RC_RACE": 386,
+    "RC_SALES": 2702,
+    "RC_SALES_TOTAL": 386
+  },
+  "gold_rows": {
+    "DIM_RACE": 386,
+    "DIM_DATE": 52,
+    "DIM_POOL": 7,
+    "DIM_BET_TYPE": 3,
+    "DIM_CHANNEL": 40,
+    "DIM_MEMBER": 4384,
+    "DIM_TICKET_STATUS": 3,
+    "FACT_BET_TICKET": 522364,
+    "FACT_ACTUAL_RACE_SALES": 2702
+  },
+  "gold_excluded_rows": {
+    "BET_TICKET": 0,
+    "RC_SALES": 0
+  },
+  "ticket_measures_krw": {
+    "VIRTUAL_GROSS_SALES_AMT": 1903091700,
+    "CANCEL_AMT": 41064800,
+    "VOID_AMT": 8192700,
+    "NET_AFTER_CANCEL_AMT": 1862026900
+  },
+  "actual_sales_krw": 747386251200,
+  "actual_race_control_count": 386,
+  "pk_duplicate_count": {
+    "DIM_RACE": 0,
+    "DIM_DATE": 0,
+    "DIM_POOL": 0,
+    "DIM_BET_TYPE": 0,
+    "DIM_CHANNEL": 0,
+    "DIM_MEMBER": 0,
+    "DIM_TICKET_STATUS": 0,
+    "FACT_BET_TICKET": 0,
+    "FACT_ACTUAL_RACE_SALES": 0
+  },
+  "missing_dimension_fk_count": {
+    "FACT_BET_TICKET": {
+      "DIM_RACE": 0,
+      "DIM_DATE": 0,
+      "DIM_BET_TYPE": 0,
+      "DIM_CHANNEL": 0,
+      "DIM_MEMBER": 0,
+      "DIM_TICKET_STATUS": 0
+    },
+    "FACT_ACTUAL_RACE_SALES": {
+      "DIM_RACE": 0,
+      "DIM_DATE": 0,
+      "DIM_POOL": 0
+    }
+  }
+}
