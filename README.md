@@ -29,5 +29,8 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python src/02_normalize_check.py  # Silver 검증
 ```
 
+- 데이터 안내 (테이블별 내용·관계): `docs/DATA_GUIDE.md`
 - 원천 문제 정리: `docs/AS-IS.md`
+- 단계별 기록: `docs/BRONZE.md`, `docs/SILVER.md`
+- 컬럼 사전 (컬럼별 뜻·값·NULL): `docs/BRONZE_COLUMNS.md`, `docs/SILVER_COLUMNS.md` (`src/make_column_docs.py`로 생성)
 - 메타데이터 설명: `meta/README.md`
