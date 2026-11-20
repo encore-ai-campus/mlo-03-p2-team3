@@ -85,8 +85,9 @@ def to_int(t, col, raw, typ="INT", src=None, rule="정수 변환"):
 
 
 def to_dec(t, col, raw, typ, src=None, rule="소수 변환"):
-    scale = int(re.search(r",(\d+)\)", typ).group(1))
+    precision, scale = map(int, re.findall(r"\d+", typ))
     q = Decimal(1).scaleb(-scale)
+    limit = Decimal(1).scaleb(precision - scale)  # 정수부 자릿수 상한
     s = pd.Series(raw, index=t.b.index)
 
     def conv(x):
@@ -94,9 +95,12 @@ def to_dec(t, col, raw, typ, src=None, rule="소수 변환"):
             return None
         try:
             d = Decimal(str(x).replace(",", ""))
+            if not d.is_finite() or d.copy_abs() >= limit:
+                return "FAIL"  # 정밀도(전체 자릿수) 초과
+            r = d.quantize(q)
         except InvalidOperation:
             return "FAIL"
-        return d.quantize(q) if d == d.quantize(q) else "FAIL"  # 반올림으로 값이 바뀌면 실패
+        return r if d == r else "FAIL"  # 반올림으로 값이 바뀌면 실패
 
     out = s.map(conv)
     bad = out.eq("FAIL")
@@ -421,7 +425,7 @@ def rc_result(b):
     m, fail = split_regex(wg, r"(\d+)([+-]\d+)?")
     zero = wg.eq("0")
     t.issue("HR_WGT_KG", fail, wg, "PARSE_FAIL", "'NNN±N' 아님")
-    rule_null(t, "HR_WGT_KG", zero, wg, "출주취소마의 '0' → 체중·증감 NULL")
+    rule_null(t, "HR_WGT_KG", zero, wg, "'0' → 체중·증감 NULL (경주제외·출주취소)")
     t.add("HR_WGT_KG", m.map(lambda x: int(x.group(1)) if ok(x) else None).where(~zero, None).astype("Int64"),
           "INT", "WG_HR_RAW", "'279+14'의 279, '0'은 NULL")
     t.add("HR_WGT_DIFF_KG", m.map(lambda x: int(x.group(2)) if ok(x) and x.group(2) else None).where(~zero, None).astype("Int64"),

@@ -382,3 +382,18 @@
 | RC_SALES_TOTAL                        | 386 (경주마다 1행)           |
 
 > 표준화 단계는 행을 지우지 않으므로, BET_TICKET의 완전 중복 1,052행·헤더 불일치 93건 같은 더러움은 그대로 남는다. 그건 다음 정제 단계에서 처리 (`meta/dq_log.csv` 참고).
+
+## 12. 현재 브랜치의 Silver 적용 세부 규칙
+
+아래 항목은 팀 파이프라인 합의안에 따라 적용한다.
+
+| 원천·대상 | 처리 |
+|---|---|
+| `RC_RESULT.PASS_ORD_RAW` | 하이픈과 공백만 있는 값은 `PASS_ORD_S1`~`PASS_ORD_S6`을 모두 NULL로 두고 원천값을 이슈 로그에 기록 |
+| `RC_RESULT.WG_HR_RAW` | `0`이면 `HR_WGT_KG`와 `HR_WGT_DIFF_KG` 모두 NULL. 현재 원천에서는 경주제외 18행과 출주취소 4행이 해당 |
+| `SECT1_SEC`~`SECT7_SEC`, `TRACK_MOIST_RT`, `MARGIN_LEN` | 구간 기록과 함수율은 `DECIMAL(5,1)`, 착차는 `DECIMAL(5,2)` |
+| DECIMAL 변환 | 지정한 정밀도 범위를 벗어나거나 반올림해야 저장할 수 있는 값은 `PARSE_FAIL`로 기록 |
+| `VET_SEQ` | Bronze의 `_SRC_ROW_NO`를 사용. 헤더를 제외한 첫 데이터 행의 번호는 1 |
+| `RC_ODDS.SECTION_TIMES_RAW` | 양끝 공백을 제거하기 전에 원문을 7글자씩 잘라 위치를 유지 |
+
+빈 착차는 `FIRST`, 빈 발매 채널은 `UNKNOWN`으로 표준화한다.

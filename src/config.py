@@ -16,6 +16,42 @@ SILVER_VALUE_MAP = META_DIR / "silver_value_map.csv"
 SILVER_COLUMN_PROFILE = META_DIR / "silver_column_profile.csv"
 DATA_DICTIONARY = META_DIR / "data_dictionary.csv"
 
+# 품질 관리 (D-008: 표준화 결과는 그대로 두고 유지 행·제외 행을 따로 저장)
+CLEAN_DIR = SILVER_DIR / "clean"
+EXCLUDED_DIR = SILVER_DIR / "_excluded"
+DQ_LOG = META_DIR / "dq_log.csv"
+DQ_RESULT = META_DIR / "dq_result.csv"
+DQ_REPORT = ROOT / "docs" / "품질관리.md"
+
+# Gold (D-012: 입력은 clean/)
+GOLD_DIR = ROOT / "data" / "03_gold"
+
+# Silver 테이블 → Bronze 파일 (처리 로그의 Bronze 상대 경로, D-009)
+SILVER_FROM_BRONZE = {
+    "BET_ORDER": "bet_order", "BET_TICKET": "bet_ticket", "MBR_MASTER": "MBR_MASTER",
+    "HR_WEEKLY_SNAPSHOT": "HR_WEEKLY_SNAPSHOT", "TR_WEEKLY_SNAPSHOT": "TR_WEEKLY_SNAPSHOT",
+    "RC_RACE": "RC_RACE", "RC_ENTRY": "RC_ENTRY", "RC_ODDS": "RC_ODDS", "RC_RESULT": "RC_RESULT",
+    "RC_SALES": "RC_SALES", "RC_SALES_TOTAL": "RC_SALES", "HR_VET_HIST": "HR_VET_HIST",
+    "HR_VET_TYPE_BRIDGE": "HR_VET_HIST", "RC_CHANGE_EVENT": "race_change_events",
+}
+
+# 팀 최종 기준의 품질 건수 (완전 중복 제거 후 기준, 1,052는 제외된 행 수)
+EXPECTED_DQ = {
+    "EXCLUDED_DUP": 1052,
+    "INVALID_YN": 3632,
+    "LATE_CANCEL_TICKET": 1000,
+    "LATE_CANCEL_ORDER": 546,
+    "HR_NM_FILLED_YN": 1560,
+    "HEADER_MISMATCH_YN": 93,
+    "ORIG_MISSING_YN": 644,
+    "TR_GRP_MISMATCH_YN": 11,
+    "PRIOR_SNAPSHOT_MISSING_YN": 71,
+    "BRIDGE_ROWS_AFTER": 1662,
+}
+
+# 내 팩트 FCT_RACE_ENTRY 기대값 (팀 요청서)
+EXPECTED_GOLD = {"FACT_ROWS": 3666, "START_CNT": 3644, "WIN_CNT": 386, "PLACE_CNT": 1158}
+
 TIMEZONE = "Asia/Seoul"
 CSV_ENCODING = "utf-8-sig"
 

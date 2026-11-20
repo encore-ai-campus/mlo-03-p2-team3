@@ -193,3 +193,5 @@
 | 원천 | `data/00_origin/` | CSV 11개 + JSONL 1개, 지저분한 원본 |
 | Bronze | `data/01_bronze/` | 원천을 값 그대로 Parquet로 저장 → `docs/BRONZE.md` |
 | Silver | `data/02_silver/` | 이름·타입·코드 표준화 → `docs/SILVER.md` |
+| Silver 품질 관리 | `data/02_silver/clean/`, `_excluded/` | 중복 제외, 0원·늦은 취소 등 표시, 마명 보정 → `docs/품질관리.md` |
+| Gold | `data/03_gold/` | 경주 출전 스타 스키마 (FCT_RACE_ENTRY + 차원 4개) → `docs/GOLD.md` |
