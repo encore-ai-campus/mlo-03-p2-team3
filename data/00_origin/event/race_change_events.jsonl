@@ -1,0 +1,149 @@
+{"eventType": "TRACK_STATUS", "announcedAt": "20260522 23:58", "trackRaw": "다습      ( 14.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260523 23:58", "trackRaw": "다습      ( 12.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260523 23:58", "race": {"rcDate": "2026/05/23", "rcNo": "1"}, "horse": {"chulNo": "6", "hrName": "원평가속도"}, "change": {"before": "나유나", "after": "임재광", "budamRaw": "55.0", "reason": "감기몸살"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260529 23:58", "trackRaw": "양호      (  6.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260529 23:58", "race": {"rcDate": "2026/05/29", "rcNo": "1"}, "horse": {"chulNo": "9", "hrName": "백두무대"}, "change": {"before": "김한남", "after": "김준호", "budamRaw": "55.0", "reason": "현기증"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260530 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260605 23:58", "trackRaw": "다습      ( 12.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260606 23:58", "trackRaw": "건조      (  4.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260612 23:58", "trackRaw": "건조      (  2.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260612 23:58", "race": {"rcDate": "2026/06/12", "rcNo": "1"}, "horse": {"chulNo": "5", "hrName": "천명자"}, "change": {"before": "전현준", "after": "이성민", "budamRaw": "55.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260612 23:58", "race": {"rcDate": "2026/06/12", "rcNo": "2"}, "horse": {"chulNo": "10", "hrName": "행운의빛"}, "change": {"before": "전현준", "after": "나유나", "budamRaw": "55.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260612 23:58", "race": {"rcDate": "2026/06/12", "rcNo": "4"}, "horse": {"chulNo": "5", "hrName": "최고의별"}, "change": {"before": "전현준", "after": "나유나", "budamRaw": "51.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260612 23:58", "race": {"rcDate": "2026/06/12", "rcNo": "6"}, "horse": {"chulNo": "10", "hrName": "천하평정"}, "change": {"before": "전현준", "after": "이성민", "budamRaw": "58.5", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260612 23:58", "race": {"rcDate": "2026/06/12", "rcNo": "7"}, "horse": {"chulNo": "4", "hrName": "철선녀"}, "change": {"before": "전현준", "after": "문현진", "budamRaw": "55.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260612 23:58", "race": {"rcDate": "2026/06/12", "rcNo": "8"}, "horse": {"chulNo": "6", "hrName": "슈퍼대세"}, "change": {"before": "전현준", "after": "김홍권", "budamRaw": "57.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260612 23:58", "race": {"rcDate": "2026/06/12", "rcNo": "9"}, "horse": {"chulNo": "4", "hrName": "멋지다"}, "change": {"before": "전현준", "after": "나유나", "budamRaw": "58.0", "reason": "현기증"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260613 23:58", "trackRaw": "건조      (  2.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260613 23:58", "race": {"rcDate": "2026/06/13", "rcNo": "1"}, "horse": {"chulNo": "2", "hrName": "성공펀치"}, "change": {"before": "전현준", "after": "곽용남", "budamRaw": "55.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260613 23:58", "race": {"rcDate": "2026/06/13", "rcNo": "2"}, "horse": {"chulNo": "1", "hrName": "사계절"}, "change": {"before": "전현준", "after": "양민재", "budamRaw": "51.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260613 23:58", "race": {"rcDate": "2026/06/13", "rcNo": "4"}, "horse": {"chulNo": "7", "hrName": "날려버려"}, "change": {"before": "전현준", "after": "김홍권", "budamRaw": "58.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260613 23:58", "race": {"rcDate": "2026/06/13", "rcNo": "6"}, "horse": {"chulNo": "5", "hrName": "블랙강자"}, "change": {"before": "전현준", "after": "문현진", "budamRaw": "51.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260613 23:58", "race": {"rcDate": "2026/06/13", "rcNo": "7"}, "horse": {"chulNo": "6", "hrName": "선봉대"}, "change": {"before": "전현준", "after": "문현진", "budamRaw": "60.0", "reason": "현기증"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260619 23:58", "trackRaw": "양호      (  6.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260619 23:58", "race": {"rcDate": "2026/06/19", "rcNo": "1"}, "horse": {"chulNo": "1", "hrName": "오도롱"}, "reason": "오른 앞다리 절음"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260619 23:58", "race": {"rcDate": "2026/06/19", "rcNo": "8"}, "horse": {"chulNo": "7", "hrName": "남조로"}, "change": {"before": "문현진", "after": "이성민", "budamRaw": "51.0", "reason": "7R 이후 무릎 통증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260619 23:58", "race": {"rcDate": "2026/06/19", "rcNo": "9"}, "horse": {"chulNo": "8", "hrName": "대왕대군"}, "change": {"before": "문현진", "after": "김한남", "budamRaw": "51.5", "reason": "7R 이후 무릎 통증"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260620 23:58", "trackRaw": "불량      ( 20.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260626 23:58", "trackRaw": "양호      (  6.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260627 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260627 23:58", "race": {"rcDate": "2026/06/27", "rcNo": "6"}, "horse": {"chulNo": "7", "hrName": "해신"}, "change": {"before": "김다영", "after": "곽용남", "budamRaw": "52.5", "reason": "복통"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260703 23:58", "trackRaw": "다습      ( 11.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260704 23:58", "trackRaw": "포화      ( 17.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260704 23:58", "race": {"rcDate": "2026/07/04", "rcNo": "5"}, "horse": {"chulNo": "1", "hrName": "무소불위"}, "reason": "왼 앞다리 절음"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260704 23:58", "race": {"rcDate": "2026/07/04", "rcNo": "1"}, "horse": {"chulNo": "5", "hrName": "거장"}, "change": {"before": "곽용남", "after": "전현준", "budamRaw": "55.0", "reason": "개인사정"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260704 23:58", "race": {"rcDate": "2026/07/04", "rcNo": "2"}, "horse": {"chulNo": "4", "hrName": "출정식"}, "change": {"before": "곽용남", "after": "전현준", "budamRaw": "55.0", "reason": "개인사정"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260704 23:58", "race": {"rcDate": "2026/07/04", "rcNo": "5"}, "horse": {"chulNo": "3", "hrName": "달의강자"}, "change": {"before": "곽용남", "after": "김준호", "budamRaw": "51.0", "reason": "개인사정"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260704 23:58", "race": {"rcDate": "2026/07/04", "rcNo": "6"}, "horse": {"chulNo": "7", "hrName": "소왕산"}, "change": {"before": "곽용남", "after": "전현준", "budamRaw": "54.5", "reason": "개인사정"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260710 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260710 23:58", "race": {"rcDate": "2026/07/10", "rcNo": "1"}, "horse": {"chulNo": "8", "hrName": "가온파워"}, "change": {"before": "김홍권", "after": "이성민", "budamRaw": "55.0", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260710 23:58", "race": {"rcDate": "2026/07/10", "rcNo": "2"}, "horse": {"chulNo": "7", "hrName": "마패창"}, "change": {"before": "김홍권", "after": "박성광", "budamRaw": "55.0", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260710 23:58", "race": {"rcDate": "2026/07/10", "rcNo": "3"}, "horse": {"chulNo": "10", "hrName": "강풍여제"}, "change": {"before": "김홍권", "after": "박재희", "budamRaw": "51.0", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260710 23:58", "race": {"rcDate": "2026/07/10", "rcNo": "4"}, "horse": {"chulNo": "10", "hrName": "천추왕후"}, "change": {"before": "김홍권", "after": "원유일", "budamRaw": "53.5", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260710 23:58", "race": {"rcDate": "2026/07/10", "rcNo": "5"}, "horse": {"chulNo": "7", "hrName": "신흥신화"}, "change": {"before": "김홍권", "after": "이동준", "budamRaw": "54.5", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260710 23:58", "race": {"rcDate": "2026/07/10", "rcNo": "6"}, "horse": {"chulNo": "10", "hrName": "백록천주"}, "change": {"before": "김홍권", "after": "김준호", "budamRaw": "52.5", "reason": "조교 중 부상"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260711 23:58", "trackRaw": "건조      (  2.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260711 23:58", "race": {"rcDate": "2026/07/11", "rcNo": "2"}, "horse": {"chulNo": "6", "hrName": "한라공주"}, "change": {"before": "김홍권", "after": "강수한", "budamRaw": "52.5", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260711 23:58", "race": {"rcDate": "2026/07/11", "rcNo": "3"}, "horse": {"chulNo": "10", "hrName": "청룡바람"}, "change": {"before": "김홍권", "after": "강수한", "budamRaw": "55.0", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260711 23:58", "race": {"rcDate": "2026/07/11", "rcNo": "5"}, "horse": {"chulNo": "10", "hrName": "가온천하"}, "change": {"before": "김홍권", "after": "김준호", "budamRaw": "51.0", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260711 23:58", "race": {"rcDate": "2026/07/11", "rcNo": "6"}, "horse": {"chulNo": "1", "hrName": "불빛최강"}, "change": {"before": "김홍권", "after": "임재광", "budamRaw": "52.5", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260711 23:58", "race": {"rcDate": "2026/07/11", "rcNo": "7"}, "horse": {"chulNo": "1", "hrName": "대왕대군"}, "change": {"before": "김홍권", "after": "김준호", "budamRaw": "52.0", "reason": "조교 중 부상"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260717 23:58", "trackRaw": "건조      (  2.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260718 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260724 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260724 23:58", "race": {"rcDate": "2026/07/24", "rcNo": "3"}, "horse": {"chulNo": "3", "hrName": "제일명"}, "reason": "오른 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260725 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260807 23:58", "trackRaw": "건조      (  2.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260807 23:58", "race": {"rcDate": "2026/08/07", "rcNo": "7"}, "horse": {"chulNo": "6", "hrName": "내온리더"}, "reason": "왼 앞다리 절음"}
+{"eventType": "SCRATCH", "announcedAt": "20260807 23:58", "race": {"rcDate": "2026/08/07", "rcNo": "8"}, "horse": {"chulNo": "1", "hrName": "지존보배"}, "reason": "왼 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260808 23:58", "trackRaw": "건조      (  2.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260814 23:58", "trackRaw": "건조      (  5.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260814 23:58", "race": {"rcDate": "2026/08/14", "rcNo": "4"}, "horse": {"chulNo": "9", "hrName": "천추왕후"}, "reason": "오른 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260815 23:58", "trackRaw": "건조      (  5.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260817 23:58", "trackRaw": "포화      ( 16.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260817 23:58", "race": {"rcDate": "2026/08/17", "rcNo": "2"}, "horse": {"chulNo": "9", "hrName": "일류천하"}, "reason": "양 앞다리 절음"}
+{"eventType": "SCRATCH", "announcedAt": "20260817 23:58", "race": {"rcDate": "2026/08/17", "rcNo": "5"}, "horse": {"chulNo": "9", "hrName": "선덕공주"}, "reason": "오른 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260821 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260822 23:58", "trackRaw": "다습      ( 12.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260822 23:58", "race": {"rcDate": "2026/08/22", "rcNo": "6"}, "horse": {"chulNo": "8", "hrName": "광명성호"}, "change": {"before": "김다영", "after": "안득수", "budamRaw": "51.0", "reason": "복통"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260828 23:58", "trackRaw": "불량      ( 20.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260829 23:58", "trackRaw": "다습      ( 12.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260829 23:58", "race": {"rcDate": "2026/08/29", "rcNo": "7"}, "horse": {"chulNo": "5", "hrName": "불빛최강"}, "reason": "왼 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260904 23:58", "trackRaw": "포화      ( 17.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260904 23:58", "race": {"rcDate": "2026/09/04", "rcNo": "6"}, "horse": {"chulNo": "4", "hrName": "아그배"}, "reason": "오른 앞다리 절음"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260904 23:58", "race": {"rcDate": "2026/09/04", "rcNo": "4"}, "horse": {"chulNo": "1", "hrName": "웅진영웅"}, "change": {"before": "안득수", "after": "곽석", "budamRaw": "51.5", "reason": "3R 중 발목부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260904 23:58", "race": {"rcDate": "2026/09/04", "rcNo": "5"}, "horse": {"chulNo": "10", "hrName": "웅진한라"}, "change": {"before": "안득수", "after": "곽석", "budamRaw": "52.5", "reason": "3R 중 발목부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260904 23:58", "race": {"rcDate": "2026/09/04", "rcNo": "6"}, "horse": {"chulNo": "2", "hrName": "돈보따리"}, "change": {"before": "안득수", "after": "곽석", "budamRaw": "51.5", "reason": "3R 중 발목부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260904 23:58", "race": {"rcDate": "2026/09/04", "rcNo": "8"}, "horse": {"chulNo": "4", "hrName": "연소"}, "change": {"before": "안득수", "after": "곽석", "budamRaw": "53.0", "reason": "3R 중 발목부상"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260905 23:58", "trackRaw": "포화      ( 17.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260905 23:58", "race": {"rcDate": "2026/09/05", "rcNo": "7"}, "horse": {"chulNo": "7", "hrName": "번개왕자"}, "reason": "오른 앞다리 절음"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260905 23:58", "race": {"rcDate": "2026/09/05", "rcNo": "4"}, "horse": {"chulNo": "4", "hrName": "은하왕자"}, "change": {"before": "안득수", "after": "한영민", "budamRaw": "55.5", "reason": "9.4. 경주 중 부상"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260910 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260911 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260911 23:58", "race": {"rcDate": "2026/09/11", "rcNo": "6"}, "horse": {"chulNo": "3", "hrName": "아신"}, "reason": "왼 앞다리 절음"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260911 23:58", "race": {"rcDate": "2026/09/11", "rcNo": "4"}, "horse": {"chulNo": "4", "hrName": "비천도해"}, "change": {"before": "임재광", "after": "전현준", "budamRaw": "60.0", "reason": "장염"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260911 23:58", "race": {"rcDate": "2026/09/11", "rcNo": "6"}, "horse": {"chulNo": "8", "hrName": "최강여제"}, "change": {"before": "임재광", "after": "박재희", "budamRaw": "56.0", "reason": "장염"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260911 23:58", "race": {"rcDate": "2026/09/11", "rcNo": "7"}, "horse": {"chulNo": "6", "hrName": "아크"}, "change": {"before": "임재광", "after": "이성민", "budamRaw": "52.0", "reason": "장염"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260912 23:58", "trackRaw": "건조      (  4.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260917 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260917 23:58", "race": {"rcDate": "2026/09/17", "rcNo": "1"}, "horse": {"chulNo": "9", "hrName": "천상비마"}, "change": {"before": "김경휴", "after": "임재광", "budamRaw": "55.0", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260917 23:58", "race": {"rcDate": "2026/09/17", "rcNo": "8"}, "horse": {"chulNo": "10", "hrName": "더빠르게"}, "change": {"before": "김경휴", "after": "곽석", "budamRaw": "53.0", "reason": "복통"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260918 23:58", "trackRaw": "양호      (  7.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260918 23:58", "race": {"rcDate": "2026/09/18", "rcNo": "1"}, "horse": {"chulNo": "1", "hrName": "신광야"}, "change": {"before": "곽용남", "after": "전현준", "budamRaw": "55.0", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260918 23:58", "race": {"rcDate": "2026/09/18", "rcNo": "2"}, "horse": {"chulNo": "6", "hrName": "한판승"}, "change": {"before": "곽용남", "after": "강수한", "budamRaw": "58.5", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260918 23:58", "race": {"rcDate": "2026/09/18", "rcNo": "5"}, "horse": {"chulNo": "10", "hrName": "우화"}, "change": {"before": "곽용남", "after": "김준호", "budamRaw": "51.0", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260918 23:58", "race": {"rcDate": "2026/09/18", "rcNo": "6"}, "horse": {"chulNo": "2", "hrName": "유달리"}, "change": {"before": "곽용남", "after": "원유일", "budamRaw": "59.0", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260918 23:58", "race": {"rcDate": "2026/09/18", "rcNo": "7"}, "horse": {"chulNo": "4", "hrName": "초고수"}, "change": {"before": "곽용남", "after": "김준호", "budamRaw": "51.5", "reason": "복통"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20260919 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20260919 23:58", "race": {"rcDate": "2026/09/19", "rcNo": "4"}, "horse": {"chulNo": "2", "hrName": "세계자랑"}, "reason": "오른 앞다리 절음"}
+{"eventType": "SCRATCH", "announcedAt": "20260919 23:58", "race": {"rcDate": "2026/09/19", "rcNo": "4"}, "horse": {"chulNo": "5", "hrName": "은하왕자"}, "reason": "왼 앞다리 절음"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260919 23:58", "race": {"rcDate": "2026/09/19", "rcNo": "1"}, "horse": {"chulNo": "1", "hrName": "한결"}, "change": {"before": "곽용남", "after": "김준호", "budamRaw": "55.0", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260919 23:58", "race": {"rcDate": "2026/09/19", "rcNo": "2"}, "horse": {"chulNo": "6", "hrName": "기찬"}, "change": {"before": "곽용남", "after": "김홍권", "budamRaw": "55.5", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260919 23:58", "race": {"rcDate": "2026/09/19", "rcNo": "3"}, "horse": {"chulNo": "3", "hrName": "슬기돌이"}, "change": {"before": "곽용남", "after": "김한남", "budamRaw": "51.0", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260919 23:58", "race": {"rcDate": "2026/09/19", "rcNo": "5"}, "horse": {"chulNo": "9", "hrName": "어정적기"}, "change": {"before": "곽용남", "after": "양민재", "budamRaw": "59.5", "reason": "복통"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20260919 23:58", "race": {"rcDate": "2026/09/19", "rcNo": "7"}, "horse": {"chulNo": "3", "hrName": "오룡거"}, "change": {"before": "곽용남", "after": "원유일", "budamRaw": "51.5", "reason": "복통"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261002 23:58", "trackRaw": "건조      (  2.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261002 23:58", "race": {"rcDate": "2026/10/02", "rcNo": "5"}, "horse": {"chulNo": "7", "hrName": "청마특급"}, "change": {"before": "한영민", "after": "문현진", "budamRaw": "54.0", "reason": "현기증"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261002 23:58", "race": {"rcDate": "2026/10/02", "rcNo": "6"}, "horse": {"chulNo": "3", "hrName": "로한"}, "change": {"before": "한영민", "after": "강수한", "budamRaw": "60.0", "reason": "현기증"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261003 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20261003 23:58", "race": {"rcDate": "2026/10/03", "rcNo": "2"}, "horse": {"chulNo": "2", "hrName": "태흥산성"}, "reason": "왼 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261005 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20261005 23:58", "race": {"rcDate": "2026/10/05", "rcNo": "3"}, "horse": {"chulNo": "7", "hrName": "뚜벅이"}, "reason": "오른 뒷다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261009 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20261009 23:58", "race": {"rcDate": "2026/10/09", "rcNo": "2"}, "horse": {"chulNo": "7", "hrName": "거승보배"}, "reason": "오른 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261010 23:58", "trackRaw": "건조      (  3.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20261010 23:58", "race": {"rcDate": "2026/10/10", "rcNo": "2"}, "horse": {"chulNo": "3", "hrName": "무주여신"}, "reason": "오른 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261016 23:58", "trackRaw": "건조      (  5.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261016 23:58", "race": {"rcDate": "2026/10/16", "rcNo": "1"}, "horse": {"chulNo": "4", "hrName": "지화자"}, "change": {"before": "양민재", "after": "박재희", "budamRaw": "55.0", "reason": "10.15. 주행심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261016 23:58", "race": {"rcDate": "2026/10/16", "rcNo": "1"}, "horse": {"chulNo": "9", "hrName": "한결"}, "change": {"before": "곽용남", "after": "문현진", "budamRaw": "55.0", "reason": "10.15. 출발심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261016 23:58", "race": {"rcDate": "2026/10/16", "rcNo": "3"}, "horse": {"chulNo": "5", "hrName": "기찬"}, "change": {"before": "곽용남", "after": "김준호", "budamRaw": "59.0", "reason": "10.15. 출발심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261016 23:58", "race": {"rcDate": "2026/10/16", "rcNo": "4"}, "horse": {"chulNo": "1", "hrName": "성산돌풍"}, "change": {"before": "곽용남", "after": "이성민", "budamRaw": "51.0", "reason": "10.15. 출발심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261016 23:58", "race": {"rcDate": "2026/10/16", "rcNo": "4"}, "horse": {"chulNo": "9", "hrName": "대보"}, "change": {"before": "양민재", "after": "박재희", "budamRaw": "55.5", "reason": "10.15. 주행심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261016 23:58", "race": {"rcDate": "2026/10/16", "rcNo": "5"}, "horse": {"chulNo": "10", "hrName": "천년여왕"}, "change": {"before": "양민재", "after": "안득수", "budamRaw": "51.0", "reason": "10.15. 주행심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261016 23:58", "race": {"rcDate": "2026/10/16", "rcNo": "6"}, "horse": {"chulNo": "4", "hrName": "동안질주"}, "change": {"before": "곽용남", "after": "문현진", "budamRaw": "56.0", "reason": "10.15. 출발심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261016 23:58", "race": {"rcDate": "2026/10/16", "rcNo": "7"}, "horse": {"chulNo": "9", "hrName": "소왕산"}, "change": {"before": "곽용남", "after": "김한남", "budamRaw": "53.0", "reason": "10.15. 출발심사 중 부상"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261017 23:58", "trackRaw": "건조      (  5.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261017 23:58", "race": {"rcDate": "2026/10/17", "rcNo": "1"}, "horse": {"chulNo": "5", "hrName": "전승맨"}, "change": {"before": "양민재", "after": "정명일", "budamRaw": "55.0", "reason": "10. 15. 주행심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261017 23:58", "race": {"rcDate": "2026/10/17", "rcNo": "2"}, "horse": {"chulNo": "1", "hrName": "용머루"}, "change": {"before": "곽용남", "after": "박성광", "budamRaw": "51.5", "reason": "10. 15. 출발심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261017 23:58", "race": {"rcDate": "2026/10/17", "rcNo": "4"}, "horse": {"chulNo": "2", "hrName": "리듬블루"}, "change": {"before": "양민재", "after": "김동규", "budamRaw": "52.0", "reason": "10. 15. 주행심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261017 23:58", "race": {"rcDate": "2026/10/17", "rcNo": "4"}, "horse": {"chulNo": "7", "hrName": "설향"}, "change": {"before": "곽용남", "after": "김준호", "budamRaw": "51.0", "reason": "10. 15. 출발심사 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261017 23:58", "race": {"rcDate": "2026/10/17", "rcNo": "6"}, "horse": {"chulNo": "5", "hrName": "영상대부"}, "change": {"before": "곽용남", "after": "원유일", "budamRaw": "56.0", "reason": "10. 15. 출발심사 중 부상"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261023 23:58", "trackRaw": "양호      (  6.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20261023 23:58", "race": {"rcDate": "2026/10/23", "rcNo": "4"}, "horse": {"chulNo": "3", "hrName": "메이저"}, "reason": "왼 앞다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261024 23:58", "trackRaw": "불량      ( 20.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261030 23:58", "trackRaw": "다습      ( 14.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261031 23:58", "trackRaw": "다습      ( 11.0%)"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261106 23:58", "trackRaw": "다습      ( 11.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261106 23:58", "race": {"rcDate": "2026/11/06", "rcNo": "2"}, "horse": {"chulNo": "7", "hrName": "천하통일"}, "change": {"before": "나유나", "after": "김경휴", "budamRaw": "55.0", "reason": "복통"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261107 23:58", "trackRaw": "양호      (  6.0%)"}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261107 23:58", "race": {"rcDate": "2026/11/07", "rcNo": "2"}, "horse": {"chulNo": "5", "hrName": "지구여신"}, "change": {"before": "전현준", "after": "박성광", "budamRaw": "55.5", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261107 23:58", "race": {"rcDate": "2026/11/07", "rcNo": "3"}, "horse": {"chulNo": "5", "hrName": "달의여신"}, "change": {"before": "김다영", "after": "강수한", "budamRaw": "59.5", "reason": "1R 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261107 23:58", "race": {"rcDate": "2026/11/07", "rcNo": "3"}, "horse": {"chulNo": "7", "hrName": "사계절"}, "change": {"before": "전현준", "after": "안득수", "budamRaw": "56.5", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261107 23:58", "race": {"rcDate": "2026/11/07", "rcNo": "4"}, "horse": {"chulNo": "9", "hrName": "주마녀"}, "change": {"before": "전현준", "after": "문현진", "budamRaw": "52.0", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261107 23:58", "race": {"rcDate": "2026/11/07", "rcNo": "5"}, "horse": {"chulNo": "1", "hrName": "명품최강"}, "change": {"before": "전현준", "after": "문현진", "budamRaw": "56.5", "reason": "조교 중 부상"}}
+{"eventType": "JOCKEY_CHANGE", "announcedAt": "20261107 23:58", "race": {"rcDate": "2026/11/07", "rcNo": "7"}, "horse": {"chulNo": "10", "hrName": "광명진언"}, "change": {"before": "전현준", "after": "김경휴", "budamRaw": "58.5", "reason": "조교 중 부상"}}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261113 23:58", "trackRaw": "양호      (  7.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20261113 23:58", "race": {"rcDate": "2026/11/13", "rcNo": "5"}, "horse": {"chulNo": "5", "hrName": "리듬블루"}, "reason": "왼 뒷다리 절음"}
+{"eventType": "TRACK_STATUS", "announcedAt": "20261114 23:58", "trackRaw": "불량      ( 20.0%)"}
+{"eventType": "SCRATCH", "announcedAt": "20261114 23:58", "race": {"rcDate": "2026/11/14", "rcNo": "1"}, "horse": {"chulNo": "4", "hrName": "오백공주"}, "reason": "왼 뒷다리 절음"}
+{"eventType": "SCRATCH", "announcedAt": "20261114 23:58", "race": {"rcDate": "2026/11/14", "rcNo": "7"}, "horse": {"chulNo": "3", "hrName": "천일수"}, "reason": "오른 뒷다리 절음"}

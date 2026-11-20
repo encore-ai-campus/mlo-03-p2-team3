@@ -1,0 +1,9 @@
+{
+  "SOURCE_FILE": "C:\\Users\\Playdata\\PycharmProjects\\second_project\\data\\00_origin\\horse\\HR_VET_HIST.csv",
+  "SOURCE_MEMBER": null,
+  "SOURCE_SHA256": "75ff0fd6ca1736bcc83d7fb1b09429217d2d593443dbfe142da53179dba81231",
+  "LOAD_DTM_KST": "2026-11-20T12:31:00+09:00",
+  "ORIGIN_ROWS": 1488,
+  "BRONZE_ROWS": 1488,
+  "BRONZE_SHA256": "dfe2c93aa867982889e37436f3e1ac02c685299ea2ef01a64a7588c394e08242"
+}
