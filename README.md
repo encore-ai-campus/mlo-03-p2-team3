@@ -40,5 +40,6 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 - 원천 문제 정리: `docs/AS-IS.md`
 - 단계별 기록: `docs/BRONZE.md`, `docs/SILVER.md`, `docs/품질관리.md`, `docs/GOLD.md`
 - 결정 로그 (품질 규칙의 근거 ID): `meta/decision_log.md`
+- 공통 차원 통합 안건 (D-010): `docs/COMMON_DIMENSIONS.md`
 - 컬럼 사전 (컬럼별 뜻·값·NULL): `docs/BRONZE_COLUMNS.md`, `docs/SILVER_COLUMNS.md` (`src/make_column_docs.py`로 생성)
 - 메타데이터 설명: `meta/README.md`

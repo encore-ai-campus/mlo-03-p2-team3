@@ -18,13 +18,74 @@
 - 그레인은 출전표에 오른 말 전부입니다. 경주제외 18두와 출주취소 4두도 행으로 남깁니다.
 - 실제로 뛴 말은 `START_CNT = 1`로 구분하고, 우승률의 분모로 씁니다.
 
+```mermaid
+erDiagram
+    DIM_DATE ||--o{ FCT_RACE_ENTRY : "DATE_KEY"
+    DIM_RACE ||--o{ FCT_RACE_ENTRY : "RACE_KEY"
+    DIM_HORSE ||--o{ FCT_RACE_ENTRY : "HORSE_KEY (경주일 기준 버전)"
+    DIM_TRAINER ||--o{ FCT_RACE_ENTRY : "TRAINER_KEY (출전표 조교사)"
+
+    FCT_RACE_ENTRY {
+        int RACE_KEY PK,FK
+        int CHUL_NO PK
+        int DATE_KEY FK
+        int HORSE_KEY FK
+        int TRAINER_KEY FK
+        int START_CNT "출주"
+        int WIN_CNT "1착"
+        int PLACE_CNT "3착 안"
+        double EXPECT_WIN "예상 우승 확률"
+    }
+    DIM_DATE {
+        int DATE_KEY PK
+        date FULL_DT
+        int YEAR_NO
+        int MONTH_NO
+        int DAY_NO
+        string DOW_NM
+        int WEEK_NO
+        string RACE_DAY_YN
+    }
+    DIM_RACE {
+        int RACE_KEY PK
+        date RC_DT
+        int RC_NO
+        int RC_DIST_M "거리"
+        string RC_GRADE_CD "등급"
+        string WEATHER_CD "날씨"
+        string TRACK_STAT_CD "주로"
+        timestamp START_DTM
+    }
+    DIM_HORSE {
+        int HORSE_KEY PK
+        string HR_NM "마명 (자연키)"
+        string HR_SEX_CD "성별"
+        string AGE_BAND_NM "나이대"
+        string HR_GRADE_CD "등급"
+        string SIRE_NM "부마"
+        date VALID_FROM_DT "SCD2 시작"
+        date VALID_TO_DT "SCD2 끝"
+        string CURRENT_YN
+    }
+    DIM_TRAINER {
+        int TRAINER_KEY PK
+        string TR_NM
+        string TR_GRP_NO "조"
+        date DEBUT_DT
+    }
 ```
-              DIM_DATE (177)
-                  │ DATE_KEY
-DIM_RACE (386) ── FCT_RACE_ENTRY (3,666) ── DIM_HORSE (4,126, SCD2)
-     RACE_KEY         │ TRAINER_KEY            HORSE_KEY
-                 DIM_TRAINER (18)
-```
+
+GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE_ENTRY 3,666 / DIM_DATE 177 / DIM_RACE 386 / DIM_HORSE 4,126 / DIM_TRAINER 18입니다. 그림에는 주요 컬럼만 넣었고, 전체 컬럼은 3장에 있습니다.
+
+**SCD2로 말 버전을 고르는 방식 (예: '가문의여신')**
+
+| HORSE_KEY | 조교사 | 스냅샷 | VALID_FROM_DT | VALID_TO_DT |
+|--:|:--|:--|:--|:--|
+| 2 | (외부마) | 2026-05-20 | 2026-05-21 | 2026-05-27 |
+| 3 | 김길홍 | 2026-05-27 | 2026-05-28 | 2026-09-23 |
+| 4 | (외부마) | 2026-09-23 | 2026-09-24 | 9999-12-31 |
+
+이 말이 2026-06-05에 출전했다면, 경주일이 2번째 버전 기간 안에 들어가므로 팩트의 `HORSE_KEY`는 3이 됩니다. 스냅샷 날짜와 경주일이 같으면 그 스냅샷은 쓰지 않습니다(유효 기간이 다음 날부터 시작하므로).
 
 ## 2. 데이터만 봐서는 모르는 규칙 (요청서)
 
@@ -135,6 +196,8 @@ a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예�
 | 재실행 시 Gold 파일 해시 | 동일 |
 
 ## 6. 남은 것 (팀 합의 대상)
+
+공통 차원 통합 안건은 `docs/COMMON_DIMENSIONS.md`에 정리했습니다.
 
 - **공통 차원 통합 (D-010):** DIM_DATE, DIM_RACE, DIM_HORSE, DIM_TRAINER는 다른 팀원 팩트와 같이 쓸 차원입니다. 각자 스타 스키마를 만든 뒤 하나로 합칩니다.
   - 합칠 때 확인할 것: 대리키 방식, SCD2 버전 기준 컬럼, 나이대 구간(세은 님의 `DIM_AGE_GROUP`), 조교사·조 차원 통합(세은 님의 `DIM_STABLE`), DIM_DATE 범위
