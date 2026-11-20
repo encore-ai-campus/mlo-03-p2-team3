@@ -1,0 +1,2 @@
+﻿decision_id,scope,condition,decision,source_rows,status
+D-NORM-001,RC_RESULT.PASS_ORD_RAW,ORD_RAW in 94/95; all dash-separated tokens empty,all six pass positions NULL; no source row removed,22,implementation interpretation; team rule wording review pending
