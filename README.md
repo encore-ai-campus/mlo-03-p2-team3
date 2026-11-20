@@ -10,6 +10,8 @@
 │   ├── 00_origin/   # 원천 데이터 (읽기 전용, 수정·이동·덮어쓰기 금지)
 │   ├── 01_bronze/   # 원천 → Parquet (어느 파일을 언제 가져왔는지 기록)
 │   ├── 02_silver/   # 컬럼명·날짜·데이터 타입·논리값 표준화
+│   │   ├── clean/       # 확정 규칙을 적용한 품질관리 입력
+│   │   └── _excluded/   # 품질관리에서 제외한 마권 중복행
 │   └── 03_gold/     # 스타 스키마 (fact / dim)
 ├── src/             # 파이썬 코드 (단계별 처리 + 검증)
 ├── docs/            # AS-IS 문제 정리, 품질 관리 보고서
@@ -56,6 +58,18 @@ python src/02_normalize_check.py
 
 [AS-IS 상세 프로파일링](docs/HR_VET_HIST_AS_IS.md) · [파일별 입출력과 컬럼 매핑](meta/HR_VET_HIST_DATA_DICTIONARY.md)
 
+## 품질관리 입력
+
+표준화 Parquet 14개는 `data/02_silver/`에 보존합니다. 품질관리 입력은 경주 브랜치의 커밋 `8a129d0`에 있는 `data/02_silver/clean/` Parquet 14개를 그대로 사용합니다. 원본과 파일별 SHA-256이 같음을 확인했고, [버전 기록](data/02_silver/clean/_manifest.json)에 참조 커밋과 `CLEAN_VERSION`을 남겼습니다.
+
+마권 중복 1,052행은 `data/02_silver/_excluded/`에 따로 보존합니다. 진료 이력은 1,488행을 모두 유지하고, 조 번호 불일치 11건과 이전 스냅샷 없음 71건을 표시했습니다. 595번·664번의 원문 `일,열사병`을 보존하면서 각 기록의 유형을 `일·열사병` 하나로 묶어, 브리지 행 수를 1,664행에서 1,662행으로 대사했습니다.
+
+```powershell
+python src/03_quality_check.py
+```
+
+[품질관리 상세 보고서](docs/품질관리.md) · [규칙별 결과](meta/dq_result.csv) · [행별 변경 기록](meta/dq_log.csv)
+
 ## 진료 Gold 스타 스키마
 
 `FCT_HORSE_MEDICAL`의 한 행은 **진료 기록 1건**입니다. `VET_SEQ`를 기본키로 두고 `VET_CNT=1`을 합산해 진료 건수를 계산합니다. 진료일과 보고일은 같은 날짜 차원에 각각 연결합니다. 유형별 건수는 `BRIDGE_HR_VET_TYPE`를 통해 집계합니다. 여러 유형이 붙는 기록이 있으므로, 전체 기록 건수는 Fact에서 집계합니다.
@@ -71,28 +85,35 @@ erDiagram
     DIM_VET_TYPE ||--o{ BRIDGE_HR_VET_TYPE : "진료 유형"
 ```
 
-### 현재 작업 브랜치의 초안
+### 개인 진료 Gold 생성과 검증
+
+`data/03_gold/horse_medical/`에 개인 진료 Gold 7개 테이블을 저장했습니다. 경주 브랜치 `8a129d0`의 날짜·말·조교사 차원에 있던 행과 키를 보존하고, 날짜 차원에 진료·보고 기간을 덮는 10일을 추가했습니다. 이전 스냅샷이 없는 진료 71건은 추가한 미확인 말 키 `0`으로 연결했습니다.
+
+진료일에 유효한 말 SCD2 버전의 `HR_AGE`를 2~3세, 4~5세, 6~7세, 8세 이상으로 나눕니다. 조교사 키는 진료 이력의 `TR_GRP_NO`로 연결합니다. 조 번호 불일치나 이전 스냅샷 여부를 분석할 때는 `VET_SEQ`로 `clean/HR_VET_HIST.parquet`의 품질 플래그를 확인할 수 있습니다.
 
 ```powershell
-python src/04_gold_horse_medical.py
+git fetch origin
+$reference = "8a129d06e52f05e5e8ec36ec33cda3b4b1ae5d6a"
+$cleanVersion = "948fe690c7a42511710c7264904d9ada523c5aeb12b118aa570a423dce428b6c"
+python src/04_gold_horse_medical.py --reference-rev $reference --clean-version $cleanVersion
 ```
 
-이 명령은 `data/03_gold/horse_medical_draft/`에 Fact 1,488행, 브리지 1,662행, 진료 유형 53종을 생성하는 용도입니다. 기존 로컬 초안의 Parquet는 이전 `DIM_TR_GRP` 형식으로 검증된 결과입니다.
+| 산출물 | 결과 |
+|---|---:|
+| 진료 Fact 및 진료 건수 합 | 1,488 |
+| 진료 유형 브리지 | 1,662 |
+| 진료 유형 | 53종 |
+| 기본키 중복 | 0건 |
+| 미해결 외래키 | 0건 |
 
-수정된 코드는 경주 Gold와 동일하게 성별·등급·나이·조·조교사·외부마 여부·마주가 바뀔 때 말 차원 버전을 나눕니다. 버전은 스냅샷 다음 날부터 유효합니다. 진료일에 유효한 버전의 `HR_AGE`를 2~3세, 4~5세, 6~7세, 8세 이상으로 분류합니다. 조교사 키는 말 스냅샷의 조가 아닌 진료 이력의 `TR_GRP_NO`로 `DIM_TRAINER`에서 찾습니다. 이전 스냅샷이 없는 71건은 미확인 말·나이대 키로 보존합니다.
+[Gold 검증과 입력 버전 기록](data/03_gold/horse_medical/_manifest.json)
 
-### 팀 버전으로 Gold 생성
+### 팀 공통 차원 통합
 
-Gold는 팀에서 확정한 `data/02_silver/clean/` 버전으로 생성합니다(D-012). 경주 브랜치 `feat/fct-race-entry` 커밋 `6315064`의 공통 차원 후보를 대조한 결과, `DIM_TRAINER`는 진료 이력의 모든 조 번호를 포함합니다. 해당 버전을 공통으로 쓰려면 아래 세 항목을 먼저 맞춥니다(D-010).
-
-- `DIM_DATE` 범위를 진료·보고 기간인 2026-05-16~2026-11-18까지 포함하도록 확장합니다. 경주용 날짜 차원에서 진료·보고에 쓰인 날짜 5개가 빠져 있습니다.
-- `DIM_HORSE`에 이전 스냅샷이 없는 진료 71건을 연결할 미확인 행을 합의합니다. 현재 코드는 키 `0`을 사용합니다.
-- `DIM_AGE_GROUP`의 구간, 키, 미확인 행을 확정합니다. 경주 브랜치는 현재 `DIM_HORSE.AGE_BAND_NM`을 사용합니다.
-
-공통 차원이 준비되면 아래 명령으로 `data/03_gold/horse_medical/`에 생성합니다.
+팀이 공통 차원을 통합한 뒤에는 확정한 `clean/`을 유지하고 아래 명령으로 Fact의 외래키를 다시 연결합니다(D-010, D-012).
 
 ```powershell
-python src/04_gold_horse_medical.py --common-dims "공통차원폴더" --clean-version "팀에서확정한_CLEAN_VERSION"
+python src/04_gold_horse_medical.py --common-dims "공통차원폴더" --clean-version $cleanVersion
 ```
 
 | 공통 차원 파일 | 연결에 필요한 컬럼 |

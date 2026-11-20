@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import subprocess
 from bisect import bisect_right
 from collections import defaultdict
 from datetime import date, timedelta
@@ -15,7 +16,7 @@ import config as C
 
 
 DAY = timedelta(days=1)
-CLEAN_DIR = C.SILVER_DIR / "clean"
+CLEAN_DIR = C.CLEAN_DIR
 GOLD_DIR = C.ROOT / "data" / "03_gold"
 HORSE_ATTRIBUTES = ("HR_SEX_CD", "HR_GRADE_CD", "HR_AGE", "TR_GRP_NO", "TR_NM", "TR_EXTERNAL_YN", "OW_NM")
 COMMON_COLUMNS = {
@@ -56,7 +57,7 @@ def read_clean_manifest(expected_version):
         raise ValueError("[D-012] Provide --clean-version when the shared clean snapshot has no manifest.")
     if expected_version and version != expected_version:
         raise ValueError(f"[D-012] The clean snapshot checksum is {version}, not the agreed version.")
-    return version
+    return version, manifest.get("SOURCE_COMMIT") if path.is_file() else None
 
 
 def read_clean(name, columns=None):
@@ -67,6 +68,54 @@ def no_prior_snapshot(row):
     if "PRIOR_SNAPSHOT_MISSING_YN" in row:
         return row["PRIOR_SNAPSHOT_MISSING_YN"] == "Y"
     return row["HORSE_MATCH_STATUS_CD"] == "NO_PRIOR_SNAPSHOT"
+
+
+def age_group_dimension():
+    return pa.Table.from_pylist([
+        {"AGE_GROUP_KEY": i, "AGE_GROUP_NM": name, "MIN_AGE": lo, "MAX_AGE": hi}
+        for i, (name, lo, hi) in enumerate([
+            ("UNKNOWN", None, None), ("2~3세", 2, 3), ("4~5세", 4, 5), ("6~7세", 6, 7), ("8세 이상", 8, None)
+        ])
+    ], schema=pa.schema([("AGE_GROUP_KEY", I32), ("AGE_GROUP_NM", TEXT), ("MIN_AGE", I32), ("MAX_AGE", I32)]))
+
+
+def reference_dimensions(reference, history):
+    dimensions, hashes = {}, {}
+    for name in ("DIM_DATE", "DIM_HORSE", "DIM_TRAINER"):
+        content = subprocess.check_output(
+            ["git", "show", f"{reference}:data/03_gold/{name}.parquet"], cwd=C.ROOT
+        )
+        hashes[f"{name}.parquet"] = hashlib.sha256(content).hexdigest()
+        dimensions[name] = pq.read_table(pa.BufferReader(content))
+
+    date_table = dimensions["DIM_DATE"]
+    existing_days = set(date_table["FULL_DT"].to_pylist())
+    medical_days = {row[column] for row in history for column in ("VET_DT", "REPORT_DT")}
+    all_days = existing_days | medical_days
+    race_days = {row["RC_DT"] for row in read_clean("RC_RACE", ["RC_DT"])}
+    first, last = min(all_days), max(all_days)
+    new_rows = []
+    for offset in range((last - first).days + 1):
+        day = first + offset * DAY
+        if day in existing_days:
+            continue
+        day_of_week = day.isoweekday()
+        new_rows.append({
+            "DATE_KEY": day.year * 10000 + day.month * 100 + day.day,
+            "FULL_DT": day, "YEAR_NO": day.year, "MONTH_NO": day.month, "DAY_NO": day.day,
+            "DOW_NO": day_of_week, "DOW_NM": "월화수목금토일"[day_of_week - 1],
+            "WEEK_NO": day.isocalendar().week, "RACE_DAY_YN": "Y" if day in race_days else "N",
+        })
+    dimensions["DIM_DATE"] = pa.concat_tables([
+        date_table, pa.Table.from_pylist(new_rows, schema=date_table.schema),
+    ]).sort_by("FULL_DT")
+
+    horses = dimensions["DIM_HORSE"]
+    if 0 not in horses["HORSE_KEY"].to_pylist():
+        unknown = pa.Table.from_pylist([{"HORSE_KEY": 0, "CURRENT_YN": "N"}], schema=horses.schema)
+        dimensions["DIM_HORSE"] = pa.concat_tables([unknown, horses])
+    dimensions["DIM_AGE_GROUP"] = age_group_dimension()
+    return dimensions, hashes
 
 
 def build_horse_dimension():
@@ -118,15 +167,9 @@ def draft_dimensions(history):
         ],
         schema=pa.schema([("TRAINER_KEY", I32), ("TR_GRP_NO", TEXT), ("TR_NM", TEXT)]),
     )
-    age_dimension = pa.Table.from_pylist([
-        {"AGE_GROUP_KEY": i, "AGE_GROUP_NM": name, "MIN_AGE": lo, "MAX_AGE": hi}
-        for i, (name, lo, hi) in enumerate([
-            ("UNKNOWN", None, None), ("2~3세", 2, 3), ("4~5세", 4, 5), ("6~7세", 6, 7), ("8세 이상", 8, None)
-        ])
-    ], schema=pa.schema([("AGE_GROUP_KEY", I32), ("AGE_GROUP_NM", TEXT), ("MIN_AGE", I32), ("MAX_AGE", I32)]))
     return {
         "DIM_DATE": date_dimension, "DIM_HORSE": build_horse_dimension(),
-        "DIM_TRAINER": trainer_dimension, "DIM_AGE_GROUP": age_dimension,
+        "DIM_TRAINER": trainer_dimension, "DIM_AGE_GROUP": age_group_dimension(),
     }
 
 
@@ -238,15 +281,18 @@ def validate(fact, bridge, dimensions, history, clean_bridge):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--common-dims", type=Path, help="Directory with the team's four agreed common dimensions")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--common-dims", type=Path, help="Directory with the team's four agreed common dimensions")
+    mode.add_argument("--reference-rev", help="Pinned Git commit with shared clean files and race dimensions")
     parser.add_argument("--clean-version", help="Team-approved clean manifest CLEAN_VERSION")
     args = parser.parse_args()
-    if args.common_dims and not args.clean_version:
-        parser.error("--common-dims requires the team-approved --clean-version.")
-    clean_version = read_clean_manifest(args.clean_version)
+    if (args.common_dims or args.reference_rev) and not args.clean_version:
+        parser.error("Final Gold requires the pinned --clean-version.")
+    clean_version, source_commit = read_clean_manifest(args.clean_version)
     history = read_clean("HR_VET_HIST")
     clean_bridge = read_clean("HR_VET_TYPE_BRIDGE")
     common_hashes = {}
+    reference_commit = None
     if args.common_dims:
         paths = {name: args.common_dims / f"{name}.parquet" for name in COMMON_COLUMNS}
         dimensions = {}
@@ -256,6 +302,17 @@ def main():
             content = path.read_bytes()
             common_hashes[path.name] = hashlib.sha256(content).hexdigest()
             dimensions[name] = pq.read_table(pa.BufferReader(content))
+        problems = shared_dimension_issues(dimensions, history)
+        if problems:
+            raise ValueError("[D-010] " + "; ".join(problems))
+    elif args.reference_rev:
+        reference_commit = subprocess.check_output(
+            ["git", "rev-parse", "--verify", "--end-of-options", f"{args.reference_rev}^{{commit}}"],
+            cwd=C.ROOT, text=True,
+        ).strip()
+        if reference_commit != source_commit:
+            raise ValueError("[D-012] Reference commit and clean source commit must agree.")
+        dimensions, common_hashes = reference_dimensions(reference_commit, history)
         problems = shared_dimension_issues(dimensions, history)
         if problems:
             raise ValueError("[D-010] " + "; ".join(problems))
@@ -272,7 +329,8 @@ def main():
     bridge = [{"VET_SEQ": row["VET_SEQ"], "VET_TYPE_KEY": type_keys[row["VET_TYPE_NM"]]} for row in clean_bridge]
     validate(fact, bridge, dimensions, history, clean_bridge)
 
-    output = GOLD_DIR / ("horse_medical" if args.common_dims else "horse_medical_draft")
+    final = args.common_dims or args.reference_rev
+    output = GOLD_DIR / ("horse_medical" if final else "horse_medical_draft")
     output.mkdir(parents=True, exist_ok=True)
     tables = {
         **dimensions, "FCT_HORSE_MEDICAL": pa.Table.from_pylist(fact, schema=FACT_SCHEMA),
@@ -282,8 +340,11 @@ def main():
         pq.write_table(table, output / f"{name}.parquet")
     (output / "DIM_TR_GRP.parquet").unlink(missing_ok=True)
     report = {
-        "STATUS": "SHARED_DIMENSIONS" if args.common_dims else "DRAFT_DIMENSIONS",
+        "STATUS": "SHARED_DIMENSIONS" if args.common_dims else (
+            "INDIVIDUAL_VALIDATED" if args.reference_rev else "DRAFT_DIMENSIONS"
+        ),
         "CLEAN_VERSION": clean_version, "COMMON_DIMENSION_SOURCE_SHA256": common_hashes,
+        "CLEAN_SOURCE_COMMIT": source_commit, "REFERENCE_DIMENSION_COMMIT": reference_commit,
         "TABLE_ROWS": {name: table.num_rows for name, table in tables.items()},
         "VET_CNT_SUM": sum(row["VET_CNT"] for row in fact),
         "NO_PRIOR_SNAPSHOT_ROWS": sum(row["HORSE_KEY"] == 0 for row in fact),
