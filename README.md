@@ -42,9 +42,35 @@ Gold 작업 시 `docs/GOLD.md`, `docs/GOLD_COLUMNS.md`를 추가합니다.
 
 ## Silver 표준화
 
-Bronze만 읽어 표준화하며, 합계·진료명 분리를 포함한 Parquet 14개를 `data/02_silver/` 바로 아래에 저장합니다. 품질 정제는 다음 단계입니다.
+Bronze만 읽어 표준화하며, 합계·진료명 분리를 포함한 Parquet 14개를 `data/02_silver/` 바로 아래에 저장합니다. 후속 품질 관리는 별도 코드로 수행하며 표준화 결과를 보존합니다.
 
 ```powershell
 .\.venv\Scripts\python.exe src/02_normalize.py --check-reference
 .\.venv\Scripts\python.exe src/02_normalize_check.py --check-reference
 ```
+
+## Silver 품질 관리
+
+D-001~D-012에 따른 `clean/` 14개와 `_excluded/BET_TICKET.parquet`이 생성되어 있습니다. 기존 결과를 확인할 때는 아래 읽기 전용 검증만 실행합니다.
+
+```powershell
+.\.venv\Scripts\python.exe src/02_quality_check.py
+```
+
+[품질 확인 기록](docs/QUALITY_REVIEW.md) · [규칙·실측·대사](docs/QUALITY.md) · [다른 프로젝트 적용 사용법](docs/quality_usage.md) · [Gold 입력 계약](docs/GOLD_INPUT_CONTRACT.md)
+
+처리 코드는 `src/02_quality.py`, 읽기 전용 검증 코드는 `src/02_quality_check.py`입니다.
+
+## Gold 스타 스키마
+
+`data/03_gold/`에 50대 단승 구매 선택 묶음 팩트 41,141행과 회원·말·경주·날짜·채널 차원5개를 생성했습니다. 분석 적격39,284행, 확인취소894묶음이며 **주 분석은 `analysis_eligible=1`만 사용**합니다. 분석 제외1,857행은 팩트와 감사 테이블에 보존합니다.
+
+```powershell
+.\.venv\Scripts\python.exe src/03_gold_check.py
+```
+
+[Gold 결과](docs/GOLD.md) · [컬럼 사전](docs/GOLD_COLUMNS.md) · [실행·재사용](docs/gold_usage.md) · [검증 기록](docs/GOLD_VERIFICATION.md)
+
+공통 차원 키 계약은 현재 브랜치의 제안이며 팀 합의 완료를 의미하지 않습니다. SQL 예제는 `meta/gold_schema.sql`에 제공하며 DB 적재는 수행하지 않았습니다.
+
+Gold 데이터 파일명은 `DIM_MEMBER.parquet`, `FCT_BET_SELECTION_CANCEL_50S.parquet` 등 대문자로 통일합니다. 분석 보조 요약은 `meta/WIN_RATE_CANCEL_SUMMARY.csv`에 별도로 두며 스타 스키마 테이블에 포함하지 않습니다. `meta/audit/`는 입력 처분·취소 연결·분석 부적격 근거를 보존하는 감사 기록입니다. `data/03_gold/`에는 팩트1개·차원5개만 저장합니다.

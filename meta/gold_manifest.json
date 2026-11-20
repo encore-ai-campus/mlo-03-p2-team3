@@ -1,0 +1,171 @@
+{
+  "artifacts": {
+    "D:\\IT\\mlo3_p2_team3_EB\\docs\\GOLD.md": "67669e89674b40e92f852433dade0536079009667af6deae1b8c01643c73da0c",
+    "D:\\IT\\mlo3_p2_team3_EB\\docs\\GOLD_COLUMNS.md": "8ce6ba4f7082eb1dcf10597a4f11283feb596af5b82e98c9a7edcff5adac4fb9",
+    "D:\\IT\\mlo3_p2_team3_EB\\docs\\gold_usage.md": "c0f89587d354abbcc8f825b0c1c549b12396437ef4e8af83d39e98a95061b2cb",
+    "D:\\IT\\mlo3_p2_team3_EB\\meta\\WIN_RATE_CANCEL_SUMMARY.csv": "eac72e6e89d06c0b7ac919b6a1385ed6c00318c52798e71b292e55282746795c",
+    "D:\\IT\\mlo3_p2_team3_EB\\meta\\gold_column_dictionary.csv": "ca4329aa5d0e4eaf87dacab8be2b51391dbe54bc05790615fdf7172341ddcb8f",
+    "D:\\IT\\mlo3_p2_team3_EB\\meta\\gold_decisions.json": "cb9c36fd50422dba0c8cd32df4f5e54492e49db247eae8da3c0836e9fa70727c",
+    "D:\\IT\\mlo3_p2_team3_EB\\meta\\gold_dimension_contract.json": "414f52dcf5cdd73a241cb5c991ba144a1691dcb4d31685b53b043848007c3cd4",
+    "D:\\IT\\mlo3_p2_team3_EB\\meta\\gold_schema.sql": "9b6539c35d8cc88dd48e0adc724faec8dfc74700d3a6ee9a7d13880a80c56792",
+    "D:\\IT\\mlo3_p2_team3_EB\\meta\\gold_validation.json": "861eae0d9ac10b2f8e9b17a1b3d909d4e28cb907a8d2d661baf578967f253941"
+  },
+  "code": {
+    "03_gold.py": "0daded0f20c2d0f4f4c94f54669325ef28dc5e8d1f3d926ec40e5298ef1f458e",
+    "03_gold_check.py": "bfbbf13a15757a7c7bb305e58c9a8bf9a752e629a5f8b117b2efb8ebc3385876",
+    "gold.py": "8fed446e07359c37498587e49e00c7e007d6435c3df0aa1506a8218603bd44b4",
+    "gold_pipeline.py": "86f163d925d512c4314c63a8ab490ed703710ecfbba2f2f483dd33b607ed5783"
+  },
+  "controls": {
+    "D:\\IT\\mlo3_p2_team3_EB\\meta\\dq_manifest.json": {
+      "mtime_ns": 1795160238000000000,
+      "sha256": "e5b45456f002031c72dd78d50b8291f141a636fd386d786c5971e60fce584510"
+    },
+    "D:\\IT\\mlo3_p2_team3_EB\\meta\\dq_validation.json": {
+      "mtime_ns": 1795160238000000000,
+      "sha256": "ca6ecd2a375d5d269de2399418d59969d6888a6e1fd414d87ef0203df797f101"
+    }
+  },
+  "dataset_version": "GOLD-7747958492418b0ee3ce",
+  "docs_root": "D:\\IT\\mlo3_p2_team3_EB\\docs",
+  "dq_dataset_version": "DQ-2a7f4bd98578ec01a8d5",
+  "dq_meta_root": "D:\\IT\\mlo3_p2_team3_EB\\meta",
+  "input_root": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean",
+  "meta_root": "D:\\IT\\mlo3_p2_team3_EB\\meta",
+  "output_root": "D:\\IT\\mlo3_p2_team3_EB\\data\\03_gold",
+  "outputs": {
+    "cancel_link_audit": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\meta\\audit\\CANCEL_LINK_AUDIT.parquet",
+      "rows": 5121,
+      "sha256": "596a1cf4fc45c2c7e51d283d0cbceafb931cf338e90578938a662989852b4955"
+    },
+    "dim_channel": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\03_gold\\DIM_CHANNEL.parquet",
+      "rows": 32,
+      "sha256": "e9d85ac4e83f61a1040f2f7bc9e23171af3e0f200ba662fb0ecf13596ea9ba8f"
+    },
+    "dim_date": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\03_gold\\DIM_DATE.parquet",
+      "rows": 180,
+      "sha256": "563e209e3b8233c1c2fd876d7d634f6b29e7aa428a720cf7f7805b5e5ed4d1ba"
+    },
+    "dim_horse": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\03_gold\\DIM_HORSE.parquet",
+      "rows": 833,
+      "sha256": "5fdb8d3fc2ba8e07ddb926e74924badef28194254ba28ce5a221caada38ccff8"
+    },
+    "dim_member": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\03_gold\\DIM_MEMBER.parquet",
+      "rows": 4384,
+      "sha256": "3692eb6abb9662937851053a365997eda81cff13cdd23ea43ad41063d02180fe"
+    },
+    "dim_race": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\03_gold\\DIM_RACE.parquet",
+      "rows": 387,
+      "sha256": "192be2fadcceff58c6f40f97d80f6e878b3600a55c17ba189644988c337fc3e4"
+    },
+    "fact_analysis_exclusions": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\meta\\audit\\FACT_ANALYSIS_EXCLUSIONS.parquet",
+      "rows": 1857,
+      "sha256": "f4d9e35122819fb93e5e0f1bdcea69d87a275cf0764f6496ce0aa9951fceeacd"
+    },
+    "fct_bet_selection_cancel_50s": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\03_gold\\FCT_BET_SELECTION_CANCEL_50S.parquet",
+      "rows": 41141,
+      "sha256": "aa45b384ec2afa88d3e06ebeb7ed5ff8953b4d67404fad218d89c74b4c704b9f"
+    },
+    "ticket_disposition": {
+      "format": "parquet",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\meta\\audit\\TICKET_DISPOSITION.parquet",
+      "rows": 522364,
+      "sha256": "a33c30b244e2754e7c89e348249c790f2fc99cb69b5c29e32fd4aa014c6169bc"
+    },
+    "win_rate_cancel_summary": {
+      "format": "csv",
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\meta\\WIN_RATE_CANCEL_SUMMARY.csv",
+      "rows": 10,
+      "sha256": "eac72e6e89d06c0b7ac919b6a1385ed6c00318c52798e71b292e55282746795c"
+    }
+  },
+  "sources": {
+    "BET_ORDER": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\BET_ORDER.parquet",
+      "sha256": "93696ccd27762b72c5947e984e1e432e96c334ced3c979a069e450c24631bd02"
+    },
+    "BET_TICKET": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\BET_TICKET.parquet",
+      "sha256": "e24f3cec2fa0ba22008db4824bd01ecf5da261e83fff44e8a592c1d7647ac216"
+    },
+    "HR_VET_HIST": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\HR_VET_HIST.parquet",
+      "sha256": "a71c911c10e2a66b9c8e57f396ea327c8be7813f0e16df56a2740e1d0d9d239a"
+    },
+    "HR_VET_TYPE_BRIDGE": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\HR_VET_TYPE_BRIDGE.parquet",
+      "sha256": "ce4ca04bab4ee45b61b6ad3d43bfb8b220729ad81f45700fdb68921141ddec5f"
+    },
+    "HR_WEEKLY_SNAPSHOT": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\HR_WEEKLY_SNAPSHOT.parquet",
+      "sha256": "9edfb689906e518f036788c1a9b66f6558ec408dcca9127114be1d926c2f5046"
+    },
+    "MBR_MASTER": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\MBR_MASTER.parquet",
+      "sha256": "11a900e36b2b4870cc5c4a1deeeafcb2efcea10c7289d0e6202472c303893a1a"
+    },
+    "RC_CHANGE_EVENT": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_CHANGE_EVENT.parquet",
+      "sha256": "769db9f17059eae6186e16b14eb56a3358c37c3b404c3ffc3e5e0c5c005aca67"
+    },
+    "RC_ENTRY": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_ENTRY.parquet",
+      "sha256": "95433d1208c9ebb1c6f434a7f14ceeaec12879916b9336c4548ce593a73529e0"
+    },
+    "RC_ODDS": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_ODDS.parquet",
+      "sha256": "9e408395354564536c7b0b605fb3ad191e4a98b8a26ff87765f1d493626d5392"
+    },
+    "RC_RACE": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_RACE.parquet",
+      "sha256": "82be586ec5b10aa12c7137a35f8a697c8117a9cb3b514db5fc58c2ba00949ede"
+    },
+    "RC_RESULT": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_RESULT.parquet",
+      "sha256": "0de1e44a64040425a1e343da7ac4108b21373992cf9a037a1008a29274402110"
+    },
+    "RC_SALES": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_SALES.parquet",
+      "sha256": "0faa37b9447e34801da6cfc3f59c0edb110f87d3b9393cdca9e7e614e5e2e165"
+    },
+    "RC_SALES_TOTAL": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_SALES_TOTAL.parquet",
+      "sha256": "5812e48501b974195eca60dd35dd831cc5dd8133b16fb36eb1eb3152794a109e"
+    },
+    "TR_WEEKLY_SNAPSHOT": {
+      "mtime_ns": 1795160238000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\TR_WEEKLY_SNAPSHOT.parquet",
+      "sha256": "d3cbe13ac9d37aa6e71e58bbe9c1cbdb802d0558918c1f8df63f4b5549680bec"
+    }
+  },
+  "unit_amount": 100
+}

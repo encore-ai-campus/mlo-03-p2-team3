@@ -11,8 +11,8 @@
 | 원천 / AS-IS | 현황 확인 완료 | `../data/00_origin` 읽기 전용 | 12개 파일, 625,411행; 일부 품질 징후 실측 |
 | Bronze | 구현·생성·검증 완료 | `../data/00_origin` → `data/01_bronze/` | 원천 보존 + source_file / ingested_at 추가 |
 | Silver 표준화 | 구현·생성·검증 완료 | `../data/01_bronze` → `data/02_silver/` | 평면 Parquet 14개; 입력 행 보존·표준화 변환 건수 기록 |
-| Silver 품질 관리 | 미수행 | Silver → 유지·제외 데이터 | 정제 규칙과 근거 결정 ID는 추후 확정 |
-| Gold | 미수행 | Silver → `../data/03_gold` | 구현 시 GOLD.md / GOLD_COLUMNS.md 추가 |
+| Silver 품질 관리 | 구현·생성·읽기 전용 재검증 완료 | 표준화 14개 → clean 14개 + 중복 제외 1개 | D-001~D-012; 중복 1,052행 제외, 진료 유형 의미 병합 감소 2행 별도 대사; QUALITY_REVIEW.md 참조 |
+| Gold | 구현·생성·읽기 전용 재검증 완료 | clean → `../data/03_gold` | fact 41,141행·차원5개; 적격39,284행·확인취소894묶음; 공통 차원 계약은 이 브랜치 제안 |
 
 현재 문서 작성 브랜치는 `FCT_BET_CANCEL`입니다. 앞선 Bronze 작업은 사용자 요청으로 만든 `KEB`에서 진행했습니다.
 
@@ -28,6 +28,13 @@
 | [SILVER_CHANGES.md](SILVER_CHANGES.md) | 테이블 / 원천컬럼 / 표준컬럼 / 바꾼내용 / 변경 건수 |
 | [silver_usage.md](silver_usage.md) | 다른 프로젝트 실행·경로 인자·규칙 JSON 사용법 |
 | [SILVER_COLUMNS.md](SILVER_COLUMNS.md) | 실제 Silver 컬럼·타입·원천 매핑·NULL 수·NULL 이유 |
+| [QUALITY.md](QUALITY.md) | 품질 규칙별 실측·테이블별 대사·검증 결과 |
+| [QUALITY_REVIEW.md](QUALITY_REVIEW.md) | 사용자 규칙·팩트 관점 대조와 최신 재검증, 재사용 범위 |
+| [QUALITY_CHANGES.md](QUALITY_CHANGES.md) / [QUALITY_COLUMNS.md](QUALITY_COLUMNS.md) | 품질 처리 건수와 추가 컬럼 사전 |
+| [quality_usage.md](quality_usage.md) | 읽기 전용 확인·처리 실행·다른 프로젝트 적용 |
+| [GOLD_INPUT_CONTRACT.md](GOLD_INPUT_CONTRACT.md) | 공통 clean 입력 버전·팩트 그레인·후속 Gold 검증 |
+| [GOLD.md](GOLD.md) / [GOLD_COLUMNS.md](GOLD_COLUMNS.md) | Gold 실제 테이블·행 수·PK/FK·금액 대사·컬럼 사전 |
+| [gold_usage.md](gold_usage.md) / [GOLD_VERIFICATION.md](GOLD_VERIFICATION.md) | 생성·확인·다른 프로젝트 적용, 최종 검증 기록 |
 
 ## 원천 및 Bronze 현황
 

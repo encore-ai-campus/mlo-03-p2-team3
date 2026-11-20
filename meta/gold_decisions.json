@@ -1,0 +1,9 @@
+{
+  "G-001": "Original-purchase-date age 50..59; WIN selection groups; zero details outside both business aggregates",
+  "G-002": "Detailed amounts/units, amount=units*unit_amount; header mismatch is informational",
+  "G-003": "Original order/member/selection/time/sign validation; late cancel allowed; no ticket-seq link",
+  "G-004": "Unresolved same-member earlier selection candidates remain ambiguous; cumulative excess invalid",
+  "G-005": "Unique horse identity and strictly prior-date snapshot; no future performance",
+  "G-006": "Purchase before start; RAN result; observation end max order time; ineligible facts retained",
+  "G-007": "Namespaced deterministic surrogate keys; provisional common dimensions; all input detail dispositions"
+}

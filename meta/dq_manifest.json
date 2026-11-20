@@ -1,0 +1,612 @@
+{
+  "code_sha256": "f1d63555847e08a87fdf7d0607d5ee62397576dcd5bca268da4db4d70529a9d5",
+  "dataset_version": "DQ-2a7f4bd98578ec01a8d5",
+  "decisions": {
+    "D-001": "완전 중복 제거 → 나머지 규칙 측정 → 집계별 제외 조건 적용",
+    "D-002": "마권 업무값 완전 중복은 최소 _SRC_ROW_NO 유지; 동률은 Bronze 경로 오름차순; 나머지 별도 보관",
+    "D-003": "0원 마권 유지·INVALID_YN=Y; 업무 집계 분자/분모 제외, 오류 집계 포함",
+    "D-004": "취소 시각 >= 경주 출발 시각: 마권/전표 표시·유지·취소 분석 포함; 0원 교집합 별도 표시",
+    "D-005": "마명 빈칸은 출전표 키에 정확히 1행 연결될 때만 보정·원래 값/근거 보존",
+    "D-006": "헤더 불일치·원전표 없는 취소는 표시만; 금액·장수·원전표 연결 보정 금지",
+    "D-007": "진료 조 불일치/이전 스냅샷 없음 유지; 전체 진료 집계 포함, 해당 분석은 확인 필요",
+    "D-008": "표준화 원본 보존; clean 유지, _excluded 완전 중복만; 브리지 의미 병합 별도 대사",
+    "D-009": "DQ-차원nn / D-nnn 공통 ID; 모든 처리에 Bronze 경로와 원천 행 번호 기록",
+    "D-010": "각자 스타 스키마 완료 후 Silver와 공통 차원 통합; 업무키/타입/코드 사전 합의",
+    "D-011": "595·664번 일,열사병 원문 보존; 유형은 일·열사병 1건; 브리지 감소 2는 제외 아닌 의미 병합",
+    "D-012": "Gold는 동일 버전 data/02_silver/clean만 입력; 표준화 결과 직접 사용 금지"
+  },
+  "excluded_input": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\_excluded",
+  "gold_input": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean",
+  "outputs": {
+    "_excluded/BET_TICKET": {
+      "columns": [
+        "ORDER_NO",
+        "TICKET_SEQ",
+        "RC_DT",
+        "RC_NO",
+        "BET_TYPE_CD",
+        "CHUL_NO",
+        "HR_NM",
+        "CHUL_NO2",
+        "HR_NM2",
+        "UNIT_CNT",
+        "BET_AMT",
+        "TICKET_STAT_CD",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\_excluded\\BET_TICKET.parquet",
+      "rows": 1052,
+      "sha256": "c152633b10967799c9c827d38d7caed2774eb32814a9fb31ef9af227fa3ec201"
+    },
+    "clean/BET_ORDER": {
+      "columns": [
+        "ORDER_NO",
+        "ORDER_TYPE_CD",
+        "ORIG_ORDER_NO",
+        "MBR_NO",
+        "CHNL_CD",
+        "OTB_BRANCH_NO",
+        "SALE_DTM",
+        "BIZ_DT",
+        "TICKET_CNT",
+        "TOTAL_AMT",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "LATE_CANCEL_YN",
+        "ZERO_LATE_CANCEL_YN",
+        "HEADER_MISMATCH_YN",
+        "ORIG_MISSING_YN",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\BET_ORDER.parquet",
+      "rows": 27907,
+      "sha256": "93696ccd27762b72c5947e984e1e432e96c334ced3c979a069e450c24631bd02"
+    },
+    "clean/BET_TICKET": {
+      "columns": [
+        "ORDER_NO",
+        "TICKET_SEQ",
+        "RC_DT",
+        "RC_NO",
+        "BET_TYPE_CD",
+        "CHUL_NO",
+        "HR_NM",
+        "CHUL_NO2",
+        "HR_NM2",
+        "UNIT_CNT",
+        "BET_AMT",
+        "TICKET_STAT_CD",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "INVALID_YN",
+        "BUSINESS_AGG_ELIGIBLE_YN",
+        "LATE_CANCEL_YN",
+        "ZERO_LATE_CANCEL_YN",
+        "HR_NM_BEFORE",
+        "HR_NM_FILLED_YN",
+        "HR_NM_FILL_STATUS_CD",
+        "HEADER_MISMATCH_YN",
+        "ORIG_MISSING_YN",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\BET_TICKET.parquet",
+      "rows": 522364,
+      "sha256": "e24f3cec2fa0ba22008db4824bd01ecf5da261e83fff44e8a592c1d7647ac216"
+    },
+    "clean/HR_VET_HIST": {
+      "columns": [
+        "VET_DT",
+        "HR_NM",
+        "TR_GRP_NO",
+        "VET_PLACE_NM",
+        "VET_NM",
+        "REPORT_DT",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "VET_SEQ",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "GRP_MISMATCH_YN",
+        "HORSE_MATCH_STATUS_CD",
+        "PRIOR_SNAPSHOT_DT",
+        "SNAPSHOT_TR_GRP_NO",
+        "MEDICAL_ANALYSIS_REVIEW_YN",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\HR_VET_HIST.parquet",
+      "rows": 1488,
+      "sha256": "a71c911c10e2a66b9c8e57f396ea327c8be7813f0e16df56a2740e1d0d9d239a"
+    },
+    "clean/HR_VET_TYPE_BRIDGE": {
+      "columns": [
+        "VET_TYPE_NM",
+        "VET_SEQ",
+        "VET_TYPE_SEQ",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "VET_TYPE_NM_BEFORE",
+        "VET_TYPE_CORRECTED_YN",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\HR_VET_TYPE_BRIDGE.parquet",
+      "rows": 1662,
+      "sha256": "ce4ca04bab4ee45b61b6ad3d43bfb8b220729ad81f45700fdb68921141ddec5f"
+    },
+    "clean/HR_WEEKLY_SNAPSHOT": {
+      "columns": [
+        "SNAPSHOT_DT",
+        "HR_NM",
+        "HR_SEX_CD",
+        "HR_BIRTH_DT",
+        "HR_AGE",
+        "HR_GRADE_CD",
+        "TR_GRP_NO",
+        "TR_NM",
+        "TR_EXTERNAL_YN",
+        "OW_NM",
+        "TOT_RC_CNT",
+        "TOT_1ST_CNT",
+        "TOT_2ND_CNT",
+        "TOT_3RD_CNT",
+        "Y1_RC_CNT",
+        "Y1_1ST_CNT",
+        "Y1_2ND_CNT",
+        "Y1_3RD_CNT",
+        "PRIZE_AMT",
+        "RATING_VAL",
+        "INTRO_AMT",
+        "INTRO_TYPE_NM",
+        "SIRE_NM",
+        "DAM_NM",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\HR_WEEKLY_SNAPSHOT.parquet",
+      "rows": 52642,
+      "sha256": "9edfb689906e518f036788c1a9b66f6558ec408dcca9127114be1d926c2f5046"
+    },
+    "clean/MBR_MASTER": {
+      "columns": [
+        "MBR_NO",
+        "BIRTH_DT",
+        "JOIN_DT",
+        "REGION_CD",
+        "MBR_GRADE_CD",
+        "MBR_STAT_CD",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\MBR_MASTER.parquet",
+      "rows": 4383,
+      "sha256": "11a900e36b2b4870cc5c4a1deeeafcb2efcea10c7289d0e6202472c303893a1a"
+    },
+    "clean/RC_CHANGE_EVENT": {
+      "columns": [
+        "EVENT_TYPE_CD",
+        "ANNOUNCE_DTM",
+        "RC_DT",
+        "RC_NO",
+        "CHUL_NO",
+        "HR_NM",
+        "BEF_JK_NM",
+        "AFT_JK_NM",
+        "BUDAM_KG",
+        "CHG_REASON_NM",
+        "SCRATCH_REASON_NM",
+        "TRACK_STAT_CD",
+        "TRACK_MOIST_RT",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_CHANGE_EVENT.parquet",
+      "rows": 149,
+      "sha256": "769db9f17059eae6186e16b14eb56a3358c37c3b404c3ffc3e5e0c5c005aca67"
+    },
+    "clean/RC_ENTRY": {
+      "columns": [
+        "RC_DT",
+        "RC_NO",
+        "CHUL_NO",
+        "HR_NM",
+        "HR_SEX_CD",
+        "HR_AGE",
+        "BUDAM_KG",
+        "JK_NM",
+        "TR_NM",
+        "OW_NM",
+        "RATING_VAL",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_ENTRY.parquet",
+      "rows": 3666,
+      "sha256": "95433d1208c9ebb1c6f434a7f14ceeaec12879916b9336c4548ce593a73529e0"
+    },
+    "clean/RC_ODDS": {
+      "columns": [
+        "RC_DT",
+        "RC_NO",
+        "CHUL_NO",
+        "SECT1_SEC",
+        "SECT2_SEC",
+        "SECT3_SEC",
+        "SECT4_SEC",
+        "SECT5_SEC",
+        "SECT6_SEC",
+        "SECT7_SEC",
+        "WIN_ODDS",
+        "PLC_ODDS",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_ODDS.parquet",
+      "rows": 3666,
+      "sha256": "9e408395354564536c7b0b605fb3ad191e4a98b8a26ff87765f1d493626d5392"
+    },
+    "clean/RC_RACE": {
+      "columns": [
+        "RC_DT",
+        "RC_NO",
+        "MEET_CD",
+        "RC_DAY_SEQ",
+        "RC_DIST_M",
+        "RC_GRADE_CD",
+        "BUDAM_TYPE_CD",
+        "HR_CLASS_NM",
+        "RC_TITLE_NM",
+        "WEATHER_CD",
+        "TRACK_STAT_CD",
+        "TRACK_MOIST_RT",
+        "PRIZE1_AMT",
+        "PRIZE2_AMT",
+        "PRIZE3_AMT",
+        "PRIZE4_AMT",
+        "PRIZE5_AMT",
+        "START_TM",
+        "START_DTM",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_RACE.parquet",
+      "rows": 386,
+      "sha256": "82be586ec5b10aa12c7137a35f8a697c8117a9cb3b514db5fc58c2ba00949ede"
+    },
+    "clean/RC_RESULT": {
+      "columns": [
+        "RC_DT",
+        "RC_NO",
+        "FINISH_ORD",
+        "ENTRY_STAT_CD",
+        "CHUL_NO",
+        "HR_NM",
+        "HR_WGT_KG",
+        "HR_WGT_DIFF_KG",
+        "RC_TIME_SEC",
+        "MARGIN_LEN",
+        "MARGIN_CD",
+        "PASS_ORD_S1",
+        "PASS_ORD_S2",
+        "PASS_ORD_S3",
+        "PASS_ORD_S4",
+        "PASS_ORD_S5",
+        "PASS_ORD_S6",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_RESULT.parquet",
+      "rows": 3666,
+      "sha256": "0de1e44a64040425a1e343da7ac4108b21373992cf9a037a1008a29274402110"
+    },
+    "clean/RC_SALES": {
+      "columns": [
+        "RC_DT",
+        "RC_NO",
+        "BET_TYPE_CD",
+        "SALES_AMT",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_SALES.parquet",
+      "rows": 2702,
+      "sha256": "0faa37b9447e34801da6cfc3f59c0edb110f87d3b9393cdca9e7e614e5e2e165"
+    },
+    "clean/RC_SALES_TOTAL": {
+      "columns": [
+        "RC_DT",
+        "RC_NO",
+        "SALES_AMT",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\RC_SALES_TOTAL.parquet",
+      "rows": 386,
+      "sha256": "5812e48501b974195eca60dd35dd831cc5dd8133b16fb36eb1eb3152794a109e"
+    },
+    "clean/TR_WEEKLY_SNAPSHOT": {
+      "columns": [
+        "SNAPSHOT_DT",
+        "TR_NM",
+        "TR_GRP_NO",
+        "TR_BIRTH_DT",
+        "TR_AGE",
+        "TR_DEBUT_DT",
+        "TOT_RC_CNT",
+        "TOT_1ST_CNT",
+        "TOT_2ND_CNT",
+        "TOT_3RD_CNT",
+        "Y1_RC_CNT",
+        "Y1_1ST_CNT",
+        "Y1_2ND_CNT",
+        "Y1_3RD_CNT",
+        "SOURCE_FILE",
+        "INGESTED_AT",
+        "_SRC_ROW_NO",
+        "_SRC_BRONZE_FILE",
+        "_DQ_INPUT_ROW_NO",
+        "_DQ_ROW_ID",
+        "TABLE_NM",
+        "RULE_ID",
+        "DECISION_ID",
+        "ACTION",
+        "REASON",
+        "_DQ_DATASET_VERSION"
+      ],
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\clean\\TR_WEEKLY_SNAPSHOT.parquet",
+      "rows": 954,
+      "sha256": "d3cbe13ac9d37aa6e71e58bbe9c1cbdb802d0558918c1f8df63f4b5549680bec"
+    }
+  },
+  "rules": {
+    "DQ-C01": [
+      "D-005",
+      "출전표로 마명 보정"
+    ],
+    "DQ-R00": [
+      "D-008;D-009;D-012",
+      "입력 행 추적·보존과 Gold 입력 계약"
+    ],
+    "DQ-R03": [
+      "D-006",
+      "원전표 없는 취소 표시"
+    ],
+    "DQ-R05": [
+      "D-007",
+      "진료일보다 이전 스냅샷 없음/매칭 불확실"
+    ],
+    "DQ-S01": [
+      "D-006",
+      "전표/마권 장수·금액 불일치 표시"
+    ],
+    "DQ-S04": [
+      "D-007",
+      "진료 기록과 직전 스냅샷 조 불일치"
+    ],
+    "DQ-S05": [
+      "D-011",
+      "일,열사병 두 토큰의 단일 유형 의미 병합"
+    ],
+    "DQ-T01": [
+      "D-004",
+      "마권 늦은 취소 표시"
+    ],
+    "DQ-T02": [
+      "D-004",
+      "고유 전표 늦은 취소 표시"
+    ],
+    "DQ-U01": [
+      "D-002",
+      "마권 완전 중복 제외"
+    ],
+    "DQ-V01": [
+      "D-003",
+      "0원 마권 표시와 업무집계 제외"
+    ]
+  },
+  "sources": {
+    "BET_ORDER": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\BET_ORDER.parquet",
+      "sha256": "310b4810c7442ce08f6a4a4548e2763e27d8b2c857b9d49b5d65cc6e700e5852"
+    },
+    "BET_TICKET": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\BET_TICKET.parquet",
+      "sha256": "529283ac76609297734f221c89181f22d6e74e3f3f415b737881ec789fa90a4c"
+    },
+    "HR_VET_HIST": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\HR_VET_HIST.parquet",
+      "sha256": "33e67904421c456e327a582667466d4f6707273cdafe52540601cd9af7e73c97"
+    },
+    "HR_VET_TYPE_BRIDGE": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\HR_VET_TYPE_BRIDGE.parquet",
+      "sha256": "fc4b33acd78a4d0647d5709ea46fd27b3dc68f084d0e9b2f6ae5aeddb32786ce"
+    },
+    "HR_WEEKLY_SNAPSHOT": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\HR_WEEKLY_SNAPSHOT.parquet",
+      "sha256": "933e730598557cac8eaf2b0d4aebc7a1fede90b8f8d7055386ccf13f63e64e57"
+    },
+    "MBR_MASTER": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\MBR_MASTER.parquet",
+      "sha256": "98a49f09368569bf2327a918bc48f324a7483e7d014ed09326d114a3be30fd57"
+    },
+    "RC_CHANGE_EVENT": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\RC_CHANGE_EVENT.parquet",
+      "sha256": "9bc6a02cf50585976ea0517238b48eea0d58b288c40694761b1d9e9a7b2798bb"
+    },
+    "RC_ENTRY": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\RC_ENTRY.parquet",
+      "sha256": "a163429e0c83a20affcb6cd213c285317c988d3825023351dc2dfc3f6d5ae7e2"
+    },
+    "RC_ODDS": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\RC_ODDS.parquet",
+      "sha256": "86faa9f7bf489653be8b146b76828bcd82784d5062e8cd4fa7febe0b926018f7"
+    },
+    "RC_RACE": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\RC_RACE.parquet",
+      "sha256": "1ec0724ed0812ca1abe3ea2f825cd606eff7fb3b0d12562f58b5f6d218c3f30c"
+    },
+    "RC_RESULT": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\RC_RESULT.parquet",
+      "sha256": "63ae201fce390773d3730d60e49cb876b0b846cfa404368f2761f8352f79682d"
+    },
+    "RC_SALES": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\RC_SALES.parquet",
+      "sha256": "2219713fe57baecad48f133c44d4bab4cb30beccd811abbe894ae3b36dc222b2"
+    },
+    "RC_SALES_TOTAL": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\RC_SALES_TOTAL.parquet",
+      "sha256": "84dbc5086f108d1fa04c612e4174be24d38354959ce047aac9d1b0ece90aeb58"
+    },
+    "TR_WEEKLY_SNAPSHOT": {
+      "mtime_ns": 1795157074000000000,
+      "path": "D:\\IT\\mlo3_p2_team3_EB\\data\\02_silver\\TR_WEEKLY_SNAPSHOT.parquet",
+      "sha256": "3c5517a6da89974133d921772daf423948b18fe12ae2bdedae2f2aa1b521d90d"
+    }
+  }
+}

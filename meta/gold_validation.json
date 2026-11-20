@@ -1,0 +1,302 @@
+{
+  "checks": [
+    {
+      "actual": 0,
+      "check": "dim_member PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_member PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_horse PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_horse PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_race PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_race PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_date PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_date PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_channel PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "dim_channel PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "fct_bet_selection_cancel_50s PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "fct_bet_selection_cancel_50s PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "ticket_disposition PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "ticket_disposition PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "cancel_link_audit PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "cancel_link_audit PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "fact_analysis_exclusions PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "fact_analysis_exclusions PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "win_rate_cancel_summary PK duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "win_rate_cancel_summary PK nulls",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "fact business key duplicates",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "member_key missing FK",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "horse_key missing FK",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "race_id missing FK",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "channel_key missing FK",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "purchase_date_key missing FK",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "cancel_date_key missing FK",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "race_date_key missing FK",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "check": "snapshot_date_key missing FK",
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "actual": 522364,
+      "check": "input ticket row coverage",
+      "expected": 522364,
+      "passed": true
+    },
+    {
+      "actual": 522364,
+      "check": "input ticket id coverage",
+      "expected": 522364,
+      "passed": true
+    },
+    {
+      "actual": 61430,
+      "check": "target purchase details",
+      "expected": 61430,
+      "passed": true
+    },
+    {
+      "actual": 241761600,
+      "check": "target purchase amount",
+      "expected": 241761600,
+      "passed": true
+    },
+    {
+      "actual": 2417616,
+      "check": "target purchase units",
+      "expected": 2417616,
+      "passed": true
+    },
+    {
+      "actual": 1870219600,
+      "check": "all input signed amount",
+      "expected": 1870219600,
+      "passed": true
+    },
+    {
+      "actual": 5121,
+      "check": "all WIN cancel details audited",
+      "expected": 5121,
+      "passed": true
+    },
+    {
+      "actual": 4274800,
+      "check": "verified cancel amount audit",
+      "expected": 4274800,
+      "passed": true
+    },
+    {
+      "actual": 41141,
+      "check": "eligible plus excluded facts",
+      "expected": 41141,
+      "passed": true
+    },
+    {
+      "actual": true,
+      "check": "eligible cohort/prior/time/amount bounds",
+      "expected": true,
+      "passed": true
+    },
+    {
+      "actual": 39284,
+      "check": "base summary purchase_selection_groups",
+      "expected": 39284,
+      "passed": true
+    },
+    {
+      "actual": 894,
+      "check": "base summary cancelled_groups",
+      "expected": 894,
+      "passed": true
+    },
+    {
+      "actual": 230209200,
+      "check": "base summary purchase_amount_krw",
+      "expected": 230209200,
+      "passed": true
+    },
+    {
+      "actual": 3765000,
+      "check": "base summary cancel_amount_krw",
+      "expected": 3765000,
+      "passed": true
+    }
+  ],
+  "counts": {
+    "cancel_link_audit": 5121,
+    "dim_channel": 32,
+    "dim_date": 180,
+    "dim_horse": 833,
+    "dim_member": 4384,
+    "dim_race": 387,
+    "fact_analysis_exclusions": 1857,
+    "fct_bet_selection_cancel_50s": 41141,
+    "ticket_disposition": 522364,
+    "win_rate_cancel_summary": 10
+  },
+  "dataset_version": "GOLD-7747958492418b0ee3ce",
+  "dispositions": {
+    "AGE_UNKNOWN": 51487,
+    "GROUPED": 61430,
+    "NON_WIN": 266888,
+    "OUTSIDE_50S": 135669,
+    "WIN_CANCEL": 5120,
+    "ZERO_AMOUNT": 1770
+  },
+  "dq_dataset_version": "DQ-2a7f4bd98578ec01a8d5",
+  "exclusions_nonexclusive": {
+    "CANCEL_EXCEEDS_PURCHASE": 20,
+    "FOLLOWUP_NOT_CLOSED": 131,
+    "UNRESOLVED_CANCEL_CONTEXT": 82,
+    "VOID_OR_NONSTART_STATUS": 142,
+    "ZERO_RECENT_STARTS": 1493
+  },
+  "metrics": {
+    "eligible_cancel_amount": 3765000,
+    "eligible_cancel_groups": 894,
+    "eligible_facts": 39284,
+    "eligible_late_cancel_details": 20,
+    "eligible_purchase_amount": 230209200,
+    "excluded_facts": 1857
+  },
+  "rule_version": "GOLD-50WIN-1",
+  "status": "passed",
+  "unit_amount": 100
+}

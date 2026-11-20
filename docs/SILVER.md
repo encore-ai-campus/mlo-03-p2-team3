@@ -9,13 +9,15 @@
 | 상태 | 표준화·검증 완료 |
 | 코드 | [02_normalize.py](../src/02_normalize.py), [02_normalize_check.py](../src/02_normalize_check.py) |
 | 입력 | `D:\IT\mlo3_p2_team3_EB\data\01_bronze`; Bronze만 읽으며 origin은 읽지 않음 |
-| 출력 | `D:\IT\mlo3_p2_team3_EB\data\02_silver` 바로 아래 Parquet 14개; 하위 폴더 없음 |
+| 출력 | `D:\IT\mlo3_p2_team3_EB\data\02_silver` 바로 아래 표준화 Parquet 14개; 품질 단계의 clean/·_excluded/는 별도 산출물 |
 | 근거 | [mapping_rules.md](../meta/mapping_rules.md)의 이름·타입·코드·복합값·분리 규칙 |
 | 파일 개수 | 12개 원천에서 14개 표준 테이블 생성; 기본 공용 규칙은 사용자 확인에 따라 14개 파일 |
 | 행 삭제 | 없음. 중복·전표/마권 불일치는 후속 품질 관리 대상으로 보존 |
 | 추적 | SOURCE_FILE, INGESTED_AT(KST), _SRC_ROW_NO(1부터), _SRC_BRONZE_FILE(Bronze 상대 경로) |
 | 검증 | 117개 중 117개 통과; PARSE_FAIL 0건, OUT_OF_CODE 0건 |
 | 규칙서 고정 기대값 비교 | 수행 |
+
+2026-11-20 (KST) 후속 품질 단계의 코드·산출물이 추가되었습니다. 이 문서의 행 수와 검증 수는 **표준화 당시 결과**입니다. 표준화 파일은 보존하며, 품질 처리 이후 상태는 [QUALITY.md](QUALITY.md), 최신 확인은 [QUALITY_REVIEW.md](QUALITY_REVIEW.md)를 참조합니다. 품질 결과 생성 후 읽기 전용 확인은 `src/02_quality_check.py`를 사용합니다.
 
 ## 출력 테이블
 
