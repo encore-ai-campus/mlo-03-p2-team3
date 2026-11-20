@@ -6,7 +6,12 @@
 - 처리한 행은 전부 meta/dq_log.csv에 규칙 ID·결정 ID·Bronze 경로·_SRC_ROW_NO와 함께 남긴다 (D-009).
 - 규칙별 결과는 meta/dq_result.csv, 보고서는 docs/품질관리.md (재실행해도 같은 내용).
 """
+import hashlib
+import json
+import os
 import re
+import tempfile
+from pathlib import Path
 
 import pandas as pd
 import pyarrow as pa
@@ -117,8 +122,59 @@ def replace_col(table_pa, name, values):
     return table_pa.set_column(i, name, pa.array(list(values), table_pa.schema.field(name).type))
 
 
+def with_lineage(table_pa, name):
+    size = table_pa.num_rows
+    return with_flags(table_pa, {
+        "_SRC_FILE": [f"{C.SILVER_FROM_BRONZE[name]}.parquet"] * size,
+        "BRONZE_PATH": [BRONZE_PATH[name]] * size,
+        "DQ_RULE_ID": ["DQ-U01"] * size,
+        "DQ_DECISION_ID": ["D-001"] * size,
+    })
+
+
+def _sha256(path: Path) -> str:
+    with path.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def build_clean_manifest() -> dict:
+    silver = {path.name: path for path in C.SILVER_DIR.glob("*.parquet")}
+    clean = {path.name: path for path in C.CLEAN_DIR.glob("*.parquet")}
+    if not silver or silver.keys() != clean.keys():
+        raise ValueError("Standardized and clean Silver table sets differ.")
+    excluded = {path.name: path for path in C.EXCLUDED_DIR.glob("*.parquet")}
+    for outputs in (clean, excluded):
+        for name, path in outputs.items():
+            input_schema = pq.read_schema(silver[name])
+            output_schema = pq.read_schema(path)
+            for field in input_schema:
+                if field.name not in output_schema.names or output_schema.field(field.name).type != field.type:
+                    raise ValueError(f"{path}: incompatible Silver column {field.name}")
+    hashes = {name: _sha256(path) for name, path in clean.items()}
+    return {
+        "CLEAN_VERSION": hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest(),
+        "INPUT_SHA256": {name: _sha256(path) for name, path in silver.items()},
+        "CLEAN_SHA256": hashes,
+        "EXCLUDED_SHA256": {name: _sha256(path) for name, path in excluded.items()},
+        "CLEAN_ROWS": {name: pq.read_metadata(path).num_rows for name, path in clean.items()},
+    }
+
+
+def _write_clean_manifest() -> None:
+    data = json.dumps(build_clean_manifest(), sort_keys=True, indent=2) + "\n"
+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=C.CLEAN_DIR, delete=False) as handle:
+        temporary = Path(handle.name)
+        handle.write(data)
+    try:
+        os.replace(temporary, C.CLEAN_DIR / "_manifest.json")
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 # ---------------------------------------------------------------- 본 처리
 def main():
+    LOG.clear()
+    RESULTS.clear()
     C.CLEAN_DIR.mkdir(parents=True, exist_ok=True)
     C.EXCLUDED_DIR.mkdir(parents=True, exist_ok=True)
     pa_std = {t: pq.read_table(C.SILVER_DIR / f"{t}.parquet") for t in TABLES}
@@ -300,7 +356,9 @@ def main():
     late_o = o.ORDER_NO.isin(late_orders)
     log("BET_TICKET", t[late_t], "DQ-T02", "D-004", "FLAG", col="LATE_CANCEL_YN", after="Y", note="취소 시각 ≥ 마권 경주 출발 시각")
     log("BET_ORDER", o[late_o], "DQ-T03", "D-004", "FLAG", col="LATE_CANCEL_YN", after="Y", note="전표 안에 늦은 취소 마권이 하나 이상")
-    zero_late = int((late_t & inv).sum())
+    zero_late_tickets = late_t & inv
+    zero_late_orders = o.ORDER_NO.isin(t.loc[zero_late_tickets, "ORDER_NO"])
+    zero_late = int(zero_late_tickets.sum())
     result("DQ-T02", "BET_TICKET", "늦은 취소: 취소 시각 ≥ 그 마권 경주의 출발 시각 (마권)", "FLAG", "D-004", t[late_t],
            int(ctx.ORDER_TYPE_CD.eq("CANCEL").sum()), std=int(late_cancel_ticket(t_std, o, race).sum()),
            note=f"그중 0원 늦은 취소 {zero_late:,} → LATE_CANCEL_YN")
@@ -317,29 +375,61 @@ def main():
     keep_pos = pos["BET_TICKET"][t.index].tolist()
     tpa = take(pa_std["BET_TICKET"], keep_pos)
     tpa = replace_col(tpa, "HR_NM", t["HR_NM"].where(t["HR_NM"].notna(), None).tolist())
-    outputs["BET_TICKET"] = with_flags(tpa, {"INVALID_YN": yn(inv.values), "LATE_CANCEL_YN": yn(late_t.values),
-                                             "HR_NM_FILLED_YN": yn(hr_filled)})
-    outputs["BET_ORDER"] = with_flags(pa_std["BET_ORDER"], {"HEADER_MISMATCH_YN": yn(hm.values), "ORIG_MISSING_YN": yn(orig_missing.values),
-                                                            "LATE_CANCEL_YN": yn(late_o.values)})
-    outputs["HR_VET_HIST"] = with_flags(pa_std["HR_VET_HIST"], {"TR_GRP_MISMATCH_YN": yn(grp_bad.values),
-                                                                "PRIOR_SNAPSHOT_MISSING_YN": yn(no_snap.values)})
+    invalid = yn(inv.values)
+    eligible = yn(~inv.values)
+    outputs["BET_TICKET"] = with_flags(tpa, {
+        "INVALID_YN": invalid,
+        "ZERO_BET_AGG_EXCLUDE_YN": invalid,
+        "ERROR_AGG_INCLUDE_YN": invalid,
+        "LATE_CANCEL_YN": yn(late_t.values),
+        "ZERO_LATE_CANCEL_YN": yn(zero_late_tickets.values),
+        "HR_NM_FILLED_YN": yn(hr_filled),
+        "HR_NM_ORIG": take(pa_std["BET_TICKET"], keep_pos)["HR_NM"].to_pylist(),
+        "SALES_AGG_INCLUDE_YN": eligible,
+        "CANCEL_RATE_NUMERATOR_INCLUDE_YN": eligible,
+        "CANCEL_RATE_DENOMINATOR_INCLUDE_YN": eligible,
+    })
+    outputs["BET_ORDER"] = with_flags(pa_std["BET_ORDER"], {
+        "HEADER_MISMATCH_YN": yn(hm.values),
+        "ORIG_MISSING_YN": yn(orig_missing.values),
+        "LATE_CANCEL_YN": yn(late_o.values),
+        "ZERO_LATE_CANCEL_YN": yn(zero_late_orders.values),
+        "CANCEL_RATE_DENOM_INCLUDE_YN": yn(o.TOTAL_AMT.ne(0).values),
+    })
+    group_mismatch = yn(grp_bad.values)
+    no_prior = yn(no_snap.values)
+    outputs["HR_VET_HIST"] = with_flags(pa_std["HR_VET_HIST"], {
+        "TR_GRP_MISMATCH_YN": group_mismatch,
+        "PRIOR_SNAPSHOT_MISSING_YN": no_prior,
+        "VET_TR_GRP_MISMATCH_YN": group_mismatch,
+        "VET_NO_PRIOR_SNAPSHOT_YN": no_prior,
+        "VET_GROUP_ANALYSIS_STATUS": (grp_bad | no_snap).map({True: "확인 필요", False: "정상"}),
+    })
     br_keep = [p for i, p in pos["HR_VET_TYPE_BRIDGE"].items() if i not in set(drop_pos)]
     bpa = take(pa_std["HR_VET_TYPE_BRIDGE"], br_keep)
     names = br["VET_TYPE_NM"].copy()
     names.loc[first_pos] = new_name
     keep_idx = [i for i in br.index if i not in set(drop_pos)]
     bpa = replace_col(bpa, "VET_TYPE_NM", names.loc[keep_idx].tolist())
-    outputs["HR_VET_TYPE_BRIDGE"] = with_flags(bpa, {"VET_TYPE_MERGED_YN": yn(pd.Index(keep_idx).isin(first_pos))})
+    outputs["HR_VET_TYPE_BRIDGE"] = with_flags(bpa, {
+        "VET_TYPE_MERGED_YN": yn(pd.Index(keep_idx).isin(first_pos)),
+        "VET_TYPE_AGG_NM": bpa["VET_TYPE_NM"].to_pylist(),
+        "VET_TYPE_AGG_INCLUDE_YN": ["Y"] * len(bpa),
+    })
     for tb in TABLES:
-        pq.write_table(outputs.get(tb, pa_std[tb]), C.CLEAN_DIR / f"{tb}.parquet")
+        pq.write_table(with_lineage(outputs.get(tb, pa_std[tb]), tb), C.CLEAN_DIR / f"{tb}.parquet")
 
     ex = take(pa_std["BET_TICKET"], pos["BET_TICKET"][dup_rows.index].tolist())
     ex = ex.append_column("RULE_ID", pa.array(["DQ-U01"] * len(dup_rows)))
     ex = ex.append_column("DECISION_ID", pa.array(["D-002"] * len(dup_rows)))
-    ex = ex.append_column("REASON", pa.array(["완전 중복 (최소 _SRC_ROW_NO 행만 유지)"] * len(dup_rows)))
+    reason = ["완전 중복 (최소 _SRC_ROW_NO 행만 유지)"] * len(dup_rows)
+    ex = ex.append_column("REASON", pa.array(reason))
+    ex = ex.append_column("EXCLUSION_REASON", pa.array(reason))
+    ex = ex.append_column("DQ_ISSUE_ID", pa.array(["D-002"] * len(ex)))
+    ex = ex.append_column("DQ_ACTION_DECISION_ID", pa.array(["D-002"] * len(ex)))
     ex = ex.append_column("BRONZE_FILE", pa.array([BRONZE_PATH["BET_TICKET"]] * len(dup_rows)))
     ex = ex.append_column("KEPT_SRC_ROW_NO", pa.array([int(kept_no[n]) for n in dup_rows["_SRC_ROW_NO"]], pa.int64()))
-    pq.write_table(ex, C.EXCLUDED_DIR / "BET_TICKET.parquet")
+    pq.write_table(with_lineage(ex, "BET_TICKET"), C.EXCLUDED_DIR / "BET_TICKET.parquet")
 
     dq = pd.concat(LOG, ignore_index=True).sort_values(["RULE_ID", "TABLE_NM", "SRC_ROW_NO", "COL_NM"], kind="stable")
     dq.to_csv(C.DQ_LOG, index=False, encoding=C.CSV_ENCODING)
@@ -348,6 +438,7 @@ def main():
     rs = rs.sort_values(["_D", "RULE_ID"], kind="stable").drop(columns="_D")
     rs.to_csv(C.DQ_RESULT, index=False, encoding=C.CSV_ENCODING)
     write_report(rs, std, outputs)
+    _write_clean_manifest()
 
     for r in rs.itertuples():
         print(f"{r.RULE_ID:<7} {ACTION_KO[r.ACTION]:<3} {r.FINAL_CNT:>7,}  {r.RULE_DESC[:46]}")
@@ -404,6 +495,9 @@ def write_report(rs, std, outputs):
                 ("BET_ORDER", "HEADER_MISMATCH_YN", "D-006", "전표 장수·총액 ≠ 마권 개수·합계"),
                 ("BET_ORDER", "ORIG_MISSING_YN", "D-006", "취소 전표에 원전표번호 없음"),
                 ("BET_ORDER", "LATE_CANCEL_YN", "D-004", "늦은 취소 마권이 하나 이상인 전표"),
+                ("BET_TICKET", "ZERO_LATE_CANCEL_YN", "D-004", "0원이며 늦은 취소인 마권"),
+                ("BET_ORDER", "ZERO_LATE_CANCEL_YN", "D-004", "0원 늦은 취소 마권이 하나 이상인 전표"),
+                ("BET_TICKET", "SALES_AGG_INCLUDE_YN", "D-003", "0원이 아닌 매출 집계 대상 마권"),
                 ("HR_VET_HIST", "TR_GRP_MISMATCH_YN", "D-007", "진료 기록의 조 ≠ 직전 스냅샷의 조 (확인 필요)"),
                 ("HR_VET_HIST", "PRIOR_SNAPSHOT_MISSING_YN", "D-007", "진료일 이전 스냅샷 없음 (확인 필요)"),
                 ("HR_VET_TYPE_BRIDGE", "VET_TYPE_MERGED_YN", "D-011", "'일·열사병'으로 통합한 행")]

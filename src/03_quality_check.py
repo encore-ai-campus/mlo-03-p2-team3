@@ -6,12 +6,14 @@
 4. 표준화 결과는 바뀌지 않았는지 (clean의 원래 컬럼 = 표준화 결과, 보정 컬럼 제외)
 5. 모든 규칙과 처리 로그에 근거 결정 ID가 있고, 결정 로그에 있는 ID인지
 """
+import json
 import re
 import sys
 
 import pandas as pd
 
 import config as C
+from importlib import import_module
 
 FAILS = []
 
@@ -23,6 +25,9 @@ def check(ok, msg):
 
 
 def main():
+    manifest = C.CLEAN_DIR / "_manifest.json"
+    check(manifest.is_file() and json.loads(manifest.read_text(encoding="utf-8")) == import_module("03_quality").build_clean_manifest(),
+          "Silver 입력·산출물·자료형이 clean 매니페스트와 일치")
     tables = list(C.EXPECTED_SILVER_ROWS)
     std = {t: pd.read_parquet(C.SILVER_DIR / f"{t}.parquet") for t in tables}
     cl = {t: pd.read_parquet(C.CLEAN_DIR / f"{t}.parquet") for t in tables}
@@ -83,7 +88,11 @@ def main():
     }
     for k in got:
         check(got[k] == exp[k] and len(got[k]) == E[k], f"{k}: {len(got[k]):,} (기준 {E[k]:,}), 행 단위 일치")
-    check(int(((tc.INVALID_YN == "Y") & (tc.LATE_CANCEL_YN == "Y")).sum()) == 0, "0원 늦은 취소 0건 (D-004 별도 표시 대상)")
+    zero_late = (tc.INVALID_YN == "Y") & (tc.LATE_CANCEL_YN == "Y")
+    zero_late_orders = set(tc.loc[zero_late, "ORDER_NO"])
+    check(int(zero_late.sum()) == 0 and tc.ZERO_LATE_CANCEL_YN.eq("Y").equals(zero_late)
+          and oc.ZERO_LATE_CANCEL_YN.eq("Y").equals(oc.ORDER_NO.isin(zero_late_orders)),
+          "0원 늦은 취소 마권과 고유 전표 각각 0건 (D-004)")
 
     filled = tc[tc.HR_NM_FILLED_YN == "Y"].merge(entry[["RC_DT", "RC_NO", "CHUL_NO", "HR_NM"]], on=["RC_DT", "RC_NO", "CHUL_NO"], suffixes=("", "_E"))
     check(len(filled) == E["HR_NM_FILLED_YN"] and (filled.HR_NM == filled.HR_NM_E).all() and tc.HR_NM.isna().sum() == 0,
