@@ -16,7 +16,8 @@ AI 에이전트(Claude Code, Codex 등)와 팀원이 이 저장소에서 작업�
 | `data/00_origin/` | 원천 데이터 |
 | `data/01_bronze/` | 원천 → Parquet |
 | `data/02_silver/` | 표준화된 데이터 |
-| `data/03_gold/` | 스타 스키마 (fact / dim) |
+| `data/03_gold/` | 스타 스키마 (fact / dim). 공통 차원은 `common/`, 팩트는 팩트별 폴더 |
+| `data/04_ai_ready/` | AI Ready Data (출주마별 피처·정답·날짜 분할, 미출주 제외 행은 `_excluded/`) |
 | `src/` | 파이썬 코드 (단계별 처리 + 검증) |
 | `docs/` | AS-IS 문제 정리, 품질 관리 보고서 |
 | `meta/` | 메타데이터 (데이터 사전, 데이터 설명서, 변경 내역) |

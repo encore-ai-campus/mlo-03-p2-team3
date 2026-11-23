@@ -194,5 +194,9 @@
 | Bronze | `data/01_bronze/` | 원천을 값 그대로 Parquet로 저장 → `docs/BRONZE.md` |
 | Silver | `data/02_silver/` | 이름·타입·코드 표준화 → `docs/SILVER.md` |
 | Silver 품질 관리 | `data/02_silver/clean/`, `_excluded/` | 중복 제외, 0원·늦은 취소 등 표시, 마명 보정 → `docs/품질관리.md` |
-| Gold | `data/03_gold/race_entry/` | 경주 출전 팩트 FCT_RACE_ENTRY (차원은 공통 차원 4개) → `docs/gold/race_entry.md` |
 | Gold 공통 차원 | `data/03_gold/common/` | 네 팩트가 함께 쓰는 차원 6개 (DATE, RACE, HORSE, TRAINER, MEMBER, CHANNEL) → `docs/gold/common.md` |
+| Gold 경주 출전 | `data/03_gold/race_entry/` | 팩트 `FCT_RACE_ENTRY` (출전마 1두 = 1행, 3,666행). 차원은 공통 차원 4개 → `docs/gold/race_entry.md` |
+| Gold 말 진료 | `data/03_gold/horse_medical/` | 팩트 `FCT_HORSE_MEDICAL` (진료 1건 = 1행, 1,488행), 유형 브리지 `BRIDGE_HR_VET_TYPE`, 전용 차원 `DIM_AGE_GROUP`·`DIM_VET_TYPE` → `docs/gold/horse_medical.md` |
+| Gold 마권 매출 | `data/03_gold/race_sales/` | 팩트 `FCT_RACE_SALES` (마권 1장 = 1행, 522,364행), 전용 차원 `DIM_BET_TYPE`·`DIM_TICKET_STATUS` → `docs/gold/race_sales.md` |
+| Gold 50대 단승 취소 | `data/03_gold/bet_cancel/` | 팩트 `FCT_BET_SELECTION_CANCEL_50S` (50대 회원의 단승 구매 묶음 1건 = 1행, 41,141행) → `docs/gold/bet_cancel.md` |
+| AI Ready | `data/04_ai_ready/` | 출주마 1두 = 1행(3,644행), 정답 `PLACE_YN`(3착 이내), 피처 27개, TRAIN/TEST 날짜 분할. 피처 테이블·인코딩 테이블·`_excluded/`(미출주 22행) → `docs/ai_ready.md` |
