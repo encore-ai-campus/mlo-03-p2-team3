@@ -2,31 +2,11 @@
 
 네 팩트가 공통 차원을 공유하는 통합 모델입니다.
 
-```mermaid
-erDiagram
-    direction TB
-    DIM_DATE ||--o{ FCT_RACE_ENTRY : DATE_KEY
-    DIM_RACE ||--o{ FCT_RACE_ENTRY : RACE_KEY
-    DIM_HORSE ||--o{ FCT_RACE_ENTRY : HORSE_KEY
-    DIM_TRAINER ||--o{ FCT_RACE_ENTRY : TRAINER_KEY
-    DIM_DATE ||--o{ FCT_HORSE_MEDICAL : "VET_DT_KEY / REPORT_DT_KEY"
-    DIM_HORSE ||--o{ FCT_HORSE_MEDICAL : HORSE_KEY
-    DIM_TRAINER ||--o{ FCT_HORSE_MEDICAL : TRAINER_KEY
-    DIM_AGE_GROUP ||--o{ FCT_HORSE_MEDICAL : AGE_GROUP_KEY
-    FCT_HORSE_MEDICAL ||--|{ BRIDGE_HR_VET_TYPE : VET_SEQ
-    DIM_VET_TYPE ||--o{ BRIDGE_HR_VET_TYPE : VET_TYPE_KEY
-    DIM_DATE ||--o{ race_sales : "DATE_KEY / SALE_DATE_KEY"
-    DIM_RACE ||--o{ race_sales : RACE_KEY
-    DIM_MEMBER ||--o{ race_sales : MEMBER_KEY
-    DIM_CHANNEL ||--o{ race_sales : CHANNEL_KEY
-    DIM_BET_TYPE ||--o{ race_sales : BET_TYPE_CD
-    DIM_TICKET_STATUS ||--o{ race_sales : TICKET_STAT_CD
-    DIM_DATE ||--o{ FCT_BET_SELECTION_CANCEL_50S : "구매일 / 취소일 / 경주일 / 스냅샷일"
-    DIM_RACE ||--o{ FCT_BET_SELECTION_CANCEL_50S : RACE_KEY
-    DIM_HORSE ||--o{ FCT_BET_SELECTION_CANCEL_50S : HORSE_KEY
-    DIM_MEMBER ||--o{ FCT_BET_SELECTION_CANCEL_50S : MEMBER_KEY
-    DIM_CHANNEL ||--o{ FCT_BET_SELECTION_CANCEL_50S : CHANNEL_KEY
-```
+[![Gold 통합 스타 스키마 ERD](../diagrams/gold-star-schema.png)](../diagrams/gold-star-schema.svg)
+
+[draw.io 편집 원본 다운로드](../diagrams/gold-star-schema.drawio) · [이미지 확대 보기](../diagrams/gold-star-schema.svg)
+
+공통 차원 6개, 팩트 4개, 전용 차원 4개와 진료 브리지의 주요 컬럼·PK·FK를 표시합니다. 원본 파일을 draw.io에서 열어 편집할 수 있습니다.
 
 ## 팩트 grain
 

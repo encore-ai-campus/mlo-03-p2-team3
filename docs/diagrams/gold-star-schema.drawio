@@ -1,0 +1,1342 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="draw.io" version="26.0.0" type="device">
+  <diagram id="gold-integrated-erd" name="Gold Integrated ERD">
+    <mxGraphModel dx="2540" dy="1700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2540" pageHeight="1700" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rel-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#BE9557;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.5;exitY=0;entryX=0.81;entryY=1;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_TICKET_STATUS" target="race_sales">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="2260" y="1270" />
+              <mxPoint x="1740" y="1270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#BE9557;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.5;exitY=0;entryX=0.46;entryY=1;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_BET_TYPE" target="race_sales">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1790" y="1250" />
+              <mxPoint x="1560" y="1250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#9676C2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_VET_TYPE" target="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1045" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#9676C2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.65;exitY=1;entryX=0.5;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="FCT_HORSE_MEDICAL" target="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1030" y="1170" />
+              <mxPoint x="1305" y="1170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#9676C2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.5;exitY=0;entryX=0.21;entryY=1;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_AGE_GROUP" target="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="285" y="1190" />
+              <mxPoint x="800" y="1190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.4;exitY=1;entryX=0.8300000000000001;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_CHANNEL" target="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="2254.0" y="578" />
+              <mxPoint x="2381.6" y="578" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.66;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_CHANNEL" target="race_sales">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="2200.0" y="575" />
+              <mxPoint x="1663.2" y="575" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.4;exitY=1;entryX=0.66;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_MEMBER" target="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1844.0" y="555" />
+              <mxPoint x="2293.2" y="555" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.49;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_MEMBER" target="race_sales">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1790.0" y="552" />
+              <mxPoint x="1574.8" y="552" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.4;exitY=1;entryX=0.49;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_TRAINER" target="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1434.0" y="532" />
+              <mxPoint x="944.8" y="532" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.66;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_TRAINER" target="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1380.0" y="529" />
+              <mxPoint x="403.2" y="529" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.55;exitY=1;entryX=0.49;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_HORSE" target="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1078.0" y="512" />
+              <mxPoint x="2204.8" y="512" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.4;exitY=1;entryX=0.32;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_HORSE" target="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="1024.0" y="509" />
+              <mxPoint x="856.4" y="509" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.49;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_HORSE" target="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="970.0" y="506" />
+              <mxPoint x="314.79999999999995" y="506" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.55;exitY=1;entryX=0.32;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_RACE" target="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="668.0" y="489" />
+              <mxPoint x="2116.4" y="489" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.4;exitY=1;entryX=0.32;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_RACE" target="race_sales">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="614.0" y="486" />
+              <mxPoint x="1486.4" y="486" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.32;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_RACE" target="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="560.0" y="483" />
+              <mxPoint x="226.4" y="483" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.7;exitY=1;entryX=0.15;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_DATE" target="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="312.0" y="469" />
+              <mxPoint x="2028.0" y="469" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.55;exitY=1;entryX=0.15;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_DATE" target="race_sales">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="258.0" y="466" />
+              <mxPoint x="1398.0" y="466" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.4;exitY=1;entryX=0.15;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_DATE" target="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="204.0" y="463" />
+              <mxPoint x="768.0" y="463" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.15;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_DATE" target="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="150.0" y="460" />
+              <mxPoint x="138.0" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="title" value="말 많은 데이터  |  Gold 통합 ERD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=32;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="25" width="1800" height="56" />
+        </mxCell>
+        <mxCell id="subtitle" value="호올스  ·  4개 팩트가 공유하는 스타 스키마  ·  주요 컬럼 / 실제 저장 행 수" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontColor=#50627B;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="88" width="2100" height="32" />
+        </mxCell>
+        <mxCell id="common-label" value="COMMON DIMENSIONS  /  공통 차원 6개" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=15;fontStyle=1;fontColor=#1D4ED8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="139" width="2200" height="28" />
+        </mxCell>
+        <mxCell id="DIM_DATE" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#2646A3;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="185" width="360" height="209" />
+        </mxCell>
+        <mxCell id="DIM_DATE-title" value="DIM_DATE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#2646A3;spacingLeft=14;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="0" y="0" width="360" height="44" />
+        </mxCell>
+        <mxCell id="DIM_DATE-row-DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="0" y="44" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-flag-DATE_KEY" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-name-DATE_KEY" value="DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="64" y="44" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-type-DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="260" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-row-FULL_DT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="0" y="71" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-flag-FULL_DT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-name-FULL_DT" value="FULL_DT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="64" y="71" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-type-FULL_DT" value="date" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="260" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-row-YEAR_NO" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="0" y="98" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-flag-YEAR_NO" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="8" y="98" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-name-YEAR_NO" value="YEAR_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="64" y="98" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-type-YEAR_NO" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="260" y="98" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-row-MONTH_NO" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="0" y="125" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-flag-MONTH_NO" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="8" y="125" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-name-MONTH_NO" value="MONTH_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="64" y="125" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-type-MONTH_NO" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="260" y="125" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-row-RACE_DAY_YN" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="0" y="152" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-flag-RACE_DAY_YN" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="8" y="152" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-name-RACE_DAY_YN" value="RACE_DAY_YN" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="64" y="152" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-type-RACE_DAY_YN" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="260" y="152" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_DATE-count" value="188 rows  |  역할별 날짜 FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#2646A3;fillColor=#EAF1FF;spacingLeft=14;" vertex="1" parent="DIM_DATE">
+          <mxGeometry as="geometry" x="0" y="179" width="360" height="30" />
+        </mxCell>
+        <mxCell id="DIM_RACE" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#2646A3;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="470" y="185" width="360" height="209" />
+        </mxCell>
+        <mxCell id="DIM_RACE-title" value="DIM_RACE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#2646A3;spacingLeft=14;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="0" y="0" width="360" height="44" />
+        </mxCell>
+        <mxCell id="DIM_RACE-row-RACE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="0" y="44" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-flag-RACE_KEY" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-name-RACE_KEY" value="RACE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="64" y="44" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-type-RACE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="260" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-row-RC_DT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="0" y="71" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-flag-RC_DT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-name-RC_DT" value="RC_DT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="64" y="71" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-type-RC_DT" value="date" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="260" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-row-RC_NO" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="0" y="98" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-flag-RC_NO" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="8" y="98" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-name-RC_NO" value="RC_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="64" y="98" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-type-RC_NO" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="260" y="98" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-row-RC_DIST_M" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="0" y="125" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-flag-RC_DIST_M" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="8" y="125" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-name-RC_DIST_M" value="RC_DIST_M" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="64" y="125" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-type-RC_DIST_M" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="260" y="125" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-row-WEATHER_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="0" y="152" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-flag-WEATHER_CD" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="8" y="152" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-name-WEATHER_CD" value="WEATHER_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="64" y="152" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-type-WEATHER_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="260" y="152" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_RACE-count" value="387 rows  |  경주 386 + 미상" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#2646A3;fillColor=#EAF1FF;spacingLeft=14;" vertex="1" parent="DIM_RACE">
+          <mxGeometry as="geometry" x="0" y="179" width="360" height="30" />
+        </mxCell>
+        <mxCell id="DIM_HORSE" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#2646A3;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="880" y="185" width="360" height="209" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-title" value="DIM_HORSE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#2646A3;spacingLeft=14;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="0" y="0" width="360" height="44" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-row-HORSE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="0" y="44" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-flag-HORSE_KEY" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-name-HORSE_KEY" value="HORSE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="64" y="44" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-type-HORSE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="260" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-row-HR_NM" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="0" y="71" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-flag-HR_NM" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-name-HR_NM" value="HR_NM" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="64" y="71" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-type-HR_NM" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="260" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-row-SRC_SNAPSHOT_DT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="0" y="98" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-flag-SRC_SNAPSHOT_DT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="8" y="98" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-name-SRC_SNAPSHOT_DT" value="SRC_SNAPSHOT_DT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="64" y="98" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-type-SRC_SNAPSHOT_DT" value="date" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="260" y="98" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-row-VALID_FROM_DT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="0" y="125" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-flag-VALID_FROM_DT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="8" y="125" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-name-VALID_FROM_DT" value="VALID_FROM_DT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="64" y="125" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-type-VALID_FROM_DT" value="date" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="260" y="125" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-row-VALID_TO_DT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="0" y="152" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-flag-VALID_TO_DT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="8" y="152" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-name-VALID_TO_DT" value="VALID_TO_DT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="64" y="152" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-type-VALID_TO_DT" value="date" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="260" y="152" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_HORSE-count" value="4,127 rows  |  SCD2 / 미상 포함" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#2646A3;fillColor=#EAF1FF;spacingLeft=14;" vertex="1" parent="DIM_HORSE">
+          <mxGeometry as="geometry" x="0" y="179" width="360" height="30" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#2646A3;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1290" y="185" width="360" height="182" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-title" value="DIM_TRAINER" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#2646A3;spacingLeft=14;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="0" y="0" width="360" height="44" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-row-TRAINER_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="0" y="44" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-flag-TRAINER_KEY" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-name-TRAINER_KEY" value="TRAINER_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="64" y="44" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-type-TRAINER_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="260" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-row-TR_NM" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="0" y="71" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-flag-TR_NM" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-name-TR_NM" value="TR_NM" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="64" y="71" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-type-TR_NM" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="260" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-row-TR_GRP_NO" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="0" y="98" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-flag-TR_GRP_NO" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="8" y="98" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-name-TR_GRP_NO" value="TR_GRP_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="64" y="98" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-type-TR_GRP_NO" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="260" y="98" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-row-DEBUT_DT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="0" y="125" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-flag-DEBUT_DT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="8" y="125" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-name-DEBUT_DT" value="DEBUT_DT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="64" y="125" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-type-DEBUT_DT" value="date" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="260" y="125" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TRAINER-count" value="19 rows  |  조교사 18 + 미상" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#2646A3;fillColor=#EAF1FF;spacingLeft=14;" vertex="1" parent="DIM_TRAINER">
+          <mxGeometry as="geometry" x="0" y="152" width="360" height="30" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#2646A3;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1700" y="185" width="360" height="182" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-title" value="DIM_MEMBER" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#2646A3;spacingLeft=14;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="0" y="0" width="360" height="44" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-row-MEMBER_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="0" y="44" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-flag-MEMBER_KEY" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-name-MEMBER_KEY" value="MEMBER_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="64" y="44" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-type-MEMBER_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="260" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-row-MBR_NO" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="0" y="71" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-flag-MBR_NO" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-name-MBR_NO" value="MBR_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="64" y="71" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-type-MBR_NO" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="260" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-row-MEMBER_TYPE_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="0" y="98" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-flag-MEMBER_TYPE_CD" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="8" y="98" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-name-MEMBER_TYPE_CD" value="MEMBER_TYPE_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="64" y="98" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-type-MEMBER_TYPE_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="260" y="98" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-row-BIRTH_DT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="0" y="125" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-flag-BIRTH_DT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="8" y="125" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-name-BIRTH_DT" value="BIRTH_DT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="64" y="125" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-type-BIRTH_DT" value="date" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="260" y="125" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_MEMBER-count" value="4,385 rows  |  회원 / 비회원 / 미상" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#2646A3;fillColor=#EAF1FF;spacingLeft=14;" vertex="1" parent="DIM_MEMBER">
+          <mxGeometry as="geometry" x="0" y="152" width="360" height="30" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#2646A3;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="2110" y="185" width="360" height="182" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-title" value="DIM_CHANNEL" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#2646A3;spacingLeft=14;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="0" y="0" width="360" height="44" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-row-CHANNEL_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="0" y="44" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-flag-CHANNEL_KEY" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-name-CHANNEL_KEY" value="CHANNEL_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="64" y="44" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-type-CHANNEL_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="260" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-row-CHNL_CD" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="0" y="71" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-flag-CHNL_CD" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-name-CHNL_CD" value="CHNL_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="64" y="71" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-type-CHNL_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="260" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-row-OTB_BRANCH_NO" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="0" y="98" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-flag-OTB_BRANCH_NO" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="8" y="98" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-name-OTB_BRANCH_NO" value="OTB_BRANCH_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="64" y="98" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-type-OTB_BRANCH_NO" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="260" y="98" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-row-CHNL_NM" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="0" y="125" width="360" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-flag-CHNL_NM" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="8" y="125" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-name-CHNL_NM" value="CHNL_NM" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="64" y="125" width="192" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-type-CHNL_NM" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="260" y="125" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_CHANNEL-count" value="40 rows  |  현장 / 앱 / 장외 / 미상" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#2646A3;fillColor=#EAF1FF;spacingLeft=14;" vertex="1" parent="DIM_CHANNEL">
+          <mxGeometry as="geometry" x="0" y="152" width="360" height="30" />
+        </mxCell>
+        <mxCell id="fact-label" value="FACT TABLES  /  각 팩트의 grain과 측정값" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=15;fontStyle=1;fontColor=#334155;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="606" width="2200" height="30" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#176A51;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="660" width="520" height="367" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-title" value="FCT_RACE_ENTRY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#176A51;spacingLeft=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="0" width="520" height="44" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-subtitle" value="경주별 출전마 1두 / 출전표 행 보존" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=14;fontColor=#176A51;fillColor=#E8F5F0;spacingLeft=14;spacingRight=10;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="44" width="520" height="50" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-RACE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="94" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-RACE_KEY" value="PK/FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="94" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-RACE_KEY" value="RACE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="94" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-RACE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="94" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-CHUL_NO" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="121" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-CHUL_NO" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="121" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-CHUL_NO" value="CHUL_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="121" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-CHUL_NO" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="121" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="148" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="148" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-DATE_KEY" value="DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="148" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="148" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-HORSE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="175" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-HORSE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="175" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-HORSE_KEY" value="HORSE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="175" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-HORSE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="175" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-TRAINER_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="202" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-TRAINER_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="202" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-TRAINER_KEY" value="TRAINER_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="202" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-TRAINER_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="202" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-START_CNT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="229" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-START_CNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="229" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-START_CNT" value="START_CNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="229" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-START_CNT" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="229" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-WIN_CNT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="256" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-WIN_CNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="256" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-WIN_CNT" value="WIN_CNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="256" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-WIN_CNT" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="256" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-PLACE_CNT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="283" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-PLACE_CNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="283" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-PLACE_CNT" value="PLACE_CNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="283" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-PLACE_CNT" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="283" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-row-EXPECT_WIN" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="310" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-flag-EXPECT_WIN" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="8" y="310" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-name-EXPECT_WIN" value="EXPECT_WIN" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="64" y="310" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-type-EXPECT_WIN" value="double" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="420" y="310" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_RACE_ENTRY-count" value="3,666 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#176A51;fillColor=#E8F5F0;spacingLeft=14;" vertex="1" parent="FCT_RACE_ENTRY">
+          <mxGeometry as="geometry" x="0" y="337" width="520" height="30" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#6A47A2;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="690" y="660" width="520" height="313" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-title" value="FCT_HORSE_MEDICAL" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#6A47A2;spacingLeft=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="0" width="520" height="44" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-subtitle" value="진료 기록 1건 / VET_CNT = 1" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=14;fontColor=#6A47A2;fillColor=#F0EBFA;spacingLeft=14;spacingRight=10;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="44" width="520" height="50" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-row-VET_SEQ" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="94" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-flag-VET_SEQ" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="8" y="94" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-name-VET_SEQ" value="VET_SEQ" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="64" y="94" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-type-VET_SEQ" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="420" y="94" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-row-VET_DT_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="121" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-flag-VET_DT_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="8" y="121" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-name-VET_DT_KEY" value="VET_DT_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="64" y="121" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-type-VET_DT_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="420" y="121" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-row-REPORT_DT_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="148" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-flag-REPORT_DT_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="8" y="148" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-name-REPORT_DT_KEY" value="REPORT_DT_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="64" y="148" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-type-REPORT_DT_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="420" y="148" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-row-HORSE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="175" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-flag-HORSE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="8" y="175" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-name-HORSE_KEY" value="HORSE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="64" y="175" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-type-HORSE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="420" y="175" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-row-TRAINER_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="202" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-flag-TRAINER_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="8" y="202" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-name-TRAINER_KEY" value="TRAINER_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="64" y="202" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-type-TRAINER_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="420" y="202" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-row-AGE_GROUP_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="229" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-flag-AGE_GROUP_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="8" y="229" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-name-AGE_GROUP_KEY" value="AGE_GROUP_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="64" y="229" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-type-AGE_GROUP_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="420" y="229" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-row-VET_CNT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="256" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-flag-VET_CNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="8" y="256" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-name-VET_CNT" value="VET_CNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="64" y="256" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-type-VET_CNT" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="420" y="256" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_HORSE_MEDICAL-count" value="1,488 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#6A47A2;fillColor=#F0EBFA;spacingLeft=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
+          <mxGeometry as="geometry" x="0" y="283" width="520" height="30" />
+        </mxCell>
+        <mxCell id="race_sales" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#9E6316;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1320" y="660" width="520" height="502" />
+        </mxCell>
+        <mxCell id="race_sales-title" value="race_sales" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#9E6316;spacingLeft=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="0" width="520" height="44" />
+        </mxCell>
+        <mxCell id="race_sales-subtitle" value="마권 기록 1건 / 발매 · 취소 · 무효 보존" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=14;fontColor=#9E6316;fillColor=#FFF2DC;spacingLeft=14;spacingRight=10;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="44" width="520" height="50" />
+        </mxCell>
+        <mxCell id="race_sales-row-ORDER_NO" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="94" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-ORDER_NO" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="94" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-ORDER_NO" value="ORDER_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="94" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-ORDER_NO" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="94" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-TICKET_SEQ" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="121" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-TICKET_SEQ" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="121" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-TICKET_SEQ" value="TICKET_SEQ" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="121" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-TICKET_SEQ" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="121" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-RACE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="148" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-RACE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="148" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-RACE_KEY" value="RACE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="148" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-RACE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="148" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-DATE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="175" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="175" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-DATE_KEY" value="DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="175" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="175" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-SALE_DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="202" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-SALE_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="202" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-SALE_DATE_KEY" value="SALE_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="202" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-SALE_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="202" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-MEMBER_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="229" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-MEMBER_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="229" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-MEMBER_KEY" value="MEMBER_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="229" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-MEMBER_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="229" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-CHANNEL_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="256" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-CHANNEL_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="256" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-CHANNEL_KEY" value="CHANNEL_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="256" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-CHANNEL_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="256" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-BET_TYPE_CD" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="283" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-BET_TYPE_CD" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="283" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-BET_TYPE_CD" value="BET_TYPE_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="283" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-BET_TYPE_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="283" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-TICKET_STAT_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="310" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-TICKET_STAT_CD" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="310" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-TICKET_STAT_CD" value="TICKET_STAT_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="310" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-TICKET_STAT_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="310" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-VIRTUAL_GROSS_SALES_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="337" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-VIRTUAL_GROSS_SALES_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="337" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-VIRTUAL_GROSS_SALES_AMT" value="VIRTUAL_GROSS_SALES_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="337" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-VIRTUAL_GROSS_SALES_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="337" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-SOLD_TICKET_CNT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="364" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-SOLD_TICKET_CNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="364" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-SOLD_TICKET_CNT" value="SOLD_TICKET_CNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="364" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-SOLD_TICKET_CNT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="364" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-CANCEL_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="391" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-CANCEL_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="391" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-CANCEL_AMT" value="CANCEL_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="391" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-CANCEL_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="391" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-VOID_AMT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="418" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-VOID_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="418" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-VOID_AMT" value="VOID_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="418" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-VOID_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="418" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-row-NET_AFTER_CANCEL_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="445" width="520" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-flag-NET_AFTER_CANCEL_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="8" y="445" width="52" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-name-NET_AFTER_CANCEL_AMT" value="NET_AFTER_CANCEL_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="64" y="445" width="352" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-type-NET_AFTER_CANCEL_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="420" y="445" width="94" height="27" />
+        </mxCell>
+        <mxCell id="race_sales-count" value="522,364 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#9E6316;fillColor=#FFF2DC;spacingLeft=14;" vertex="1" parent="race_sales">
+          <mxGeometry as="geometry" x="0" y="472" width="520" height="30" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#A13B58;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1950" y="660" width="520" height="502" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-title" value="FCT_BET_SELECTION_CANCEL_50S" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#A13B58;spacingLeft=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="0" width="520" height="44" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-subtitle" value="50대 회원 / 전표 × 경주 × 출주마 단승 구매 묶음" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=14;fontColor=#A13B58;fillColor=#FCEBEF;spacingLeft=14;spacingRight=10;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="44" width="520" height="50" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-FACT_ID" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="94" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-FACT_ID" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="94" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-FACT_ID" value="FACT_ID" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="94" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-FACT_ID" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="94" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-MEMBER_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="121" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-MEMBER_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="121" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-MEMBER_KEY" value="MEMBER_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="121" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-MEMBER_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="121" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-HORSE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="148" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-HORSE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="148" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-HORSE_KEY" value="HORSE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="148" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-HORSE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="148" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-RACE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="175" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-RACE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="175" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-RACE_KEY" value="RACE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="175" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-RACE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="175" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-CHANNEL_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="202" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-CHANNEL_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="202" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-CHANNEL_KEY" value="CHANNEL_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="202" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-CHANNEL_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="202" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_DATE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="229" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="229" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_DATE_KEY" value="PURCHASE_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="229" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="229" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-CANCEL_DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="256" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-CANCEL_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="256" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-CANCEL_DATE_KEY" value="CANCEL_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="256" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-CANCEL_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="256" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-RACE_DATE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="283" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-RACE_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="283" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-RACE_DATE_KEY" value="RACE_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="283" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-RACE_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="283" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-SNAPSHOT_DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="310" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-SNAPSHOT_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="310" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-SNAPSHOT_DATE_KEY" value="SNAPSHOT_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="310" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-SNAPSHOT_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="310" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_DETAIL_COUNT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="337" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_DETAIL_COUNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="337" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_DETAIL_COUNT" value="PURCHASE_DETAIL_COUNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="337" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_DETAIL_COUNT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="337" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_AMOUNT_KRW" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="364" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_AMOUNT_KRW" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="364" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_AMOUNT_KRW" value="PURCHASE_AMOUNT_KRW" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="364" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_AMOUNT_KRW" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="364" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-VERIFIED_CANCEL_AMOUNT_KRW" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="391" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-VERIFIED_CANCEL_AMOUNT_KRW" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="391" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-VERIFIED_CANCEL_AMOUNT_KRW" value="VERIFIED_CANCEL_AMOUNT_KRW" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="391" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-VERIFIED_CANCEL_AMOUNT_KRW" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="391" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-HAS_VERIFIED_CUSTOMER_CANCEL" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="418" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-HAS_VERIFIED_CUSTOMER_CANCEL" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="418" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-HAS_VERIFIED_CUSTOMER_CANCEL" value="HAS_VERIFIED_CUSTOMER_CANCEL" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="418" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-HAS_VERIFIED_CUSTOMER_CANCEL" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="418" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-ANALYSIS_ELIGIBLE" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="445" width="520" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-ANALYSIS_ELIGIBLE" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="8" y="445" width="52" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-ANALYSIS_ELIGIBLE" value="ANALYSIS_ELIGIBLE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="64" y="445" width="352" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-ANALYSIS_ELIGIBLE" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="420" y="445" width="94" height="27" />
+        </mxCell>
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-count" value="41,141 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#A13B58;fillColor=#FCEBEF;spacingLeft=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+          <mxGeometry as="geometry" x="0" y="472" width="520" height="30" />
+        </mxCell>
+        <mxCell id="local-label" value="LOCAL DIMENSIONS &amp; BRIDGE  /  전용 차원 · 진료 유형 연결" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=15;fontStyle=1;fontColor=#334155;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="1224" width="2300" height="30" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#6A47A2;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="1300" width="450" height="182" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-title" value="DIM_AGE_GROUP" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#6A47A2;spacingLeft=14;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="0" y="0" width="450" height="44" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-row-AGE_GROUP_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="0" y="44" width="450" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-flag-AGE_GROUP_KEY" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-name-AGE_GROUP_KEY" value="AGE_GROUP_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="64" y="44" width="282" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-type-AGE_GROUP_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="350" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-row-AGE_GROUP_NM" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="0" y="71" width="450" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-flag-AGE_GROUP_NM" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-name-AGE_GROUP_NM" value="AGE_GROUP_NM" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="64" y="71" width="282" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-type-AGE_GROUP_NM" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="350" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-row-MIN_AGE" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="0" y="98" width="450" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-flag-MIN_AGE" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="8" y="98" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-name-MIN_AGE" value="MIN_AGE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="64" y="98" width="282" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-type-MIN_AGE" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="350" y="98" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-row-MAX_AGE" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="0" y="125" width="450" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-flag-MAX_AGE" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="8" y="125" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-name-MAX_AGE" value="MAX_AGE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="64" y="125" width="282" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-type-MAX_AGE" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="350" y="125" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_AGE_GROUP-count" value="5 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#6A47A2;fillColor=#F0EBFA;spacingLeft=14;" vertex="1" parent="DIM_AGE_GROUP">
+          <mxGeometry as="geometry" x="0" y="152" width="450" height="30" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#6A47A2;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="570" y="1300" width="450" height="128" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-title" value="DIM_VET_TYPE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#6A47A2;spacingLeft=14;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="0" y="0" width="450" height="44" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-row-VET_TYPE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="0" y="44" width="450" height="27" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-flag-VET_TYPE_KEY" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-name-VET_TYPE_KEY" value="VET_TYPE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="64" y="44" width="282" height="27" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-type-VET_TYPE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="350" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-row-VET_TYPE_NM" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="0" y="71" width="450" height="27" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-flag-VET_TYPE_NM" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-name-VET_TYPE_NM" value="VET_TYPE_NM" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="64" y="71" width="282" height="27" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-type-VET_TYPE_NM" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="350" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_VET_TYPE-count" value="53 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#6A47A2;fillColor=#F0EBFA;spacingLeft=14;" vertex="1" parent="DIM_VET_TYPE">
+          <mxGeometry as="geometry" x="0" y="98" width="450" height="30" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#6A47A2;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1080" y="1300" width="450" height="128" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-title" value="BRIDGE_HR_VET_TYPE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#6A47A2;spacingLeft=14;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="0" y="0" width="450" height="44" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-row-VET_SEQ" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="0" y="44" width="450" height="27" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-flag-VET_SEQ" value="PK/FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-name-VET_SEQ" value="VET_SEQ" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="64" y="44" width="282" height="27" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-type-VET_SEQ" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="350" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-row-VET_TYPE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="0" y="71" width="450" height="27" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-flag-VET_TYPE_KEY" value="PK/FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#6A47A2;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-name-VET_TYPE_KEY" value="VET_TYPE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="64" y="71" width="282" height="27" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-type-VET_TYPE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="350" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="BRIDGE_HR_VET_TYPE-count" value="1,662 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#6A47A2;fillColor=#F0EBFA;spacingLeft=14;" vertex="1" parent="BRIDGE_HR_VET_TYPE">
+          <mxGeometry as="geometry" x="0" y="98" width="450" height="30" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#9E6316;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1590" y="1300" width="400" height="128" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-title" value="DIM_BET_TYPE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#9E6316;spacingLeft=14;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="0" y="0" width="400" height="44" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-row-BET_TYPE_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="0" y="44" width="400" height="27" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-flag-BET_TYPE_CD" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-name-BET_TYPE_CD" value="BET_TYPE_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="64" y="44" width="232" height="27" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-type-BET_TYPE_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="300" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-row-BET_TYPE_NM" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="0" y="71" width="400" height="27" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-flag-BET_TYPE_NM" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-name-BET_TYPE_NM" value="BET_TYPE_NM" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="64" y="71" width="232" height="27" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-type-BET_TYPE_NM" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="300" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_BET_TYPE-count" value="3 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#9E6316;fillColor=#FFF2DC;spacingLeft=14;" vertex="1" parent="DIM_BET_TYPE">
+          <mxGeometry as="geometry" x="0" y="98" width="400" height="30" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#9E6316;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="2050" y="1300" width="420" height="128" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-title" value="DIM_TICKET_STATUS" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#9E6316;spacingLeft=14;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="0" y="0" width="420" height="44" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-row-TICKET_STAT_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="0" y="44" width="420" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-flag-TICKET_STAT_CD" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="8" y="44" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-name-TICKET_STAT_CD" value="TICKET_STAT_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="64" y="44" width="252" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-type-TICKET_STAT_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="320" y="44" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-row-TICKET_STAT_NM" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="0" y="71" width="420" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-flag-TICKET_STAT_NM" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="8" y="71" width="52" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-name-TICKET_STAT_NM" value="TICKET_STAT_NM" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="64" y="71" width="252" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-type-TICKET_STAT_NM" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="320" y="71" width="94" height="27" />
+        </mxCell>
+        <mxCell id="DIM_TICKET_STATUS-count" value="3 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#9E6316;fillColor=#FFF2DC;spacingLeft=14;" vertex="1" parent="DIM_TICKET_STATUS">
+          <mxGeometry as="geometry" x="0" y="98" width="420" height="30" />
+        </mxCell>
+        <mxCell id="legend" value="관계 1 : N   |   PK 기본키 · FK 외래키   |   날짜 역할별 FK는 같은 DIM_DATE를 참조합니다." style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=16;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="1535" width="2350" height="38" />
+        </mxCell>
+        <mxCell id="footer" value="주요 컬럼만 표시  ·  미상 키 0은 실제 차원 행으로 존재  ·  전체 컬럼과 측정값 정의: docs/wiki/Star-Schema.md" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=14;fontColor=#64748B;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="1576" width="2350" height="32" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
