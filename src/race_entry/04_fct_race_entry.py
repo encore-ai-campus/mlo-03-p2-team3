@@ -14,13 +14,18 @@
 
 입력은 D-012에 따라 clean/만 쓴다. 대리키는 자연키로 정렬한 순번(1부터)이라 재실행해도 같다.
 """
+import sys
 from datetime import date, timedelta
+from pathlib import Path
 
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-import config as C
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # src/config.py
+import config as C  # noqa: E402
+
+GOLD_DIR = C.GOLD_DIR / "race_entry"
 
 END_DT = date(9999, 12, 31)
 DOW_NM = ["월", "화", "수", "목", "금", "토", "일"]
@@ -41,7 +46,7 @@ def read_clean(t):
 
 
 def write(name, table):
-    pq.write_table(table, C.GOLD_DIR / f"{name}.parquet")
+    pq.write_table(table, GOLD_DIR / f"{name}.parquet")
     print(f"{name:<16} {table.num_rows:>7,}행")
 
 
@@ -134,7 +139,7 @@ def fact(entry, res, odds, d_race, d_horse, d_trainer):
 
 
 def main():
-    C.GOLD_DIR.mkdir(parents=True, exist_ok=True)
+    GOLD_DIR.mkdir(parents=True, exist_ok=True)
     race_pa = read_clean("RC_RACE")
     race = race_pa.to_pandas()
     entry, res, odds = (read_clean(t).to_pandas() for t in ["RC_ENTRY", "RC_RESULT", "RC_ODDS"])

@@ -1,8 +1,8 @@
 # Gold 단계 기록: 경주 출전 스타 스키마
 
-- **코드:** `src/04_modeling.py` (생성), `src/04_modeling_check.py` (검증)
+- **코드:** `src/race_entry/04_fct_race_entry.py` (생성), `src/race_entry/04_fct_race_entry_check.py` (검증)
 - **입력:** `data/02_silver/clean/` (품질 관리까지 끝난 결과, D-012). 표준화 결과로는 만들지 않습니다
-- **출력:** `data/03_gold/` 5개 테이블
+- **출력:** `data/03_gold/race_entry/` 5개 테이블
 
 ## 1. 설계
 
@@ -155,7 +155,7 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
 
 ```python
 import pandas as pd
-g = "data/03_gold/"
+g = "data/03_gold/race_entry/"
 f = pd.read_parquet(g + "FCT_RACE_ENTRY.parquet")
 x = f.merge(pd.read_parquet(g + "DIM_HORSE.parquet"), on="HORSE_KEY")
 a = x.groupby("AGE_BAND_NM")[["START_CNT", "WIN_CNT", "PLACE_CNT", "EXPECT_WIN"]].sum()
@@ -178,7 +178,7 @@ a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예�
 - 그래서 거리·주로·날씨처럼 **경주 단위 속성**으로 묶으면 예상 우승 합이 그 묶음의 경주 수와 같아지고, 실제 우승 수와도 같아져서 A/E가 항상 1.0입니다.
 - 예상 대비 비교는 말·조교사·성별·나이대·등급·부마처럼 **출전마 단위 속성**에서 쓰세요. 우승률·입상률은 어떤 속성으로 묶어도 의미가 있습니다.
 
-## 5. 검증 결과 (`src/04_modeling_check.py`)
+## 5. 검증 결과 (`src/race_entry/04_fct_race_entry_check.py`)
 
 | 점검 | 결과 |
 |:--|:--|
@@ -197,7 +197,7 @@ a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예�
 
 ## 6. 남은 것 (팀 합의 대상)
 
-공통 차원 통합 안건은 `docs/COMMON_DIMENSIONS.md`에 정리했습니다.
+공통 차원 통합 안건은 `docs/gold/COMMON_DIMENSIONS.md`에 정리했습니다.
 
 - **공통 차원 통합 (D-010):** DIM_DATE, DIM_RACE, DIM_HORSE, DIM_TRAINER는 다른 팀원 팩트와 같이 쓸 차원입니다. 각자 스타 스키마를 만든 뒤 하나로 합칩니다.
   - 합칠 때 확인할 것: 대리키 방식, SCD2 버전 기준 컬럼, 나이대 구간(세은 님의 `DIM_AGE_GROUP`), 조교사·조 차원 통합(세은 님의 `DIM_STABLE`), DIM_DATE 범위

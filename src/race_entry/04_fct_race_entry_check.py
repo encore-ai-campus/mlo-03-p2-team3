@@ -8,10 +8,14 @@
 6. 팩트에는 키 + 측정값만
 """
 import sys
+from pathlib import Path
 
 import pandas as pd
 
-import config as C
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # src/config.py
+import config as C  # noqa: E402
+
+GOLD_DIR = C.GOLD_DIR / "race_entry"
 
 FAILS = []
 FACT_COLS = ["RACE_KEY", "CHUL_NO", "DATE_KEY", "HORSE_KEY", "TRAINER_KEY", "START_CNT", "WIN_CNT", "PLACE_CNT", "EXPECT_WIN"]
@@ -24,7 +28,7 @@ def check(ok, msg):
 
 
 def main():
-    g = {t: pd.read_parquet(C.GOLD_DIR / f"{t}.parquet") for t in ["DIM_DATE", "DIM_RACE", "DIM_HORSE", "DIM_TRAINER", "FCT_RACE_ENTRY"]}
+    g = {t: pd.read_parquet(GOLD_DIR / f"{t}.parquet") for t in ["DIM_DATE", "DIM_RACE", "DIM_HORSE", "DIM_TRAINER", "FCT_RACE_ENTRY"]}
     cl = {t: pd.read_parquet(C.CLEAN_DIR / f"{t}.parquet") for t in ["RC_ENTRY", "RC_RESULT", "RC_ODDS", "RC_RACE", "HR_WEEKLY_SNAPSHOT"]}
     f, dr, dh, dt, dd = g["FCT_RACE_ENTRY"], g["DIM_RACE"], g["DIM_HORSE"], g["DIM_TRAINER"], g["DIM_DATE"]
     E = C.EXPECTED_GOLD
