@@ -86,8 +86,8 @@ def to_int(t, col, raw, typ="INT", src=None, rule="정수 변환"):
 
 def to_dec(t, col, raw, typ, src=None, rule="소수 변환"):
     precision, scale = map(int, re.findall(r"\d+", typ))
-    quantum = Decimal(1).scaleb(-scale)
-    limit = Decimal(1).scaleb(precision - scale)
+    q = Decimal(1).scaleb(-scale)
+    limit = Decimal(1).scaleb(precision - scale)  # 정수부 자릿수 상한
     s = pd.Series(raw, index=t.b.index)
 
     def conv(x):
@@ -96,11 +96,11 @@ def to_dec(t, col, raw, typ, src=None, rule="소수 변환"):
         try:
             d = Decimal(str(x).replace(",", ""))
             if not d.is_finite() or d.copy_abs() >= limit:
-                return "FAIL"
-            normalized = d.quantize(quantum)
+                return "FAIL"  # 정밀도(전체 자릿수) 초과
+            r = d.quantize(q)
         except InvalidOperation:
             return "FAIL"
-        return normalized if d == normalized else "FAIL"  # 반올림으로 값이 바뀌면 실패
+        return r if d == r else "FAIL"  # 반올림으로 값이 바뀌면 실패
 
     out = s.map(conv)
     bad = out.eq("FAIL")
@@ -587,19 +587,10 @@ def save(t):
 
 def main():
     C.SILVER_DIR.mkdir(parents=True, exist_ok=True)
-    source_by_bronze = {source["bronze"]: source for source in C.SOURCES}
-    files_by_table = {}
     for bronze_name, fn in STEPS:
-        bronze_path = C.BRONZE_DIR / f"{bronze_name}.parquet"
-        source_path = C.ORIGIN_DIR / source_by_bronze[bronze_name]["file"]
-        b = pd.read_parquet(bronze_path)
+        b = pd.read_parquet(C.BRONZE_DIR / f"{bronze_name}.parquet")
         for t in fn(b):
             n = save(t)
-            files_by_table[t.name] = {
-                "SOURCE_FILE": source_path.relative_to(C.ROOT).as_posix(),
-                "BRONZE_FILE": bronze_path.relative_to(C.ROOT).as_posix(),
-                "SILVER_FILE": (C.SILVER_DIR / f"{t.name}.parquet").relative_to(C.ROOT).as_posix(),
-            }
             print(f"{bronze_name:<22} → {t.name:<20} {n:>8,}행")
 
     issues = (pd.concat(ISSUES, ignore_index=True) if ISSUES else
@@ -615,8 +606,7 @@ def main():
     prof.to_csv(C.SILVER_COLUMN_PROFILE, index=False, encoding=C.CSV_ENCODING)
 
     pd.concat(VALUE_MAPS, ignore_index=True).to_csv(C.SILVER_VALUE_MAP, index=False, encoding=C.CSV_ENCODING)
-    dictionary = [{**row, **files_by_table[row["TABLE_NM"]]} for row in DICTIONARY]
-    pd.DataFrame(dictionary).to_csv(C.DATA_DICTIONARY, index=False, encoding=C.CSV_ENCODING)
+    pd.DataFrame(DICTIONARY).to_csv(C.DATA_DICTIONARY, index=False, encoding=C.CSV_ENCODING)
     print(f"이슈 로그 {len(issues):,}건 → {C.SILVER_ISSUE_LOG.relative_to(C.ROOT)}")
 
 
