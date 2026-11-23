@@ -1,0 +1,100 @@
+{
+  "artifacts": {
+    "../../../docs/gold/bet_cancel.md": "167f1950d53ee2a014bb639e9a0a3a5d161a9eae24c9d7164d9f2a75642e1ec1",
+    "WIN_RATE_CANCEL_SUMMARY.csv": "926ac9f24edce6330228d533ee1cb139333d3a793ab2f09b279587aebcb69cb8",
+    "_column_dictionary.csv": "a82bf1e43c4371ca69af61fb0f619dc48d36b335a2a9a29de8add3ce82d3884f",
+    "_decisions.json": "cb9c36fd50422dba0c8cd32df4f5e54492e49db247eae8da3c0836e9fa70727c",
+    "_dimension_contract.json": "51937fea94ac445ff6c204c6eb021172b589f7dcb980a5ea1d5f728803bcf5db",
+    "_schema.sql": "1a4120b7e9bbaffd3cbcfa935e777e0ec57703274962412f7b6ca19f6151dae0",
+    "_validation.json": "0334d375ff926b6e6803e1e9d8af5c3977f272ed33b7148331a41950039f4fb2"
+  },
+  "code": {
+    "src/bet_cancel/04_fct_bet_cancel.py": "0daded0f20c2d0f4f4c94f54669325ef28dc5e8d1f3d926ec40e5298ef1f458e",
+    "src/bet_cancel/04_fct_bet_cancel_check.py": "5a2e96b14e9d550f774b61a03b7c4db38af39a389562625da4bfc3a7dcb576a6",
+    "src/bet_cancel/gold.py": "f7bc2cd647d940a4b5e9257a45eb2e852a5a8e3c7ec001e474ad050f1f386328",
+    "src/bet_cancel/gold_pipeline.py": "febf29a2750bc9e2ceb93432a16ab38a3941f8298f19a2a3843f28635d745713",
+    "src/config.py": "7cb9c6be428153d6ceef0be526e5832f3d9ebb895219529ad7288b6e828449f8"
+  },
+  "dataset_version": "GOLD-64c30a47ecb25dd52c0f",
+  "dq_dataset_version": "948fe690c7a42511710c7264904d9ada523c5aeb12b118aa570a423dce428b6c",
+  "input_root": "../../02_silver/clean",
+  "outputs": {
+    "cancel_link_audit": {
+      "format": "parquet",
+      "path": "audit/CANCEL_LINK_AUDIT.parquet",
+      "rows": 5121,
+      "sha256": "275879a13c6793c12f7bf0773ac26264a311d562d914e3a30d5b61cf74062e24"
+    },
+    "dim_channel": {
+      "format": "parquet",
+      "path": "DIM_CHANNEL.parquet",
+      "rows": 32,
+      "sha256": "e9d85ac4e83f61a1040f2f7bc9e23171af3e0f200ba662fb0ecf13596ea9ba8f"
+    },
+    "dim_date": {
+      "format": "parquet",
+      "path": "DIM_DATE.parquet",
+      "rows": 180,
+      "sha256": "563e209e3b8233c1c2fd876d7d634f6b29e7aa428a720cf7f7805b5e5ed4d1ba"
+    },
+    "dim_horse": {
+      "format": "parquet",
+      "path": "DIM_HORSE.parquet",
+      "rows": 833,
+      "sha256": "5fdb8d3fc2ba8e07ddb926e74924badef28194254ba28ce5a221caada38ccff8"
+    },
+    "dim_member": {
+      "format": "parquet",
+      "path": "DIM_MEMBER.parquet",
+      "rows": 4384,
+      "sha256": "3692eb6abb9662937851053a365997eda81cff13cdd23ea43ad41063d02180fe"
+    },
+    "dim_race": {
+      "format": "parquet",
+      "path": "DIM_RACE.parquet",
+      "rows": 387,
+      "sha256": "08a27d88de6f8ab34edc05422684fb8cc3c599239321cfa0e52d5068be24b8dd"
+    },
+    "fact_analysis_exclusions": {
+      "format": "parquet",
+      "path": "audit/FACT_ANALYSIS_EXCLUSIONS.parquet",
+      "rows": 1857,
+      "sha256": "f4d9e35122819fb93e5e0f1bdcea69d87a275cf0764f6496ce0aa9951fceeacd"
+    },
+    "fct_bet_selection_cancel_50s": {
+      "format": "parquet",
+      "path": "FCT_BET_SELECTION_CANCEL_50S.parquet",
+      "rows": 41141,
+      "sha256": "691ebda9121c68f7fc13ba7a8797354a352126faa2a904e65cac6dcc007712aa"
+    },
+    "ticket_disposition": {
+      "format": "parquet",
+      "path": "audit/TICKET_DISPOSITION.parquet",
+      "rows": 522364,
+      "sha256": "b17f124b9f06edd5e18c8888f6df0fb3c20f16431cfcfc13ef1baae0c59b9c08"
+    },
+    "win_rate_cancel_summary": {
+      "format": "csv",
+      "path": "WIN_RATE_CANCEL_SUMMARY.csv",
+      "rows": 10,
+      "sha256": "926ac9f24edce6330228d533ee1cb139333d3a793ab2f09b279587aebcb69cb8"
+    }
+  },
+  "sources": {
+    "BET_ORDER": "fb601f91d9131ae71b3f4aa60514e00310d6e26f289570b25304634f2c2a40b0",
+    "BET_TICKET": "003cba5bf3fddbe0cd9e14d6f31d36dfb96e78c26366c7ea264b205c5a23f59a",
+    "HR_VET_HIST": "5a3c03baf4b608c12a9abf9b0ea5994d4b5bc0592613253e880619b9108e34fe",
+    "HR_VET_TYPE_BRIDGE": "96c22145af65e955ca39bb783de027b2c9d6a60de551f3ee732a5e58daaee46e",
+    "HR_WEEKLY_SNAPSHOT": "9971f5b678a3b06db6c62144fcf2e92d823cd3189e682dca7feecabd6781c3fe",
+    "MBR_MASTER": "84f836abaeafa61e736a3fea99dc2b845a30eed4293b77167189712cd07aee07",
+    "RC_CHANGE_EVENT": "a97ad5d5969085a6c6d6adefc7fab3b27e6fb09543820dceac5a08dbf12c85a2",
+    "RC_ENTRY": "474880d1003ab4f4473f653d550cd9e98ef788007c79917b047db60e4b841d6e",
+    "RC_ODDS": "493258a2c268301301bf187f1b9d51508e3c24739aa7d2323765d93e799c7cd4",
+    "RC_RACE": "67f533d047cf7afe052533016db8d46710474f4699f61cbc12f6d7c6a0bc655b",
+    "RC_RESULT": "c5ec3bbf752064e47bfc67956e1eca9727cc4ba874b34e0b1e19d4584c74f39c",
+    "RC_SALES": "96d8d399be65fff1dff109db868939179e72550a14dcab8670bb09daee9056f1",
+    "RC_SALES_TOTAL": "d4e1b7dcc29142bddf67976574ca67dd9b4106d4c72dd38eb56db09f7b41bc61",
+    "TR_WEEKLY_SNAPSHOT": "55ed51942998350a8b60f246cfe98c35decf3d88bcf0f66bb45fde0e211c697a"
+  },
+  "unit_amount": 100
+}
