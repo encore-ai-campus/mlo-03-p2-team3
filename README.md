@@ -221,21 +221,6 @@ flowchart LR
 | Gold 팩트 | `src/<팩트>/` 생성 코드 | 팩트별 검증 (check 스크립트, `--check`, 검증 기록 파일) | PK 중복 0, 팩트 키가 모두 차원에 있음, 행 수·측정값을 clean과 대사 |
 | 공통 | — | 두 번 실행 | 결과 파일 해시가 같은지 (재현성) |
 
-```bash
-python -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python src/01_bronze.py && .venv/bin/python src/01_bronze_check.py
-.venv/bin/python src/02_normalize.py && .venv/bin/python src/02_normalize_check.py
-.venv/bin/python src/03_quality.py && .venv/bin/python src/03_quality_check.py
-.venv/bin/python src/common/04_common_dims.py
-.venv/bin/python src/race_entry/04_fct_race_entry.py && .venv/bin/python src/race_entry/04_fct_race_entry_check.py
-.venv/bin/python src/horse_medical/04_gold_horse_medical.py && .venv/bin/python src/horse_medical/04_gold_horse_medical.py --check
-.venv/bin/python src/race_sales/build_gold_sales.py
-.venv/bin/python src/bet_cancel/04_fct_bet_cancel.py
-.venv/bin/python src/common/04_common_dims_check.py
-```
-
-공통 차원을 팩트보다 먼저 만듭니다. `clean/`이 바뀌면 공통 차원과 팩트 4개를 이 순서로 다시 실행합니다.
-
 ## 8. 수행 결과
 
 ### 행 수 대사
@@ -293,26 +278,3 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 | 세은 | (작성 예정) |
 | 희정 | (작성 예정) |
 | 은빈 | (작성 예정) |
-
----
-
-## 디렉토리 구조
-
-```
-.
-├── data/
-│   ├── 00_origin/   # 원천 데이터 (읽기 전용, 수정·이동·덮어쓰기 금지)
-│   ├── 01_bronze/   # 원천 → Parquet (어느 파일을 언제 가져왔는지 기록)
-│   ├── 02_silver/   # 컬럼명·날짜·데이터 타입·논리값 표준화
-│   │   ├── clean/      # 품질 관리 후 유지 행 + 표시 컬럼 → Gold의 입력
-│   │   └── _excluded/  # 품질 관리에서 제외한 행
-│   └── 03_gold/     # 스타 스키마
-│       ├── common/         # 공통 차원 6개
-│       └── <팩트>/          # 팩트 + 팩트 전용 차원 (race_entry, horse_medical, race_sales, bet_cancel)
-├── src/             # 파이썬 코드 (단계별 처리 + 검증)
-├── docs/            # AS-IS 문제 정리, 단계별 기록, 품질 관리 보고서
-├── meta/            # 메타데이터 (데이터 사전, 결정 로그, 처리 로그)
-└── AGENTS.md        # AI 에이전트·팀원 작업 규칙
-```
-
-- `main`의 `data/`에는 팀 공용 원천 파일과 폴더 구조를 공유합니다. 단계별 산출물은 `develop`에서 병합한 뒤 `main`으로 올립니다.
