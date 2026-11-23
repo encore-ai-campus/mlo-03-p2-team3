@@ -134,19 +134,27 @@ erDiagram
 
 ### 말 진료 `FCT_HORSE_MEDICAL` (세은)
 
+### Gold 말 진료 스타 스키마
+2026년 제주경마 경주마의 진료기록을 기반으로 연령별 진료 현황과 진료유형을 분석함.
+
+- **그레인:** 진료기록 1건 (`VET_SEQ`), 총 1,488행 (`VET_CNT = 1`)
+- **테이블 구성:** 팩트 1개, 브리지 1개, 전용 차원 2개, 공통 차원 3개 (총 7개)
+- **진료유형:** 53개 유형을 브리지로 연결 (1,662행)
+- **미확인 말:** 71건은 `HORSE_KEY = 0`으로 처리함.
+
+### ERD
+
 ```mermaid
 erDiagram
-    DIM_DATE ||--o{ FCT_HORSE_MEDICAL : "VET_DT_KEY / REPORT_DT_KEY"
-    DIM_HORSE ||--o{ FCT_HORSE_MEDICAL : "HORSE_KEY (진료일 기준 버전)"
-    DIM_TRAINER ||--o{ FCT_HORSE_MEDICAL : "TRAINER_KEY"
-    DIM_AGE_GROUP ||--o{ FCT_HORSE_MEDICAL : "AGE_GROUP_KEY"
-    FCT_HORSE_MEDICAL ||--|{ BRIDGE_HR_VET_TYPE : "VET_SEQ"
-    DIM_VET_TYPE ||--o{ BRIDGE_HR_VET_TYPE : "VET_TYPE_KEY"
+    DIM_DATE ||--o{ FCT_HORSE_MEDICAL : VET_DT_KEY
+    DIM_DATE ||--o{ FCT_HORSE_MEDICAL : REPORT_DT_KEY
+    DIM_HORSE ||--o{ FCT_HORSE_MEDICAL : HORSE_KEY
+    DIM_TRAINER ||--o{ FCT_HORSE_MEDICAL : TRAINER_KEY
+    DIM_AGE_GROUP ||--o{ FCT_HORSE_MEDICAL : AGE_GROUP_KEY
+    FCT_HORSE_MEDICAL ||--|{ BRIDGE_HR_VET_TYPE : VET_SEQ
+    DIM_VET_TYPE ||--o{ BRIDGE_HR_VET_TYPE : VET_TYPE_KEY
 ```
 
-- **그레인:** 진료 기록 1건 (`VET_SEQ`), 1,488행. 측정값 `VET_CNT` = 1
-- 한 진료가 여러 유형에 속할 수 있어(`정치,낭치`) 브리지 `BRIDGE_HR_VET_TYPE`(1,662행)로 유형 53개에 연결합니다.
-- 진료일 이전 스냅샷이 없는 71건은 말 키 0(미상)으로 연결합니다(D-007, D-015).
 - 자세한 내용: [`docs/gold/horse_medical.md`](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/horse_medical.md)
 
 ### 마권 매출 `race_sales` (희정)
