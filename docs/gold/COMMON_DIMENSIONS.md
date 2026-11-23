@@ -8,7 +8,7 @@
 
 ## 1. 어떤 차원을 누가 쓰나 (버스 매트릭스)
 
-| 차원 | 출전 `FCT_RACE_ENTRY` (나) | 진료 `FCT_HORSE_MEDICAL` (세은) | 매출 `fact_bet_ticket` / `fact_actual_race_sales` (전희정) | 배팅·취소 `FCT_BET_CANCEL` |
+| 차원 | 출전 `FCT_RACE_ENTRY` (나) | 진료 `FCT_HORSE_MEDICAL` (세은) | 매출 `FCT_RACE_SALES` (전희정) | 배팅·취소 `FCT_BET_CANCEL` |
 |:--|:-:|:-:|:-:|:-:|
 | 날짜 | ✅ DIM_DATE | ✅ DIM_DATE | ✅ dim_date | ✅ |
 | 경주 | ✅ DIM_RACE | | ✅ dim_race | ✅ |

@@ -20,7 +20,7 @@
     }
   },
   "grain": {
-    "race_sales": [
+    "FCT_RACE_SALES": [
       "ORDER_NO",
       "TICKET_SEQ"
     ]
@@ -34,7 +34,7 @@
   "gold_rows": {
     "DIM_BET_TYPE": 3,
     "DIM_TICKET_STATUS": 3,
-    "race_sales": 522364
+    "FCT_RACE_SALES": 522364
   },
   "common_dimension_rows": {
     "DIM_RACE": 387,
@@ -81,10 +81,10 @@
     "DIM_MEMBER": 0,
     "DIM_BET_TYPE": 0,
     "DIM_TICKET_STATUS": 0,
-    "race_sales": 0
+    "FCT_RACE_SALES": 0
   },
   "missing_dimension_fk_count": {
-    "race_sales": {
+    "FCT_RACE_SALES": {
       "DIM_RACE": 0,
       "DIM_DATE": 0,
       "DIM_BET_TYPE": 0,

@@ -85,7 +85,7 @@ def before_horse_medical(x):
 
 def before_race_sales(x):
     ch, fdates, race_nk, mbr = x["ch"], x["fdates"], x["race_nk"], x["mbr"]
-    rs = gold("race_sales/race_sales")
+    rs = gold("race_sales/FCT_RACE_SALES")
     mark(all(k in race_nk for k in zip(rs.RC_DT, rs.RC_NO)), "race_sales 경주(RC_DT, RC_NO) 모두 DIM_RACE에 있음")
     mark(bool(rs.DATE_KEY.astype(int).isin(fdates).all()), "race_sales DATE_KEY(숫자로 바꾸면) 모두 DIM_DATE에 있음")
     ch_nk = set(zip(ch.CHNL_CD, ch.OTB_BRANCH_NO.fillna("")))

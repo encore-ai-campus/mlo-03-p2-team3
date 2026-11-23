@@ -1,8 +1,8 @@
-# race_sales: 마권 매출 Gold 스타 스키마
+# FCT_RACE_SALES: 마권 매출 Gold 스타 스키마
 
 ## 분석 목적과 범위
 
-**경주·고객·채널·구매 시점에 따른 마권 매출 구성 및 구매 규모 분석**을 위한 스타 스키마입니다. 주 팩트는 `race_sales` 하나이며 차원은 6개입니다. 팩트 파일명은 `race_sales.parquet`이고, 마권 입력에 나타난 WIN·PLC·QNL 3개 승식을 대상으로 합니다.
+**경주·고객·채널·구매 시점에 따른 마권 매출 구성 및 구매 규모 분석**을 위한 스타 스키마입니다. 주 팩트는 `FCT_RACE_SALES` 하나이며 차원은 6개입니다. 팩트 파일명은 `FCT_RACE_SALES.parquet`이고, 마권 입력에 나타난 WIN·PLC·QNL 3개 승식을 대상으로 합니다.
 
 거리·날씨·등급·월·요일별 매출, 회원 특성·판매 채널별 매출 구성, 구매 시간대와 경주 출발 전 구매 집중도를 분석합니다. 매출 차이를 판매 마권 장수와 마권당 평균 발매액으로 나누어 설명합니다. 조건별 차이와 분포를 보는 분석이며 인과관계를 직접 입증하는 구조는 아닙니다.
 
@@ -48,18 +48,18 @@ python src/race_sales/build_gold_sales.py --silver-ref origin/develop
 
 ```mermaid
 erDiagram
-    DIM_RACE ||--o{ race_sales : RACE_KEY
-    DIM_DATE ||--o{ race_sales : DATE_KEY
-    DIM_DATE ||--o{ race_sales : SALE_DATE_KEY
-    DIM_BET_TYPE ||--o{ race_sales : BET_TYPE_CD
-    DIM_CHANNEL ||--o{ race_sales : CHANNEL_KEY
-    DIM_MEMBER ||--o{ race_sales : MEMBER_KEY
-    DIM_TICKET_STATUS ||--o{ race_sales : TICKET_STAT_CD
+    DIM_RACE ||--o{ FCT_RACE_SALES : RACE_KEY
+    DIM_DATE ||--o{ FCT_RACE_SALES : DATE_KEY
+    DIM_DATE ||--o{ FCT_RACE_SALES : SALE_DATE_KEY
+    DIM_BET_TYPE ||--o{ FCT_RACE_SALES : BET_TYPE_CD
+    DIM_CHANNEL ||--o{ FCT_RACE_SALES : CHANNEL_KEY
+    DIM_MEMBER ||--o{ FCT_RACE_SALES : MEMBER_KEY
+    DIM_TICKET_STATUS ||--o{ FCT_RACE_SALES : TICKET_STAT_CD
 ```
 
 | 테이블 | 한 행의 의미 | PK / 팩트 연결 키 | 행 수 |
 |---|---|---|---:|
-| `race_sales` | 전표번호 + 마권순번으로 식별되는 마권 기록 1건 | `ORDER_NO`, `TICKET_SEQ` | 522,364 |
+| `FCT_RACE_SALES` | 전표번호 + 마권순번으로 식별되는 마권 기록 1건 | `ORDER_NO`, `TICKET_SEQ` | 522,364 |
 | `DIM_RACE` (공통) | 경주 1개 + 미상 | `RACE_KEY` | 387 |
 | `DIM_DATE` (공통) | 연속 날짜 1일 + 미상 | `DATE_KEY`, `SALE_DATE_KEY` | 188 |
 | `DIM_BET_TYPE` | 마권 구매 승식 1개 | `BET_TYPE_CD` | 3 |
