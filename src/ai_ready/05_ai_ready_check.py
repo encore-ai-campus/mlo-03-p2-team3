@@ -6,6 +6,7 @@
 4. 누수: 결과 컬럼 없음, 과거 성적·진료·매출·취소가 모두 예측 시점(경주일 / 출발 시각) 이전 정보로만 다시 계산됨
 5. 팀 숫자: 매출 1,903,091,700원 / 507,383장 / 출발 전 취소 36,902,100원, 취소 피처는 Gold 취소 팩트와 대사
 6. 인코딩 테이블: 같은 행 순서, NULL 0, 숫자형만, 원-핫은 행마다 정확히 1개
+7. TEST 기준선: 경주마다 3두를 무작위로 / 배당 인기순으로 골랐을 때 실제 3등 이내 비율 (31.0% / 52.4%), 배당 AUC 0.749
 """
 import sys
 from pathlib import Path
@@ -17,6 +18,7 @@ import config as C  # noqa: E402
 
 OUT = C.ROOT / "data" / "04_ai_ready"
 SPLIT_DT = pd.Timestamp("2026-10-10")
+BASELINE = "BASE_EXPECT_WIN"
 FAILS = []
 
 
@@ -145,6 +147,25 @@ def main():
     for c in ["HR_SEX_CD", "HR_GRADE_CD", "TRAINER_KEY", "RC_GRADE_CD", "WEATHER_CD", "TRACK_STAT_CD"]:
         oh = enc[[k for k in enc if k.startswith(c + "__")]]
         check((oh.sum(axis=1) == 1).all(), f"{c}: 원-핫 {oh.shape[1]}개, 행마다 정확히 1")
+
+    print("\n[6] TEST 기준선 (경주마다 3두를 골랐을 때 실제 3등 이내 비율)")
+    # 배당은 AI Ready의 BASE_EXPECT_WIN이 아니라 clean 배당표의 단승 배당(낮을수록 인기)으로 다시 고른다
+    odds = clean("RC_ODDS").assign(RC_DT=lambda d: pd.to_datetime(d.RC_DT))[k3 + ["WIN_ODDS"]]
+    b = x.loc[x.SPLIT_CD == "TEST", k3 + ["RACE_KEY", "PLACE_YN", BASELINE]].merge(odds, on=k3, how="left", validate="1:1")
+    g = b.groupby("RACE_KEY")
+    rand = float((g.PLACE_YN.sum() / g.size()).mean())  # 무작위 3두: 한 두가 맞을 확률 = 3등 이내 두수 / 출주 두수
+    b = b.sort_values(["RACE_KEY", "WIN_ODDS", "CHUL_NO"])
+    top = b.groupby("RACE_KEY").head(3)
+    tie = int(b.groupby("RACE_KEY").WIN_ODDS.apply(lambda s: len(s) > 3 and s.iloc[2] == s.iloc[3]).sum())
+    r = b[BASELINE].rank()  # AUC: 3등 이내 말의 배당 확률이 아닌 말보다 높을 확률 (순위 합 공식)
+    n1 = int(b.PLACE_YN.sum()); n0 = len(b) - n1
+    auc = float((r[b.PLACE_YN == 1].sum() - n1 * (n1 + 1) / 2) / (n1 * n0))
+    check(g.ngroups == 77 and len(b) == 749 and g.PLACE_YN.sum().eq(3).all(), f"TEST {g.ngroups}경주 {len(b)}두, 경주마다 3등 이내 정확히 3두")
+    check(round(b.PLACE_YN.mean(), 3) == 0.308, f"TEST 전체 3등 이내 비율 {b.PLACE_YN.mean():.1%} (기대 30.8%)")
+    check(round(rand, 3) == 0.310, f"무작위 3두: 평균 {rand:.1%} 적중 (기대 31.0%)")
+    check(tie == 0 and int(top.PLACE_YN.sum()) == 121 and len(top) == 231,
+          f"배당 인기 상위 3두: {int(top.PLACE_YN.sum())}/{len(top)} = {top.PLACE_YN.mean():.1%} 적중 (기대 121/231 = 52.4%, 3·4위 배당 같은 경주 {tie})")
+    check(round(auc, 3) == 0.749, f"배당 확률의 AUC {auc:.3f} (기대 0.749)")
 
     print("\nAI Ready 검증:", "통과" if not FAILS else f"실패 {len(FAILS)}건")
     return 0 if not FAILS else 1
