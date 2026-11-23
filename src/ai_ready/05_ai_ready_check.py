@@ -4,16 +4,20 @@
 2. 정답 PLACE_YN = clean 결과표의 착순 3 이내 (뛴 말만)
 3. 분할: TRAIN 경주일 < 2026-10-10 ≤ TEST 경주일
 4. 누수: 결과 컬럼 없음, 과거 성적·진료·매출·취소가 모두 예측 시점(경주일 / 출발 시각) 이전 정보로만 다시 계산됨
-5. 팀 숫자: 매출 1,903,091,700원 / 507,383장 / 출발 전 취소 36,902,100원, 취소 피처는 Gold 취소 팩트와 대사
+5. 팀 숫자: 매출 대사, 50대 단승 확인 취소 합계와 출발 시각 경계 검증
 6. 인코딩 테이블: 같은 행 순서, NULL 0, 숫자형만, 원-핫은 행마다 정확히 1개
 """
 import sys
+from datetime import date, datetime, timedelta
+from importlib import import_module
 from pathlib import Path
 
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # src/config.py
 import config as C  # noqa: E402
+
+bet_cancel = import_module("bet_cancel.04_fct_bet_cancel")
 
 OUT = C.ROOT / "data" / "04_ai_ready"
 SPLIT_DT = pd.Timestamp("2026-10-10")
@@ -34,6 +38,34 @@ def same(a, b):
     """NULL끼리는 같다고 보고, 실수는 1e-9까지 같다고 본다."""
     a, b = pd.Series(a).reset_index(drop=True).astype(float), pd.Series(b).reset_index(drop=True).astype(float)
     return int((~(((a - b).abs() < 1e-9) | (a.isna() & b.isna()))).sum())
+
+
+def check_cancel_cutoff():
+    start = datetime(2026, 5, 22, 12)
+    day = start.date()
+    key = ("sale", day, 1, 1)
+    base = {"MBR_NO": "member", "ORIG_ORDER_NO": "sale", "ORDER_TYPE_CD": "CANCEL"}
+    orders = {
+        "sale": {**base, "ORDER_TYPE_CD": "SALE", "SALE_DTM": start - timedelta(minutes=2)},
+        "early": {**base, "SALE_DTM": start - timedelta(minutes=1)},
+        "at_start": {**base, "SALE_DTM": start},
+        "late": {**base, "SALE_DTM": start + timedelta(seconds=1), "ORIG_ORDER_NO": "unknown"},
+    }
+    for order_no, order in orders.items():
+        order["ORDER_NO"] = order_no
+    ticket = {"BET_TYPE_CD": "WIN", "RC_DT": day, "RC_NO": 1, "CHUL_NO": 1, "INVALID_YN": "N"}
+    tickets = [
+        {**ticket, "ORDER_NO": "sale", "TICKET_STAT_CD": "SOLD", "BET_AMT": 100, "UNIT_CNT": 1},
+        *({**ticket, "ORDER_NO": order, "TICKET_STAT_CD": "CANCEL", "BET_AMT": -100, "UNIT_CNT": -1}
+          for order in ("early", "at_start", "late")),
+    ]
+    members = {"member": {"BIRTH_DT": date(1971, 5, 22)}}
+    races = {(day, 1): {"START_DTM": start}}
+    pre = bet_cancel.group_win_transactions(tickets, orders, members, races, {}, before_start=True)[key]
+    full = bet_cancel.group_win_transactions(tickets, orders, members, races, {})[key]
+    check(pre["cancel_raw"] == pre["cancel_amount"] == 100 and not pre["unresolved"]
+          and full["cancel_raw"] == 200 and full["unresolved"] == {"late"},
+          "출발과 동시에 발생한 취소와 출발 후 미연결 취소는 출발 전 판정에 영향 없음")
 
 
 def main():
@@ -117,23 +149,15 @@ def main():
     late = s[s.TICKET_STAT_CD.eq("CANCEL") & (s.SALE_DTM >= s.START_DTM)]
     check(len(late) == C.EXPECTED_DQ["LATE_CANCEL_TICKET"], f"출발 시각 이후·동시 취소 {len(late):,}행은 매출 피처에서 빠짐 (D-004 늦은 취소와 같은 수)")
 
-    # 취소: Gold 취소 팩트와 대사 (확인된 취소 묶음 중 출발 후 취소가 없는 묶음은 금액이 그대로 들어와야 함)
-    g = pd.read_parquet(C.GOLD_DIR / "bet_cancel" / "FCT_BET_SELECTION_CANCEL_50S.parquet").merge(t[["RACE_KEY", "CHUL_NO"]], on=["RACE_KEY", "CHUL_NO"])
-    vg = g[g.CANCEL_LABEL_STATUS.eq("VERIFIED_CANCEL")]
-    pure = vg[vg.LATE_CANCEL_DETAIL_COUNT.eq(0)]
-    mixed = vg[vg.LATE_CANCEL_DETAIL_COUNT.gt(0)]
+    # 취소: 출발 전 거래만 반영한 합계와 경계 조건을 확인한다.
     got_cnt, got_amt = int(t.WIN_50S_CANCEL_GROUP_CNT.sum()), int(t.WIN_50S_CANCEL_AMT.sum())
-    check(len(pure) <= got_cnt <= len(pure) + len(mixed) and int(pure.VERIFIED_CANCEL_AMOUNT_KRW.sum()) <= got_amt <= int(vg.VERIFIED_CANCEL_AMOUNT_KRW.sum()),
-          f"은빈 님 취소: {got_cnt:,}묶음 {got_amt:,}원 = Gold 확인 취소 중 출발 전만 있는 {len(pure):,}묶음 {int(pure.VERIFIED_CANCEL_AMOUNT_KRW.sum()):,}원 "
-          f"+ 출발 전·후가 섞인 {len(mixed)}묶음의 출발 전 부분")
-    pt = pure.groupby(["RACE_KEY", "CHUL_NO"]).VERIFIED_CANCEL_AMOUNT_KRW.sum()
-    bad = int((t.set_index(["RACE_KEY", "CHUL_NO"]).WIN_50S_CANCEL_AMT.reindex(pt.index) < pt).sum())
-    check(bad == 0, f"말마다 취소액 ≥ Gold의 출발 전 확인 취소액, 미달 {bad}")
+    check((got_cnt, got_amt) == (905, 3812500),
+          f"50대 단승 출발 전 확인 취소 {got_cnt:,}묶음, {got_amt:,}원")
+    check_cancel_cutoff()
     check(int((t.WIN_50S_CANCEL_AMT > t.WIN_50S_PURCHASE_AMT).sum()) == 0 and int((t.WIN_50S_CANCEL_GROUP_CNT > t.WIN_50S_PURCHASE_GROUP_CNT).sum()) == 0,
           "말마다 취소액 ≤ 구매액, 취소 묶음 수 ≤ 구매 묶음 수")
-    nz = t[t.WIN_50S_PURCHASE_AMT > 0]
-    check(t.WIN_50S_CANCEL_AMT_RATE.isna().sum() == int((t.WIN_50S_PURCHASE_AMT == 0).sum()) and nz.WIN_50S_CANCEL_AMT_RATE.notna().all(),
-          f"구매 없는 말 {int((t.WIN_50S_PURCHASE_AMT == 0).sum())}두만 취소율 NULL")
+    cancel_rate = t.WIN_50S_CANCEL_AMT / t.WIN_50S_PURCHASE_AMT.where(t.WIN_50S_PURCHASE_AMT > 0)
+    check(same(cancel_rate, t.WIN_50S_CANCEL_AMT_RATE) == 0, "취소율 = 확인 취소액 ÷ 구매액, 구매액 0이면 NULL")
 
     print("\n[5] 인코딩 테이블")
     check(len(enc) == len(t) and (enc[["RACE_KEY", "CHUL_NO"]].values == t[["RACE_KEY", "CHUL_NO"]].values).all(), "행 수·순서가 같음")
