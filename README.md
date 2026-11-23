@@ -71,7 +71,6 @@
 | 데이터 처리 | ![pandas](https://img.shields.io/badge/pandas-3.1.1-150458?style=flat-square&logo=pandas&logoColor=white) | 표준화·조인·집계·품질 규칙 계산 |
 | 컬럼형 저장 | ![PyArrow](https://img.shields.io/badge/PyArrow-26.0.1-E95420?style=flat-square) ![Parquet](https://img.shields.io/badge/Parquet-Data-50ABF1?style=flat-square) | 타입을 갖는 데이터 저장·조회 |
 | 입력 형식 | ![CSV](https://img.shields.io/badge/CSV-Metadata-217346?style=flat-square) · JSONL | 테이블·중첩 이벤트 원천 |
-| 협업·이력 | Git · GitHub | 브랜치·커밋·PR 관리 |
 | 설계·문서 | ![Markdown](https://img.shields.io/badge/Markdown-Documentation-000000?style=flat-square&logo=markdown&logoColor=white) · Mermaid | 규칙서·품질 보고서·ERD |
 
 의존성은 [requirements.txt](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/requirements.txt)로 관리합니다. 변경 공지는 JSONL 파일로 처리합니다.
