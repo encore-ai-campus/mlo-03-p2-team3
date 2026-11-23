@@ -10,6 +10,15 @@
       "MBR_MASTER.parquet": "84f836abaeafa61e736a3fea99dc2b845a30eed4293b77167189712cd07aee07"
     }
   },
+  "common_dimension_provenance": {
+    "input_path": "data/03_gold/common/",
+    "input_file_sha256": {
+      "DIM_RACE.parquet": "ec0fca203d54e3e286a30d6e938e655c3f246fd93f0eb14de5e11ba555975ad8",
+      "DIM_DATE.parquet": "f357bd895fb4a1e19d66cebff33a7c31080ef589c91058775c18881b4169d5c9",
+      "DIM_CHANNEL.parquet": "8decb729e1a50b03edc642582cb6cdee8c40f6e4d2dcff204769a20d4cea92d0",
+      "DIM_MEMBER.parquet": "78e34fa66589005ed4dd08278962a1a796f6e0ede0a8cb3a6a9b911e1de99328"
+    }
+  },
   "grain": {
     "race_sales": [
       "ORDER_NO",
@@ -23,13 +32,15 @@
     "RC_RACE": 386
   },
   "gold_rows": {
-    "DIM_RACE": 386,
-    "DIM_DATE": 52,
     "DIM_BET_TYPE": 3,
-    "DIM_CHANNEL": 40,
-    "DIM_MEMBER": 4384,
     "DIM_TICKET_STATUS": 3,
     "race_sales": 522364
+  },
+  "common_dimension_rows": {
+    "DIM_RACE": 387,
+    "DIM_DATE": 188,
+    "DIM_CHANNEL": 40,
+    "DIM_MEMBER": 4385
   },
   "gold_excluded_rows": {
     "BET_TICKET": 0
@@ -66,9 +77,9 @@
   "pk_duplicate_count": {
     "DIM_RACE": 0,
     "DIM_DATE": 0,
-    "DIM_BET_TYPE": 0,
     "DIM_CHANNEL": 0,
     "DIM_MEMBER": 0,
+    "DIM_BET_TYPE": 0,
     "DIM_TICKET_STATUS": 0,
     "race_sales": 0
   },
@@ -82,12 +93,23 @@
       "DIM_TICKET_STATUS": 0
     }
   },
+  "unknown_dimension_key_count": {
+    "RACE_KEY": 0,
+    "DATE_KEY": 0,
+    "SALE_DATE_KEY": 0,
+    "CHANNEL_KEY": 308,
+    "MEMBER_KEY": 0
+  },
+  "non_member_ticket_count": 106647,
   "race_date_mismatch_count": 0,
   "quality_decision_ids": {
     "zero_amount": "D-003",
     "late_cancel": "D-004",
     "order_flags": "D-006",
     "clean_input": "D-012",
-    "timestamp": "MR-5"
+    "timestamp": "D-013",
+    "common_keys": "D-013",
+    "date_roles": "D-014",
+    "non_member": "D-016"
   }
 }
