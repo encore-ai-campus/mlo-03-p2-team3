@@ -126,7 +126,7 @@
 | S-03 | Silver | 정제 결과를 공용 clean으로 관리하고 버전·파일 해시를 고정한다. | [clean manifest](data/02_silver/clean/_manifest.json) · SHA-256 대조 | ✅ 14개 파일 일치 |
 | G-01 | Gold | 같은 clean에서 업무별 grain에 맞는 팩트와 공통 차원을 생성한다. | 팩트별 입력·grain 대사 | ✅ 팩트 4개·공통 차원 6개 |
 | G-02 | Gold | PK 중복·NULL과 FK 누락이 없어야 하며 말의 SCD2 기준일을 지킨다. | [공통 차원 검증](src/common/04_common_dims_check.py) · 팩트별 키/시점 검증 | ✅ 키 오류 0건·기간 검증 통과 |
-| G-04 | Gold | 컬럼 이름이 매핑 규칙서 13장(Gold 이름 규칙)을 따른다. | [04_gold_naming_check.py](src/common/04_gold_naming_check.py) | ✅ 15개 테이블·170개 컬럼 위반 0 |
+| G-04 | Gold | 컬럼 이름이 매핑 규칙서 13장(Gold 이름 규칙)을 따르고, 종합 데이터 사전과 실제 파일이 같다. | [04_gold_naming_check.py](src/common/04_gold_naming_check.py) | ✅ 이름 위반 0, 사전 대조 18개 테이블 일치 |
 | G-03 | Gold | 팩트·브리지의 행 수와 측정값을 해당 입력·집계 정의에 맞춰 대사한다. | [팩트별 검증 결과](docs/wiki/Results.md) | ✅ 행 수·금액·건수 일치 |
 | A-01 | AI Ready | 실제 출주마 1두를 1행으로 구성하고 미출주마는 사유와 함께 별도 보존한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) | ✅ 유지 3,644 + 제외 22 = 3,666행, PK 중복 0 |
 | A-02 | AI Ready | 출발 전 정보로 피처를 구성하고 정답·최종 배당을 학습 피처와 분리한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 과거 성적/진료/거래 재계산 | ✅ 시점별 재계산 일치 |
@@ -152,7 +152,7 @@ Bronze의 원천값은 보존하고 Silver에서 이름·타입·단위·코드�
 
 변환 실패·코드표 밖 값·규칙상 NULL 처리는 원천 행 번호와 함께 기록합니다. 소수의 정밀도 초과나 반올림이 필요한 값도 변환 실패로 남깁니다.
 
-전체 규칙은 [매핑 규칙서](meta/mapping_rules.md), 컬럼별 타입·원천 컬럼은 [데이터 사전](meta/data_dictionary.csv), 변환 근거는 [이슈 로그](meta/silver_issue_log.csv)에서 확인할 수 있습니다.
+전체 규칙은 [매핑 규칙서](meta/mapping_rules.md), 컬럼별 타입·원천 컬럼은 [종합 데이터 사전](meta/data_dictionary.csv)(Silver·Gold·AI Ready), 변환 근거는 [이슈 로그](meta/silver_issue_log.csv)에서 확인할 수 있습니다.
 
 ## 6. ERD
 

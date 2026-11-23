@@ -606,7 +606,12 @@ def main():
     prof.to_csv(C.SILVER_COLUMN_PROFILE, index=False, encoding=C.CSV_ENCODING)
 
     pd.concat(VALUE_MAPS, ignore_index=True).to_csv(C.SILVER_VALUE_MAP, index=False, encoding=C.CSV_ENCODING)
-    pd.DataFrame(DICTIONARY).to_csv(C.DATA_DICTIONARY, index=False, encoding=C.CSV_ENCODING)
+    # 종합 데이터 사전: Silver 행만 다시 쓰고 Gold·AI Ready 행(LAYER가 SILVER가 아닌 행)은 그대로 둔다
+    silver_dic = pd.DataFrame(DICTIONARY)
+    silver_dic.insert(0, "LAYER", "SILVER")
+    old = pd.read_csv(C.DATA_DICTIONARY, dtype=str, keep_default_na=False) if C.DATA_DICTIONARY.exists() else pd.DataFrame()
+    other = old[old.LAYER.ne("SILVER")] if "LAYER" in old else old.iloc[0:0]
+    pd.concat([silver_dic, other], ignore_index=True).to_csv(C.DATA_DICTIONARY, index=False, encoding=C.CSV_ENCODING)
     print(f"이슈 로그 {len(issues):,}건 → {C.SILVER_ISSUE_LOG.relative_to(C.ROOT)}")
 
 

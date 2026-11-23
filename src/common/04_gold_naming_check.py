@@ -5,11 +5,14 @@
 3. 나머지 컬럼: 매핑 규칙서 2장 접미사로 끝남 (나이·추적 컬럼은 예외 목록)
 4. 축약하지 않은 단어 금지: HORSE_, MEMBER_, CHANNEL_, TRAINER_, RACE_, AMOUNT, COUNT, SECONDS, RATE, DATE, ORIGINAL
 5. *_YN 컬럼 값은 Y / N / NULL만
+6. 종합 데이터 사전(meta/data_dictionary.csv)의 GOLD·AI_READY 행 = 실제 파일의 컬럼 이름·순서, 타입 계열 일치, 출처·규칙 빈칸 없음
 """
 import re
 import sys
 from pathlib import Path
 
+import pandas as pd
+import pyarrow as pa
 import pyarrow.parquet as pq
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # src/config.py
@@ -20,6 +23,47 @@ SUFFIXES = ("_NO", "_SEQ", "_DT", "_DTM", "_TM", "_NM", "_CD", "_AMT", "_CNT", "
 AGE_COLS = {"HR_AGE", "TR_AGE", "MBR_AGE", "MIN_AGE", "MAX_AGE"}  # 규칙서 8장: 나이는 접미사 없음
 FULL_WORD = re.compile(r"(^|_)(HORSE|MEMBER|CHANNEL|TRAINER|RACE|AMOUNT|COUNT|SECONDS|RATE|DATE|ORIGINAL)(_|$)")
 FAILS = []
+AI_READY = {"AI_READY_RACE_ENTRY": C.ROOT / "data/04_ai_ready/AI_READY_RACE_ENTRY.parquet",
+            "AI_READY_RACE_ENTRY_ENCODED": C.ROOT / "data/04_ai_ready/AI_READY_RACE_ENTRY_ENCODED.parquet",
+            "AI_READY_RACE_ENTRY_EXCLUDED": C.ROOT / "data/04_ai_ready/_excluded/AI_READY_RACE_ENTRY.parquet"}
+
+
+def family(t):
+    """Arrow 타입 → 사전 타입 계열."""
+    if pa.types.is_dictionary(t):
+        t = t.value_type
+    for test, name in [(pa.types.is_int8, "TINYINT"), (pa.types.is_int32, "INT"), (pa.types.is_int64, "BIGINT"),
+                       (pa.types.is_floating, "DOUBLE"), (pa.types.is_decimal, "DECIMAL"), (pa.types.is_date, "DATE"),
+                       (pa.types.is_timestamp, "TIMESTAMP"), (pa.types.is_time, "TIME")]:
+        if test(t):
+            return name
+    return "VARCHAR"
+
+
+def dict_family(text):
+    base = text.split("(")[0]
+    return "VARCHAR" if base in ("VARCHAR", "CODE", "CHAR") else base
+
+
+def check_dictionary(tables):
+    """tables: {테이블명: (LAYER, 경로)}. 사전과 실제 파일이 같은지."""
+    dic = pd.read_csv(C.DATA_DICTIONARY, dtype=str, keep_default_na=False)
+    dic = dic[dic.LAYER.isin(["GOLD", "AI_READY"])]
+    for name in sorted(set(dic.TABLE_NM) - set(tables)):
+        FAILS.append(f"사전에만 있는 테이블: {name}")
+    for name, (layer, path) in tables.items():
+        rows = dic[dic.TABLE_NM.eq(name)]
+        schema = pq.read_schema(path)
+        if list(rows.COL_NM) != schema.names:
+            FAILS.append(f"사전 {name}: 컬럼 이름·순서가 실제 파일과 다름 (사전 {len(rows)}개, 파일 {len(schema.names)}개)")
+            continue
+        if not rows.LAYER.eq(layer).all():
+            FAILS.append(f"사전 {name}: LAYER가 {layer}가 아님")
+        for r, t in zip(rows.itertuples(), schema.types):
+            if dict_family(r.DATA_TYPE) != family(t):
+                FAILS.append(f"사전 {name}.{r.COL_NM}: 타입 {r.DATA_TYPE} ≠ 파일 {t}")
+            if not r.RULE:
+                FAILS.append(f"사전 {name}.{r.COL_NM}: 규칙(RULE) 빈칸")
 
 
 def problem(table, col):
@@ -55,10 +99,14 @@ def main():
                 values = set(data.column(col).to_pylist()) - {None}
                 if not values <= {"Y", "N"}:
                     FAILS.append(f"{table}.{col}: 값이 Y/N이 아님 {sorted(map(str, values))[:5]}")
-    print(f"Gold 테이블 {len(paths)}개, 컬럼 {n_cols}개 검사")
+    print(f"Gold 테이블 {len(paths)}개, 컬럼 {n_cols}개 이름 검사")
+    tables = {p.stem: ("GOLD", p) for p in paths}
+    tables.update({n: ("AI_READY", p) for n, p in AI_READY.items()})
+    check_dictionary(tables)
+    print(f"데이터 사전 대조: Gold·AI Ready 테이블 {len(tables)}개")
     for f in FAILS:
         print("  X", f)
-    print("Gold 이름 검증:", "통과" if not FAILS else f"위반 {len(FAILS)}건")
+    print("Gold 이름·사전 검증:", "통과" if not FAILS else f"위반 {len(FAILS)}건")
     return 0 if not FAILS else 1
 
 

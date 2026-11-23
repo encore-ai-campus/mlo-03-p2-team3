@@ -29,6 +29,7 @@ def main():
     bronze = {b: pd.read_parquet(C.BRONZE_DIR / f"{b}.parquet") for b in set(BRONZE_OF.values())}
     issues = pd.read_csv(C.SILVER_ISSUE_LOG, dtype=str, keep_default_na=False)
     dic = pd.read_csv(C.DATA_DICTIONARY, dtype=str, keep_default_na=False)
+    dic = dic[dic.LAYER.eq("SILVER")].drop(columns="LAYER")  # 종합 사전 중 Silver 행
     prof = pd.read_csv(C.SILVER_COLUMN_PROFILE, keep_default_na=False)
 
     # 1. 행 수
