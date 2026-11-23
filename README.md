@@ -132,6 +132,27 @@
 | A-03 | AI Ready | 범주형을 인코딩하고 결측 표시를 유지해 학습 피처를 숫자형으로 만든다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 원-핫/결측 검증 | ✅ 행·순서 일치, 결측 0건 |
 | A-04 | AI Ready | 정답은 3착 이내 여부로 정의하고 TRAIN/TEST를 날짜로 분할한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 정답/분할 검증 | ✅ TRAIN 2,895행·TEST 749행, 날짜 겹침 0 |
 
+### 표준화 규칙 요약
+
+Bronze의 원천값은 보존하고 Silver에서 이름·타입·단위·코드를 통일합니다. 표준화 단계에서는 기본 테이블의 행을 삭제하지 않습니다.
+
+| 구분 | 규칙 | 예시 |
+| --- | --- | --- |
+| 이름 | 테이블·컬럼은 `UPPER_SNAKE_CASE`, 공통 약어 사용 | `order_no` / `rcDate` → `ORDER_NO` / `RC_DT` |
+| 접미사 | 일자 `_DT`, 일시 `_DTM`, 시각 `_TM`, 금액 `_AMT`, 건수 `_CNT`, 코드 `_CD`, 여부 `_YN`, 이름 `_NM` | `SALE_DTM`, `BET_AMT`, `TR_EXTERNAL_YN` |
+| 식별 번호 | 전표·회원·소속 조 식별자는 `VARCHAR`, 앞자리 0 유지 | `ORDER_NO`, `MBR_NO`, `TR_GRP_NO = '08'` |
+| 타입 | 건수·순위·나이는 `INT`, 금액은 컬럼별 `INT`/`BIGINT`, 소수는 `DECIMAL(p,s)` | `BET_AMT`: `INT`, `TOTAL_AMT`: `BIGINT`, `RC_TIME_SEC`: `DECIMAL(5,1)` |
+| 날짜·일시 | `YYYYMMDD`, `YYYY.MM.DD`, `YYYY/MM/DD` 등 지정 형식을 차례로 시도해 `DATE`·`TIMESTAMP`(KST)로 통일 | `20260522` → `2026-05-22`, `10:45` → `10:45:00` (`TIME`) |
+| 단위 | 금액은 원, 무게는 kg, 시간 길이는 초, 거리는 m | `700만원` → `7,000,000`원, `1:13.2` → `73.2`초 |
+| 코드 | 한글·영문·대소문자 혼용 값을 공통 코드표로 매핑 | `단승`·`단식`·`WIN` → `WIN`, `수/암/거` → `M/F/G` |
+| 빈 값 | 문자열 앞뒤 공백 제거, 빈 문자열·공백·`-----`는 NULL | 비회원의 빈 회원번호는 NULL로 보존 |
+| 쪼개기 | 복합값은 의미별 컬럼이나 브리지로 분리 | `279+14` → 체중 279·증감 +14, `정치,낭치` → 진료 유형 브리지 2행 |
+| 이름 충돌 | 같은 이름이 다른 뜻이면 컬럼명을 구분 | `ticket_cnt` → `TICKET_CNT`(전표의 마권 장수) / `UNIT_CNT`(마권 구좌 수) |
+
+변환 실패·코드표 밖 값·규칙상 NULL 처리는 원천 행 번호와 함께 기록합니다. 소수의 정밀도 초과나 반올림이 필요한 값도 변환 실패로 남깁니다.
+
+전체 규칙은 [매핑 규칙서](meta/mapping_rules.md), 컬럼별 타입·원천 컬럼은 [데이터 사전](meta/data_dictionary.csv), 변환 근거는 [이슈 로그](meta/silver_issue_log.csv)에서 확인할 수 있습니다.
+
 ## 6. ERD
 
 공통 차원과 네 팩트를 하나의 ERD로 표현한 스타 스키마 통합 모델입니다.
@@ -189,27 +210,6 @@ flowchart LR
 5. **AI Ready Data:** 실제 출주마별 과거 성적·진료·매출·취소 피처와 `PLACE_YN` 정답을 결합합니다. 취소는 clean 거래에서 출발 전 정보만으로 다시 판정하며, 날짜 기준 TRAIN/TEST 분할과 모델 입력용 인코딩을 적용합니다.
 
 [전체 실행 순서·디렉터리 구조](docs/wiki/Data-Pipeline.md)
-
-### 표준화 규칙 요약
-
-Bronze의 원천값은 보존하고 Silver에서 이름·타입·단위·코드를 통일합니다. 표준화 단계에서는 기본 테이블의 행을 삭제하지 않습니다.
-
-| 구분 | 규칙 | 예시 |
-| --- | --- | --- |
-| 이름 | 테이블·컬럼은 `UPPER_SNAKE_CASE`, 공통 약어 사용 | `order_no` / `rcDate` → `ORDER_NO` / `RC_DT` |
-| 접미사 | 일자 `_DT`, 일시 `_DTM`, 시각 `_TM`, 금액 `_AMT`, 건수 `_CNT`, 코드 `_CD`, 여부 `_YN`, 이름 `_NM` | `SALE_DTM`, `BET_AMT`, `TR_EXTERNAL_YN` |
-| 식별 번호 | 전표·회원·소속 조 식별자는 `VARCHAR`, 앞자리 0 유지 | `ORDER_NO`, `MBR_NO`, `TR_GRP_NO = '08'` |
-| 타입 | 건수·순위·나이는 `INT`, 금액은 컬럼별 `INT`/`BIGINT`, 소수는 `DECIMAL(p,s)` | `BET_AMT`: `INT`, `TOTAL_AMT`: `BIGINT`, `RC_TIME_SEC`: `DECIMAL(5,1)` |
-| 날짜·일시 | `YYYYMMDD`, `YYYY.MM.DD`, `YYYY/MM/DD` 등 지정 형식을 차례로 시도해 `DATE`·`TIMESTAMP`(KST)로 통일 | `20260522` → `2026-05-22`, `10:45` → `10:45:00` (`TIME`) |
-| 단위 | 금액은 원, 무게는 kg, 시간 길이는 초, 거리는 m | `700만원` → `7,000,000`원, `1:13.2` → `73.2`초 |
-| 코드 | 한글·영문·대소문자 혼용 값을 공통 코드표로 매핑 | `단승`·`단식`·`WIN` → `WIN`, `수/암/거` → `M/F/G` |
-| 빈 값 | 문자열 앞뒤 공백 제거, 빈 문자열·공백·`-----`는 NULL | 비회원의 빈 회원번호는 NULL로 보존 |
-| 쪼개기 | 복합값은 의미별 컬럼이나 브리지로 분리 | `279+14` → 체중 279·증감 +14, `정치,낭치` → 진료 유형 브리지 2행 |
-| 이름 충돌 | 같은 이름이 다른 뜻이면 컬럼명을 구분 | `ticket_cnt` → `TICKET_CNT`(전표의 마권 장수) / `UNIT_CNT`(마권 구좌 수) |
-
-변환 실패·코드표 밖 값·규칙상 NULL 처리는 원천 행 번호와 함께 기록합니다. 소수의 정밀도 초과나 반올림이 필요한 값도 변환 실패로 남깁니다.
-
-전체 규칙은 [매핑 규칙서](meta/mapping_rules.md), 컬럼별 타입·원천 컬럼은 [데이터 사전](meta/data_dictionary.csv), 변환 근거는 [이슈 로그](meta/silver_issue_log.csv)에서 확인할 수 있습니다.
 
 ### AI Ready Data
 
