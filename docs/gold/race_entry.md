@@ -2,7 +2,7 @@
 
 - **코드:** `src/race_entry/04_fct_race_entry.py` (생성), `src/race_entry/04_fct_race_entry_check.py` (검증)
 - **입력:** `data/02_silver/clean/` (품질 관리까지 끝난 결과, D-012). 표준화 결과로는 만들지 않습니다
-- **출력:** `data/03_gold/race_entry/` 5개 테이블
+- **출력:** `data/03_gold/race_entry/FCT_RACE_ENTRY.parquet` (팩트). 차원 4개는 공통 차원 `data/03_gold/common/`을 씁니다 (`docs/gold/common.md`, D-013 ~ D-016)
 
 ## 1. 설계
 
@@ -118,7 +118,7 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
 - 조교사를 말 차원이 아니라 출전표에서 연결하는 이유: 말 스냅샷의 조교사 칸은 외부마와 소속 사이를 자주 오갑니다. 지금 데이터에서는 두 값이 0건 차이로 같지만, 기준은 경주 당시 출전표로 정했습니다.
 - `EXPECT_WIN`을 정규화한 이유: 1/배당을 그대로 더하면 공제금 때문에 경주당 합이 약 1.25가 되어 실제 우승 수와 비교할 수 없습니다.
 
-### DIM_HORSE (4,126행, SCD2)
+### DIM_HORSE (공통 차원, 4,126행 + 미상 1행, SCD2)
 
 | 컬럼 | 뜻 |
 |:--|:--|
@@ -135,7 +135,7 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
 - **차원에 넣지 않은 것:** 레이팅과 통산·최근 1년 성적. 매주 바뀌어서 넣으면 버전이 약 22,000개가 됩니다.
 - **규모:** 말 1,250두, 말당 버전 1~10개(평균 3.3개). 팩트가 쓰는 버전은 1,487개(출전마 833두)입니다.
 
-### DIM_RACE (386행)
+### DIM_RACE (공통 차원, 386행 + 미상 1행)
 - `RACE_KEY`와 경주 속성으로 구성됩니다.
   - 경주일, 경주번호, 경마장
   - 개최 일차, 거리(`RC_DIST_M`), 경주 등급, 부담 방식
@@ -143,21 +143,20 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
   - 1~5위 상금, 출발 시각
 - 컬럼 뜻은 `docs/SILVER_COLUMNS.md`의 RC_RACE와 같습니다.
 
-### DIM_TRAINER (18행)
+### DIM_TRAINER (공통 차원, 18행 + 미상 1행)
 - `TRAINER_KEY`, `TR_NM`, `TR_GRP_NO`(소속 조), `TR_BIRTH_DT`, `DEBUT_DT`
 - 값이 바뀌지 않아 Type 1입니다.
 
-### DIM_DATE (177행)
-- 범위는 2026-05-22 ~ 2026-11-14의 연속 날짜이고, 그중 경마일이 52일입니다.
+### DIM_DATE (공통 차원, 187행 + 미상 1행)
+- 범위는 2026-05-16 ~ 2026-11-18의 연속 날짜이고(네 팩트가 참조하는 날짜 전체, D-014), 그중 경마일이 52일입니다. 이 팩트의 경주일은 2026-05-22 ~ 2026-11-14입니다.
 - 컬럼: `DATE_KEY`(YYYYMMDD), `FULL_DT`, `YEAR_NO`, `MONTH_NO`, `DAY_NO`, `DOW_NO`(1 = 월), `DOW_NM`, `WEEK_NO`(ISO), `RACE_DAY_YN`
 
 ## 4. 우승률·입상률 조회 방법 (비율은 조회할 때 계산)
 
 ```python
 import pandas as pd
-g = "data/03_gold/race_entry/"
-f = pd.read_parquet(g + "FCT_RACE_ENTRY.parquet")
-x = f.merge(pd.read_parquet(g + "DIM_HORSE.parquet"), on="HORSE_KEY")
+f = pd.read_parquet("data/03_gold/race_entry/FCT_RACE_ENTRY.parquet")
+x = f.merge(pd.read_parquet("data/03_gold/common/DIM_HORSE.parquet"), on="HORSE_KEY")
 a = x.groupby("AGE_BAND_NM")[["START_CNT", "WIN_CNT", "PLACE_CNT", "EXPECT_WIN"]].sum()
 a["WIN_RT"] = a.WIN_CNT / a.START_CNT      # 우승률
 a["PLACE_RT"] = a.PLACE_CNT / a.START_CNT  # 입상률
@@ -182,8 +181,8 @@ a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예�
 
 | 점검 | 결과 |
 |:--|:--|
-| 테이블마다 PK 중복 0, 자연키 중복 0 | 5개 테이블 통과 |
-| 팩트의 모든 키가 차원에 있음 (DATE·RACE·HORSE·TRAINER) | 없는 키 0 |
+| 테이블마다 PK 중복 0, 자연키 중복 0 | 팩트 + 공통 차원 4개 통과 |
+| 팩트의 모든 키가 공통 차원에 있음 (DATE·RACE·HORSE·TRAINER) | 없는 키 0, 미상(0) 0 |
 | 팩트 행 = 출전표 행 (1:1) | 3,666 = 3,666 |
 | SUM(START_CNT) / SUM(WIN_CNT) / SUM(PLACE_CNT) | 3,644 / 386 / 1,158 |
 | 우승률 | 10.59% |
@@ -194,12 +193,9 @@ a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예�
 | 팩트의 말 버전 = 경주일 **이전** 최근 스냅샷 (독립 재계산) | 속성 불일치 0 |
 | 팩트 컬럼 = 키 + 측정값만 | 통과 |
 | 재실행 시 Gold 파일 해시 | 동일 |
+| 공통 차원 전환 전후 팩트 | 바이트까지 동일 (키가 그대로라 측정값·키 변화 없음) |
 
-## 6. 남은 것 (팀 합의 대상)
+## 6. 남은 것
 
-공통 차원 통합 안건은 `docs/gold/COMMON_DIMENSIONS.md`에 정리했습니다.
-
-- **공통 차원 통합 (D-010):** DIM_DATE, DIM_RACE, DIM_HORSE, DIM_TRAINER는 다른 팀원 팩트와 같이 쓸 차원입니다. 각자 스타 스키마를 만든 뒤 하나로 합칩니다.
-  - 합칠 때 확인할 것: 대리키 방식, SCD2 버전 기준 컬럼, 나이대 구간(세은 님의 `DIM_AGE_GROUP`), 조교사·조 차원 통합(세은 님의 `DIM_STABLE`), DIM_DATE 범위
-  - 키가 바뀌면 팩트의 외래키를 다시 연결합니다.
+- **공통 차원 통합 (D-010):** 완료. 차원 4개는 공통 차원(`data/03_gold/common/`)을 씁니다. 결정은 D-013 ~ D-016, 안건 기록은 `docs/gold/COMMON_DIMENSIONS.md`에 있습니다.
 - **시점 주의 (AI-ready용):** `EXPECT_WIN`은 최종 배당 기준이라 발매 마감 시점에야 알 수 있는 값입니다. 경주 결과 예측의 특성으로 쓸 때는 이 점을 명시해야 합니다.
