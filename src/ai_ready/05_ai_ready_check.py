@@ -117,15 +117,18 @@ def main():
     late = s[s.TICKET_STAT_CD.eq("CANCEL") & (s.SALE_DTM >= s.START_DTM)]
     check(len(late) == C.EXPECTED_DQ["LATE_CANCEL_TICKET"], f"출발 시각 이후·동시 취소 {len(late):,}행은 매출 피처에서 빠짐 (D-004 늦은 취소와 같은 수)")
 
-    # 취소: Gold 취소 팩트와 대사 (확인된 취소 묶음 중 출발 후 취소가 없는 묶음은 금액이 그대로 들어와야 함)
+    # 취소: 출발 전 거래만으로 다시 판정한 값. Gold 취소 팩트(전체 기간 판정)와 대사
     g = pd.read_parquet(C.GOLD_DIR / "bet_cancel" / "FCT_BET_SELECTION_CANCEL_50S.parquet").merge(t[["RACE_KEY", "CHUL_NO"]], on=["RACE_KEY", "CHUL_NO"])
     vg = g[g.CANCEL_LABEL_STATUS.eq("VERIFIED_CANCEL")]
     pure = vg[vg.LATE_CANCEL_DETAIL_COUNT.eq(0)]
     mixed = vg[vg.LATE_CANCEL_DETAIL_COUNT.gt(0)]
+    unres = g[g.CANCEL_LABEL_STATUS.eq("AMBIGUOUS") & g.EXCLUSION_REASONS.str.contains("UNRESOLVED_CANCEL_CONTEXT")
+              & ~g.EXCLUSION_REASONS.str.contains("CANCEL_EXCEEDS_PURCHASE") & g.CANCEL_TRANSACTION_COUNT.gt(0)]
     got_cnt, got_amt = int(t.WIN_50S_CANCEL_GROUP_CNT.sum()), int(t.WIN_50S_CANCEL_AMT.sum())
-    check(len(pure) <= got_cnt <= len(pure) + len(mixed) and int(pure.VERIFIED_CANCEL_AMOUNT_KRW.sum()) <= got_amt <= int(vg.VERIFIED_CANCEL_AMOUNT_KRW.sum()),
-          f"은빈 님 취소: {got_cnt:,}묶음 {got_amt:,}원 = Gold 확인 취소 중 출발 전만 있는 {len(pure):,}묶음 {int(pure.VERIFIED_CANCEL_AMOUNT_KRW.sum()):,}원 "
-          f"+ 출발 전·후가 섞인 {len(mixed)}묶음의 출발 전 부분")
+    check((got_cnt, got_amt) == (905, 3812500), f"은빈 님 숫자: 출발 전 확인 취소 {got_cnt:,}묶음 {got_amt:,}원 (기대 905묶음 3,812,500원)")
+    check(len(pure) <= got_cnt <= len(pure) + len(mixed) + len(unres) and int(pure.VERIFIED_CANCEL_AMOUNT_KRW.sum()) <= got_amt,
+          f"Gold 확인 취소 중 출발 전만 있는 {len(pure):,}묶음 {int(pure.VERIFIED_CANCEL_AMOUNT_KRW.sum()):,}원은 모두 포함, "
+          f"나머지는 출발 전·후가 섞인 {len(mixed)}묶음의 출발 전 부분과 연결 불확실 {len(unres)}묶음 중 출발 전에는 문제없는 묶음")
     pt = pure.groupby(["RACE_KEY", "CHUL_NO"]).VERIFIED_CANCEL_AMOUNT_KRW.sum()
     bad = int((t.set_index(["RACE_KEY", "CHUL_NO"]).WIN_50S_CANCEL_AMT.reindex(pt.index) < pt).sum())
     check(bad == 0, f"말마다 취소액 ≥ Gold의 출발 전 확인 취소액, 미달 {bad}")
