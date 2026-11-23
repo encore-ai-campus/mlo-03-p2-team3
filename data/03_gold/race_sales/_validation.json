@@ -1,7 +1,6 @@
 {
   "input_provenance": {
     "input_path": "data/02_silver/clean/",
-    "git_commit": "fdb6c724c9e4328af3d87d98b64ad035aea6c2bf",
     "manifest_source_commit": "8a129d06e52f05e5e8ec36ec33cda3b4b1ae5d6a",
     "clean_version": "948fe690c7a42511710c7264904d9ada523c5aeb12b118aa570a423dce428b6c",
     "input_file_sha256": {

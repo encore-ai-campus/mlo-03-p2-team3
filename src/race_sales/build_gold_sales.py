@@ -67,9 +67,9 @@ def read_sources(silver: Path, silver_ref: str | None) -> tuple[dict, dict]:
                 f"{filename}: hash differs from shared clean manifest (D-012)")
         frames[name] = pd.read_parquet(io.BytesIO(payload))
         hashes[filename] = digest
+    # Keep provenance independent of the Git ref used to read the same clean data.
     return frames, {
         "input_path": "data/02_silver/clean/",
-        "git_commit": commit,
         "manifest_source_commit": manifest["SOURCE_COMMIT"],
         "clean_version": manifest["CLEAN_VERSION"],
         "input_file_sha256": hashes,

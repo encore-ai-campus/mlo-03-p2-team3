@@ -32,7 +32,7 @@ python src/race_sales/build_gold_sales.py --silver-ref origin/develop
 
 `--silver-ref`는 실행 시작 시 ref를 커밋으로 확정하고 그 커밋의 clean을 Git에서 직접 읽습니다. 이전 단계 파일을 체크아웃하거나 덮어쓰지 않습니다. 로컬 디렉터리를 지정하려면 `--silver <공용_clean_경로>`, 출력을 바꾸려면 `--gold <출력_경로>`를 사용합니다. `--silver`와 `--silver-ref`는 함께 사용할 수 없습니다.
 
-두 실행 방식 모두 `_manifest.json`의 `CLEAN_SHA256`과 읽은 입력 4개의 SHA-256을 비교합니다. manifest가 없거나 해시가 다르면 생성을 중단합니다(D-012). 입력 clean 버전·해시와 Git 입력 커밋은 `_validation.json`에 기록합니다. 실행 시각과 임시 경로는 데이터나 검증 결과에 넣지 않습니다. 원천·Bronze·Silver 또는 입력 디렉터리와 겹치는 출력 경로는 거부합니다.
+두 실행 방식 모두 `_manifest.json`의 `CLEAN_SHA256`과 읽은 입력 4개의 SHA-256을 비교합니다. manifest가 없거나 해시가 다르면 생성을 중단합니다(D-012). 입력 clean 버전·파일 해시와 manifest의 `SOURCE_COMMIT`은 `_validation.json`에 기록합니다. 실행에 사용한 Git 커밋은 기록하지 않아 같은 clean 입력이면 로컬 디렉터리나 서로 다른 Git ref에서 읽어도 동일한 검증 결과를 만듭니다. 실행 시각과 임시 경로는 데이터나 검증 결과에 넣지 않습니다. 원천·Bronze·Silver 또는 입력 디렉터리와 겹치는 출력 경로는 거부합니다.
 
 이번 산출물의 입력 기준:
 
