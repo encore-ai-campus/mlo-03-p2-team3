@@ -111,7 +111,7 @@ def medical(f):
 
 def sales():
     """희정 정의: 출발 전, 0원 제외, SOLD·CANCEL만 경주별 집계."""
-    s = gold("race_sales/race_sales.parquet")[["RACE_KEY", "SALE_DTM", "INVALID_YN", "TICKET_STAT_CD", "BET_AMT"]]
+    s = gold("race_sales/FCT_RACE_SALES.parquet")[["RACE_KEY", "SALE_DTM", "INVALID_YN", "TICKET_STAT_CD", "BET_AMT"]]
     race = pd.read_parquet(COMMON / "DIM_RACE.parquet")[["RACE_KEY", "START_DTM"]]
     s = s.merge(race, on="RACE_KEY", validate="m:1")
     s = s[(s["SALE_DTM"] < s["START_DTM"]) & s["INVALID_YN"].eq("N") & s["TICKET_STAT_CD"].isin(["SOLD", "CANCEL"])]

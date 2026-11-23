@@ -26,7 +26,7 @@ COMMON_KEYS = {
     "DIM_CHANNEL": "CHANNEL_KEY", "DIM_MEMBER": "MEMBER_KEY",
 }
 SOURCE_TABLES = ("BET_TICKET", "BET_ORDER", "RC_RACE", "MBR_MASTER")
-FACT_NAME = "race_sales"
+FACT_NAME = "FCT_RACE_SALES"
 
 BET_TYPES = {
     "WIN": "단승", "PLC": "연승", "QNL": "복승", "QPL": "복연승",
