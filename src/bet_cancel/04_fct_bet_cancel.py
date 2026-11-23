@@ -138,6 +138,151 @@ def kst_wall_time(value):
     return value.astimezone(KST).replace(tzinfo=None)
 
 
+def is_prestart(when, selected, races):
+    race = races.get(selected[:2])
+    return when is not None and race is not None and race['START_DTM'] is not None and when < race['START_DTM']
+
+
+def group_win_transactions(tickets, orders, members, races, entries, *, before_start=False):
+    groups = {}
+    cancellations = []
+    for ticket in tickets:
+        zero = ticket['BET_AMT'] == 0
+        if (ticket.get('INVALID_YN') == 'Y') != zero:
+            raise ValueError('INVALID_YN differs from zero amount')
+        order = orders.get(ticket['ORDER_NO'])
+        if zero or order is None or ticket['BET_TYPE_CD'] != 'WIN':
+            continue
+        if order['ORDER_TYPE_CD'] == 'CANCEL':
+            cancellations.append((order, ticket))
+            continue
+        if order['ORDER_TYPE_CD'] != 'SALE':
+            continue
+
+        member = members.get(order['MBR_NO'])
+        when = order['SALE_DTM']
+        age = age_at(member['BIRTH_DT'] if member else None, when.date() if when else None)
+        if age is None or not 50 <= age <= 59:
+            continue
+
+        selected = selection(ticket)
+        if before_start and not is_prestart(when, selected, races):
+            continue
+        key = (ticket['ORDER_NO'], *selected)
+        if key not in groups:
+            fid = stable_key('selection', [key[0], key[1], key[2], 'WIN', key[3]])
+            groups[key] = dict(
+                fid=fid, order=order, age=age, details=[], bad=set(),
+                cancel_raw=0, cancel_amount=0, cancel_units=0, cancel_ids=set(), cancel_times=[],
+                unresolved=set(), late_count=0, cancel_uncertain=False,
+            )
+        group = groups[key]
+        group['details'].append(ticket)
+        amount = ticket['BET_AMT']
+        units = ticket['UNIT_CNT']
+        if amount <= 0 or units <= 0 or amount != units * UNIT_AMOUNT:
+            group['bad'].add('BAD_PURCHASE_AMOUNT')
+        if ticket['TICKET_STAT_CD'] not in ('SOLD', 'VOID'):
+            group['bad'].add('INVALID_PURCHASE_STATUS')
+        if ticket['TICKET_STAT_CD'] == 'VOID':
+            group['bad'].add('VOID_OR_NONSTART_STATUS')
+        if ticket.get('CHUL_NO2') is not None or ticket.get('HR_NM2'):
+            group['bad'].add('WIN_SECOND_SELECTION')
+        entry = entries.get(selected)
+        if entry and ticket.get('HR_NM') and ticket['HR_NM'] != entry['HR_NM']:
+            group['bad'].add('HORSE_NAME_CONFLICT')
+
+    candidates = defaultdict(list)
+    for key, group in groups.items():
+        candidates[(group['order']['MBR_NO'], *key[1:])].append(group)
+    for order, ticket in cancellations:
+        reference = order.get('ORIG_ORDER_NO')
+        selected = selection(ticket)
+        group = groups.get((reference, *selected))
+        original = orders.get(reference)
+        member_no = order['MBR_NO']
+        when = order['SALE_DTM']
+        if before_start and not is_prestart(when, selected, races):
+            continue
+        if not (group and original and original['ORDER_TYPE_CD'] == 'SALE'
+                and member_no and member_no == original['MBR_NO']):
+            if member_no:
+                for candidate in candidates.get((member_no, *selected), []):
+                    purchase_time = candidate['order']['SALE_DTM']
+                    if when is None or purchase_time is None or purchase_time <= when:
+                        candidate['unresolved'].add(order['ORDER_NO'])
+            continue
+
+        amount = ticket['BET_AMT']
+        units = ticket['UNIT_CNT']
+        group['cancel_raw'] += abs(amount)
+        group['cancel_ids'].add(order['ORDER_NO'])
+        reasons = set()
+        if ticket['TICKET_STAT_CD'] != 'CANCEL':
+            reasons.add('INVALID_CANCEL_STATUS')
+        if amount >= 0 or units >= 0 or amount != units * UNIT_AMOUNT:
+            reasons.add('BAD_CANCEL_AMOUNT')
+        if ticket.get('CHUL_NO2') is not None or ticket.get('HR_NM2'):
+            reasons.add('CANCEL_SECOND_SELECTION')
+        entry = entries.get(selected)
+        if entry and ticket.get('HR_NM') and ticket['HR_NM'] != entry['HR_NM']:
+            reasons.add('CANCEL_HORSE_CONFLICT')
+        if when is None:
+            reasons.add('CANCEL_TIME_MISSING')
+        elif original['SALE_DTM'] and when < original['SALE_DTM']:
+            reasons.add('CANCEL_BEFORE_PURCHASE')
+        if reasons:
+            group['bad'].update(reasons)
+            group['cancel_uncertain'] = True
+            continue
+
+        race = races.get(selected[:2])
+        start = race['START_DTM'] if race else None
+        group['cancel_amount'] += abs(amount)
+        group['cancel_units'] += abs(units)
+        group['cancel_times'].append(when)
+        group['late_count'] += int(start is not None and when >= start)
+
+    return groups
+
+
+def cancel_exceeds_purchase(group, amount, units):
+    return group['cancel_raw'] > amount or group['cancel_units'] > units
+
+
+def prestart_verified_win_groups():
+    """Return verified (order, date, race, runner) keys as of the race start."""
+    orders = {
+        row['ORDER_NO']: dict(row, SALE_DTM=kst_wall_time(row['SALE_DTM']))
+        for row in pq.read_table(CLEAN_ROOT / 'BET_ORDER.parquet',
+                                 columns=['ORDER_NO', 'ORDER_TYPE_CD', 'ORIG_ORDER_NO', 'MBR_NO', 'SALE_DTM']).to_pylist()
+    }
+    members = {
+        row['MBR_NO']: row for row in pq.read_table(CLEAN_ROOT / 'MBR_MASTER.parquet',
+                                                     columns=['MBR_NO', 'BIRTH_DT']).to_pylist()
+    }
+    race_rows = pq.read_table(CLEAN_ROOT / 'RC_RACE.parquet', columns=['RC_DT', 'RC_NO', 'START_DTM']).to_pylist()
+    for row in race_rows:
+        row['START_DTM'] = kst_wall_time(row['START_DTM'])
+    races = unique_index(race_rows, ['RC_DT', 'RC_NO'], 'RC_RACE')
+    entry_rows = pq.read_table(CLEAN_ROOT / 'RC_ENTRY.parquet', columns=['RC_DT', 'RC_NO', 'CHUL_NO', 'HR_NM']).to_pylist()
+    entries = unique_index(entry_rows, ['RC_DT', 'RC_NO', 'CHUL_NO'], 'RC_ENTRY')
+    tickets = pq.read_table(
+        CLEAN_ROOT / 'BET_TICKET.parquet', filters=[('BET_TYPE_CD', '=', 'WIN')],
+        columns=['ORDER_NO', 'BET_TYPE_CD', 'BET_AMT', 'UNIT_CNT', 'INVALID_YN', 'TICKET_STAT_CD',
+                 'RC_DT', 'RC_NO', 'CHUL_NO', 'HR_NM', 'CHUL_NO2', 'HR_NM2'],
+    ).to_pylist()
+    groups = group_win_transactions(tickets, orders, members, races, entries, before_start=True)
+    verified = set()
+    for key, group in groups.items():
+        if group['cancel_times'] and not group['cancel_uncertain'] and not group['unresolved']:
+            amount = sum(ticket['BET_AMT'] for ticket in group['details'])
+            units = sum(ticket['UNIT_CNT'] for ticket in group['details'])
+            if not cancel_exceeds_purchase(group, amount, units):
+                verified.add(key)
+    return verified
+
+
 def build(data, version, dimensions):
     data = dict(data)
     for name, field in [('BET_ORDER', 'SALE_DTM'), ('RC_RACE', 'START_DTM')]:
@@ -189,100 +334,7 @@ def build(data, version, dimensions):
         rows.sort(key=lambda row: row['VALID_FROM_DT'])
         horse_versions[name] = ([row['VALID_FROM_DT'] for row in rows], rows)
 
-    groups = {}
-    cancellations = []
-    for ticket in data['BET_TICKET']:
-        zero = ticket['BET_AMT'] == 0
-        if (ticket.get('INVALID_YN') == 'Y') != zero:
-            raise ValueError('INVALID_YN differs from zero amount')
-        order = orders.get(ticket['ORDER_NO'])
-        if zero or order is None or ticket['BET_TYPE_CD'] != 'WIN':
-            continue
-        if order['ORDER_TYPE_CD'] == 'CANCEL':
-            cancellations.append((order, ticket))
-            continue
-        if order['ORDER_TYPE_CD'] != 'SALE':
-            continue
-
-        member = members.get(order['MBR_NO'])
-        when = order['SALE_DTM']
-        age = age_at(member['BIRTH_DT'] if member else None, when.date() if when else None)
-        if age is None or not 50 <= age <= 59:
-            continue
-
-        selected = selection(ticket)
-        key = (ticket['ORDER_NO'], *selected)
-        if key not in groups:
-            fid = stable_key('selection', [key[0], key[1], key[2], 'WIN', key[3]])
-            groups[key] = dict(
-                fid=fid, order=order, age=age, details=[], bad=set(),
-                cancel_raw=0, cancel_amount=0, cancel_units=0, cancel_ids=set(), cancel_times=[],
-                unresolved=set(), late_count=0, cancel_uncertain=False,
-            )
-        group = groups[key]
-        group['details'].append(ticket)
-        amount = ticket['BET_AMT']
-        units = ticket['UNIT_CNT']
-        if amount <= 0 or units <= 0 or amount != units * UNIT_AMOUNT:
-            group['bad'].add('BAD_PURCHASE_AMOUNT')
-        if ticket['TICKET_STAT_CD'] not in ('SOLD', 'VOID'):
-            group['bad'].add('INVALID_PURCHASE_STATUS')
-        if ticket['TICKET_STAT_CD'] == 'VOID':
-            group['bad'].add('VOID_OR_NONSTART_STATUS')
-        if ticket.get('CHUL_NO2') is not None or ticket.get('HR_NM2'):
-            group['bad'].add('WIN_SECOND_SELECTION')
-        entry = entries.get(selected)
-        if entry and ticket.get('HR_NM') and ticket['HR_NM'] != entry['HR_NM']:
-            group['bad'].add('HORSE_NAME_CONFLICT')
-
-    candidates = defaultdict(list)
-    for key, group in groups.items():
-        candidates[(group['order']['MBR_NO'], *key[1:])].append(group)
-    for order, ticket in cancellations:
-        reference = order.get('ORIG_ORDER_NO')
-        selected = selection(ticket)
-        group = groups.get((reference, *selected))
-        original = orders.get(reference)
-        member_no = order['MBR_NO']
-        when = order['SALE_DTM']
-        if not (group and original and original['ORDER_TYPE_CD'] == 'SALE'
-                and member_no and member_no == original['MBR_NO']):
-            if member_no:
-                for candidate in candidates.get((member_no, *selected), []):
-                    purchase_time = candidate['order']['SALE_DTM']
-                    if when is None or purchase_time is None or purchase_time <= when:
-                        candidate['unresolved'].add(order['ORDER_NO'])
-            continue
-
-        amount = ticket['BET_AMT']
-        units = ticket['UNIT_CNT']
-        group['cancel_raw'] += abs(amount)
-        group['cancel_ids'].add(order['ORDER_NO'])
-        reasons = set()
-        if ticket['TICKET_STAT_CD'] != 'CANCEL':
-            reasons.add('INVALID_CANCEL_STATUS')
-        if amount >= 0 or units >= 0 or amount != units * UNIT_AMOUNT:
-            reasons.add('BAD_CANCEL_AMOUNT')
-        if ticket.get('CHUL_NO2') is not None or ticket.get('HR_NM2'):
-            reasons.add('CANCEL_SECOND_SELECTION')
-        entry = entries.get(selected)
-        if entry and ticket.get('HR_NM') and ticket['HR_NM'] != entry['HR_NM']:
-            reasons.add('CANCEL_HORSE_CONFLICT')
-        if when is None:
-            reasons.add('CANCEL_TIME_MISSING')
-        elif original['SALE_DTM'] and when < original['SALE_DTM']:
-            reasons.add('CANCEL_BEFORE_PURCHASE')
-        if reasons:
-            group['bad'].update(reasons)
-            group['cancel_uncertain'] = True
-            continue
-
-        race = races.get(selected[:2])
-        start = race['START_DTM'] if race else None
-        group['cancel_amount'] += abs(amount)
-        group['cancel_units'] += abs(units)
-        group['cancel_times'].append(when)
-        group['late_count'] += int(start is not None and when >= start)
+    groups = group_win_transactions(data['BET_TICKET'], orders, members, races, entries)
 
     facts = []
     for key, g in sorted(groups.items()):
@@ -297,7 +349,7 @@ def build(data, version, dimensions):
         if result is None: bad.add('RESULT_NOT_FOUND')
         elif result['ENTRY_STAT_CD'] != 'RAN': bad.add('VOID_OR_NONSTART_STATUS')
         if g['unresolved']: bad.add('UNRESOLVED_CANCEL_CONTEXT')
-        if g['cancel_raw'] > amount or g['cancel_units'] > units:
+        if cancel_exceeds_purchase(g, amount, units):
             bad.add('CANCEL_EXCEEDS_PURCHASE'); g['cancel_uncertain'] = True
         name = e.get('HR_NM') if e else None
         if name not in consistent_horse_names:

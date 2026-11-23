@@ -1,4 +1,4 @@
-"""Gold 팩트 4개 + 공통 차원 (+ 취소 피처용 clean) → AI Ready Data(04_ai_ready/): 출전마 3등 이내 예측
+"""Gold 팩트 + 공통 차원 + 취소 피처용 clean → AI Ready Data(04_ai_ready/): 출전마 3등 이내 예측
 
 - 행 단위: 실제로 출주한 말 1두 (FCT_RACE_ENTRY 중 START_CNT = 1, 3,644행). 출주하지 않은 22행은 _excluded에 사유와 함께 보존
 - 정답: PLACE_YN = 착순 3 이내면 1 (FCT_RACE_ENTRY.PLACE_CNT)
@@ -11,11 +11,12 @@
   말은 HR_NM으로 연결 (HORSE_KEY는 버전마다 달라서). 말 키 0(이전 스냅샷 없음) 71건은 말을 특정할 수 없어 쓰지 않는다
 - 희정 race_sales: SALE_DTM < START_DTM, INVALID_YN = 'N', SOLD·CANCEL만 경주별로 집계해 RACE_KEY로 연결
 - 은빈 bet_cancel: 구매 당시 만 50~59세 회원의 단승 구매와 그 구매의 출발 전 취소를 경주 + 출전 번호별로 집계.
-  Gold 취소 팩트는 출발 후 취소까지 합친 값이라 출발 전 취소만 보려고 clean 전표·마권(D-012 공용 입력)에서 계산한다
+  구매·취소 거래를 출발 시각으로 먼저 제한하고, Gold 취소와 같은 규칙으로 확인 취소를 판정한다
 
 배당(EXPECT_WIN)은 피처가 아니라 비교 기준선이라 BASE_ 접두어로 따로 둔다 (최종 배당이라 관측 시각을 모름).
 """
 import sys
+from importlib import import_module
 from pathlib import Path
 
 import pandas as pd
@@ -24,6 +25,8 @@ import pyarrow.parquet as pq
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # src/config.py
 import config as C  # noqa: E402
+
+bet_cancel = import_module("bet_cancel.04_fct_bet_cancel")
 
 OUT_DIR = C.ROOT / "data" / "04_ai_ready"
 COMMON = C.GOLD_DIR / "common"
@@ -146,12 +149,8 @@ def cancel_50s():
     c = c.merge(p[["ORDER_NO", "MBR_NO", "SALE_DTM"] + k].drop_duplicates(["ORDER_NO", "MBR_NO"] + k),
                 left_on=["ORIG_ORDER_NO", "MBR_NO"] + k, right_on=["ORDER_NO", "MBR_NO"] + k, suffixes=("", "_P"))
     c = c[(c["SALE_DTM_P"] <= c["SALE_DTM"]) & (c["SALE_DTM"] < c["START_DTM"])]
-    # '검증 통과 취소'는 Gold 취소 팩트의 판정을 그대로 쓴다 (취소액 > 구매액, 연결 불확실 묶음은 AMBIGUOUS라 제외)
-    g = gold("bet_cancel/FCT_BET_SELECTION_CANCEL_50S.parquet")
-    g = g[g["CANCEL_LABEL_STATUS"].eq("VERIFIED_CANCEL")][["ORIGINAL_ORDER_NO", "RACE_KEY", "CHUL_NO"]]
-    g = g.merge(pd.read_parquet(COMMON / "DIM_RACE.parquet")[["RACE_KEY", "RC_DT", "RC_NO"]], on="RACE_KEY", validate="m:1")
-    g["RC_NO"] = g["RC_NO"].astype("int32")
-    c = c.merge(g.drop(columns="RACE_KEY").rename(columns={"ORIGINAL_ORDER_NO": "ORIG_ORDER_NO"}), on=["ORIG_ORDER_NO"] + k, validate="m:1")
+    verified = bet_cancel.prestart_verified_win_groups()
+    c = c[pd.MultiIndex.from_frame(c[["ORIG_ORDER_NO"] + k]).isin(verified)]
 
     pa_ = p.groupby(k).agg(WIN_50S_PURCHASE_GROUP_CNT=("ORDER_NO", "nunique"), WIN_50S_PURCHASE_AMT=("BET_AMT", "sum"))
     ca_ = c.assign(A=c["BET_AMT"].abs()).groupby(k).agg(WIN_50S_CANCEL_GROUP_CNT=("ORIG_ORDER_NO", "nunique"), WIN_50S_CANCEL_AMT=("A", "sum"))
