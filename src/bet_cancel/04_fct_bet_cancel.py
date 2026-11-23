@@ -1,5 +1,5 @@
-"""Build the 50s WIN cancellation fact and five dimensions from develop clean Silver."""
-from bisect import bisect_left
+"""Build the 50s WIN cancellation fact from clean Silver and shared Gold dimensions."""
+from bisect import bisect_left, bisect_right
 from collections import defaultdict
 from datetime import timedelta, timezone
 import hashlib
@@ -12,22 +12,17 @@ import pyarrow.parquet as pq
 
 FACT = 'fct_bet_selection_cancel_50s'
 SOURCES = ('BET_ORDER', 'BET_TICKET', 'MBR_MASTER', 'HR_WEEKLY_SNAPSHOT', 'RC_RACE', 'RC_ENTRY', 'RC_RESULT')
-UNKNOWN = 'UNKNOWN'
+UNKNOWN_KEY = 0
 KST = timezone(timedelta(hours=9), 'KST')
 RULE_VERSION = 'GOLD-50WIN-1'
 UNIT_AMOUNT = 100
 ROOT = Path(__file__).resolve().parents[2]
 CLEAN_ROOT = ROOT / 'data/02_silver/clean'
+COMMON_ROOT = ROOT / 'data/03_gold/common'
 GOLD_ROOT = ROOT / 'data/03_gold/bet_cancel'
 TYPES = {'s': pa.string(), 'i': pa.int64(), 'd': pa.date32(), 'n': pa.int32(),
          'f': pa.float64(), 't': pa.timestamp('ms')}
-DEFINITIONS = {
-    'dim_member': 'member_key:s member_no:s birth_date:d join_date:d source_row_id:s',
-    'dim_horse': 'horse_key:s horse_name:s birth_date:d sire_name:s dam_name:s identity_status:s',
-    'dim_race': 'race_id:s race_date:d race_no:n meet_cd:s race_start_at:t distance_m:n race_grade:s source_row_id:s',
-    'dim_date': 'date_key:n calendar_date:d year:n quarter:n month:n day_of_month:n weekday:n year_month:s',
-    'dim_channel': 'channel_key:s channel_cd:s channel_group:s branch_no:s channel_name:s',
-    FACT: '''fact_id:s original_order_no:s member_key:s horse_key:s race_id:s channel_key:s
+FACT_FIELDS = '''fact_id:s original_order_no:s member_key:n horse_key:n race_key:n channel_key:n
         purchase_date_key:n cancel_date_key:n race_date_key:n snapshot_date_key:n bet_type_cd:s chul_no:n
         age_at_purchase:n purchase_at:t horse_age_at_race:n horse_sex_at_race:s
         purchase_detail_count:i purchase_stake_units:i purchase_amount_krw:i
@@ -37,25 +32,23 @@ DEFINITIONS = {
         raw_linked_cancel_amount_krw:i verified_cancel_amount_krw:i verified_cancel_stake_units:i
         first_cancel_at:t cancel_delay_seconds:i late_cancel_detail_count:i unresolved_cancel_order_count:i
         header_detail_mismatch:n observation_end_at:t analysis_eligible:n exclusion_reasons:s
-        purchase_order_row_id:s entry_row_id:s snapshot_row_id:s dq_dataset_version:s rule_version:s''',
-}
-PKS = {
-    'dim_member': 'member_key',
-    'dim_horse': 'horse_key',
-    'dim_channel': 'channel_key',
-    'dim_race': 'race_id',
-    'dim_date': 'date_key',
-    FACT: 'fact_id',
+        purchase_order_row_id:s entry_row_id:s snapshot_row_id:s dq_dataset_version:s rule_version:s'''
+COMMON_KEYS = {
+    'DIM_MEMBER': 'MEMBER_KEY',
+    'DIM_HORSE': 'HORSE_KEY',
+    'DIM_RACE': 'RACE_KEY',
+    'DIM_CHANNEL': 'CHANNEL_KEY',
+    'DIM_DATE': 'DATE_KEY',
 }
 FACT_FKS = {
-    'member_key': 'dim_member',
-    'horse_key': 'dim_horse',
-    'race_id': 'dim_race',
-    'channel_key': 'dim_channel',
-    'purchase_date_key': 'dim_date',
-    'cancel_date_key': 'dim_date',
-    'race_date_key': 'dim_date',
-    'snapshot_date_key': 'dim_date',
+    'member_key': 'DIM_MEMBER',
+    'horse_key': 'DIM_HORSE',
+    'race_key': 'DIM_RACE',
+    'channel_key': 'DIM_CHANNEL',
+    'purchase_date_key': 'DIM_DATE',
+    'cancel_date_key': 'DIM_DATE',
+    'race_date_key': 'DIM_DATE',
+    'snapshot_date_key': 'DIM_DATE',
 }
 
 
@@ -95,8 +88,9 @@ def age_at(birth, day):
     return None if birth is None or day is None else day.year - birth.year - ((day.month, day.day) < (birth.month, birth.day))
 
 
-def date_key(day):
-    return int(day.strftime('%Y%m%d')) if day else 0
+def date_key(day, valid_keys):
+    key = int(day.strftime('%Y%m%d')) if day else UNKNOWN_KEY
+    return key if key in valid_keys else UNKNOWN_KEY
 
 
 def selection(row):
@@ -113,18 +107,19 @@ def unique_index(rows, fields, name):
     return result
 
 
-def channel(order):
-    group = order.get('CHNL_CD') or UNKNOWN
-    branch = order.get('OTB_BRANCH_NO') if group == 'OTB' else None
-    code = group + branch if branch else group
-    key = UNKNOWN if group == UNKNOWN else stable_key('channel', [group, branch])
-    return dict(channel_key=key, channel_cd=code, channel_group=group, branch_no=branch,
-                channel_name={'ONSITE': '현장', 'APP': '앱', 'OTB': '장외', UNKNOWN: '미상'}.get(group, group))
+def load_dimensions():
+    return {
+        name: pq.ParquetFile(COMMON_ROOT / f'{name}.parquet').read().to_pylist()
+        for name in COMMON_KEYS
+    }
 
 
-def packed(name, rows):
-    schema = pa.schema([(x.split(':')[0], TYPES[x.split(':')[1]]) for x in DEFINITIONS[name].split()])
-    return pa.Table.from_pylist(rows, schema=schema)
+def horse_key_at(versions, name, day):
+    starts, rows = versions.get(name, ((), ()))
+    position = bisect_right(starts, day) - 1
+    if position >= 0 and day <= rows[position]['VALID_TO_DT']:
+        return rows[position]['HORSE_KEY']
+    return UNKNOWN_KEY
 
 
 def band(rate):
@@ -143,7 +138,7 @@ def kst_wall_time(value):
     return value.astimezone(KST).replace(tzinfo=None)
 
 
-def build(data, version):
+def build(data, version, dimensions):
     data = dict(data)
     for name, field in [('BET_ORDER', 'SALE_DTM'), ('RC_RACE', 'START_DTM')]:
         data[name] = [dict(row, **{field: kst_wall_time(row[field])}) for row in data[name]]
@@ -158,31 +153,42 @@ def build(data, version):
     cutoff = max(o['SALE_DTM'] for o in orders.values() if o['SALE_DTM'])
     history = defaultdict(list)
     for row in data['HR_WEEKLY_SNAPSHOT']: history[row['HR_NM']].append(row)
-    identities = {}
+    consistent_horse_names = set()
     histories = {}
     for name, rows in history.items():
         births = {r['HR_BIRTH_DT'] for r in rows}
         sires = {r.get('SIRE_NM') for r in rows if r.get('SIRE_NM')}
         dams = {r.get('DAM_NM') for r in rows if r.get('DAM_NM')}
         if name and len(births) == 1 and None not in births and len(sires) <= 1 and len(dams) <= 1:
-            birth = next(iter(births))
-            identities[name] = dict(horse_key=stable_key('horse', [name, birth]), horse_name=name,
-                                    birth_date=birth, sire_name=next(iter(sires), None), dam_name=next(iter(dams), None),
-                                    identity_status='INTERNAL_NAME_BIRTH_CONSISTENT')
+            consistent_horse_names.add(name)
         by_date = defaultdict(list)
         for r in rows: by_date[r['SNAPSHOT_DT']].append(r)
         histories[name] = (sorted(d for d in by_date if d is not None), by_date)
-    dim_members = [dict(member_key=UNKNOWN, member_no=None, birth_date=None, join_date=None, source_row_id=None)]
-    member_keys = {}
-    for no, m in sorted(members.items()):
-        key = stable_key('member', [no]); member_keys[no] = key
-        dim_members.append(dict(member_key=key, member_no=no, birth_date=m['BIRTH_DT'], join_date=m.get('JOIN_DT'), source_row_id=m['_DQ_ROW_ID']))
-    dim_races = [dict(race_id=UNKNOWN)]
-    race_keys = {}
-    for rk, r in sorted(races.items()):
-        rid = stable_key('race', [r['MEET_CD'], *rk]); race_keys[rk] = rid
-        dim_races.append(dict(race_id=rid, race_date=rk[0], race_no=rk[1], meet_cd=r['MEET_CD'],
-                              race_start_at=r['START_DTM'], distance_m=r.get('RC_DIST_M'), race_grade=r.get('RC_GRADE_CD'), source_row_id=r['_DQ_ROW_ID']))
+    member_keys = {
+        row['MBR_NO']: row['MEMBER_KEY'] for row in dimensions['DIM_MEMBER']
+        if row['MEMBER_TYPE_CD'] == 'MEMBER'
+    }
+    non_member_key = next(
+        row['MEMBER_KEY'] for row in dimensions['DIM_MEMBER']
+        if row['MEMBER_TYPE_CD'] == 'NON_MEMBER'
+    )
+    race_keys = {
+        (row['RC_DT'], row['RC_NO']): row['RACE_KEY'] for row in dimensions['DIM_RACE']
+    }
+    channel_keys = {
+        (row['CHNL_CD'], row['OTB_BRANCH_NO']): row['CHANNEL_KEY']
+        for row in dimensions['DIM_CHANNEL']
+    }
+    date_keys = {row['DATE_KEY'] for row in dimensions['DIM_DATE']}
+    horse_rows = defaultdict(list)
+    for row in dimensions['DIM_HORSE']:
+        if row['HORSE_KEY'] != UNKNOWN_KEY:
+            horse_rows[row['HR_NM']].append(row)
+    horse_versions = {}
+    for name, rows in horse_rows.items():
+        rows.sort(key=lambda row: row['VALID_FROM_DT'])
+        horse_versions[name] = ([row['VALID_FROM_DT'] for row in rows], rows)
+
     groups = {}
     cancellations = []
     for ticket in data['BET_TICKET']:
@@ -278,7 +284,7 @@ def build(data, version):
         group['cancel_times'].append(when)
         group['late_count'] += int(start is not None and when >= start)
 
-    facts = []; used_channels = {UNKNOWN: channel({})}; used_horses = {}
+    facts = []
     for key, g in sorted(groups.items()):
         o = g['order']; rk = key[1:]; e = entries.get(rk); r = races.get(rk[:2]); result = results.get(rk)
         when = o['SALE_DTM']; day = when.date(); bad = set(g['bad'])
@@ -294,9 +300,8 @@ def build(data, version):
         if g['cancel_raw'] > amount or g['cancel_units'] > units:
             bad.add('CANCEL_EXCEEDS_PURCHASE'); g['cancel_uncertain'] = True
         name = e.get('HR_NM') if e else None
-        identity = identities.get(name)
-        if not identity: bad.add('AMBIGUOUS_HORSE_IDENTITY')
-        else: used_horses[identity['horse_key']] = identity
+        if name not in consistent_horse_names:
+            bad.add('AMBIGUOUS_HORSE_IDENTITY')
         snapshot = None
         dates, by_date = histories.get(name, ([], {})); position = bisect_left(dates, day) - 1
         if position >= 0:
@@ -313,11 +318,17 @@ def build(data, version):
         cr = careerwins / career if valid and career else None
         label = None if g['cancel_uncertain'] or g['unresolved'] else int(bool(g['cancel_times']))
         first = min(g['cancel_times']) if g['cancel_times'] else None
-        ch = channel(o); used_channels[ch['channel_key']] = ch
-        facts.append(dict(fact_id=g['fid'], original_order_no=key[0], member_key=member_keys.get(o['MBR_NO'], UNKNOWN),
-                          horse_key=identity['horse_key'] if identity else UNKNOWN, race_id=race_keys.get(rk[:2], UNKNOWN), channel_key=ch['channel_key'],
-                          purchase_date_key=date_key(day), cancel_date_key=date_key(first.date()) if first else 0,
-                          race_date_key=date_key(rk[0]), snapshot_date_key=date_key(snapshot['SNAPSHOT_DT']) if snapshot else 0,
+        member_no = o['MBR_NO']
+        member_key = member_keys.get(member_no, UNKNOWN_KEY) if member_no else non_member_key
+        horse_key = horse_key_at(horse_versions, name, day) if snapshot else UNKNOWN_KEY
+        channel_key = channel_keys.get((o['CHNL_CD'], o['OTB_BRANCH_NO']), UNKNOWN_KEY)
+        facts.append(dict(fact_id=g['fid'], original_order_no=key[0], member_key=member_key,
+                          horse_key=horse_key, race_key=race_keys.get(rk[:2], UNKNOWN_KEY),
+                          channel_key=channel_key,
+                          purchase_date_key=date_key(day, date_keys),
+                          cancel_date_key=date_key(first.date() if first else None, date_keys),
+                          race_date_key=date_key(rk[0], date_keys),
+                          snapshot_date_key=date_key(snapshot['SNAPSHOT_DT'] if snapshot else None, date_keys),
                           bet_type_cd='WIN', chul_no=rk[2], age_at_purchase=g['age'], purchase_at=when,
                           horse_age_at_race=e.get('HR_AGE') if e else None, horse_sex_at_race=e.get('HR_SEX_CD') if e else None,
                           purchase_detail_count=len(g['details']), purchase_stake_units=units, purchase_amount_krw=amount,
@@ -334,55 +345,30 @@ def build(data, version):
                           analysis_eligible=int(not bad), exclusion_reasons='|'.join(sorted(bad)), purchase_order_row_id=o['_DQ_ROW_ID'],
                           entry_row_id=e['_DQ_ROW_ID'] if e else None, snapshot_row_id=snapshot['_DQ_ROW_ID'] if snapshot else None,
                           dq_dataset_version=version, rule_version=RULE_VERSION))
-    all_days = {r['race_date'] for r in dim_races if r.get('race_date')}
-    for f in facts:
-        all_days.add(f['purchase_at'].date())
-        if f['first_cancel_at']: all_days.add(f['first_cancel_at'].date())
-        if f['horse_snapshot_date']: all_days.add(f['horse_snapshot_date'])
-    dim_dates = [dict(date_key=0)]
-    if all_days:
-        day, end = min(all_days), max(all_days)
-        while day <= end:
-            dim_dates.append(dict(date_key=date_key(day), calendar_date=day, year=day.year, quarter=(day.month-1)//3+1,
-                                  month=day.month, day_of_month=day.day, weekday=day.isoweekday(), year_month=day.strftime('%Y-%m')))
-            day += timedelta(days=1)
-    output_rows = {
-        'dim_member': dim_members,
-        'dim_horse': [dict(horse_key=UNKNOWN, identity_status='UNVERIFIED')]
-                    + sorted(used_horses.values(), key=lambda row: row['horse_key']),
-        'dim_race': dim_races,
-        'dim_date': dim_dates,
-        'dim_channel': [used_channels[UNKNOWN]]
-                      + sorted((row for key, row in used_channels.items() if key != UNKNOWN),
-                               key=lambda row: row['channel_cd']),
-        FACT: facts,
-    }
-    primary_keys = {}
-    for name, rows in output_rows.items():
-        keys = {row[PKS[name]] for row in rows}
-        if None in keys or len(keys) != len(rows):
-            raise ValueError(f'{name}: null or duplicate primary key')
-        primary_keys[name] = keys
+    if len({row['fact_id'] for row in facts}) != len(facts):
+        raise ValueError(f'{FACT}: duplicate primary key')
     for field, dimension in FACT_FKS.items():
-        if any(fact[field] not in primary_keys[dimension] for fact in facts):
+        keys = {row[COMMON_KEYS[dimension]] for row in dimensions[dimension]}
+        if any(fact[field] not in keys for fact in facts):
             raise ValueError(f'{FACT}: {field} contains a missing dimension key')
-    return {name: packed(name, rows) for name, rows in output_rows.items()}
+
+    fields = [item.split(':') for item in FACT_FIELDS.split()]
+    schema = pa.schema([(name, TYPES[kind]) for name, kind in fields])
+    table = pa.Table.from_pylist(facts, schema=schema)
+    return table.rename_columns([name.upper() for name in schema.names])
 
 
 def main():
-    tables = build(*load_inputs())
+    data, version = load_inputs()
+    table = build(data, version, load_dimensions())
     GOLD_ROOT.mkdir(parents=True, exist_ok=True)
+    destination = GOLD_ROOT / f'{FACT.upper()}.parquet'
     with TemporaryDirectory(prefix='.bet-cancel-', dir=GOLD_ROOT.parent) as staging:
-        files = []
-        for name, table in tables.items():
-            filename = f'{name.upper()}.parquet'
-            staged = Path(staging) / filename
-            pq.write_table(table, staged, compression='snappy')
-            files.append((staged, GOLD_ROOT / filename))
-        for staged, destination in files:
-            if not destination.is_file() or file_hash(destination) != file_hash(staged):
-                staged.replace(destination)
-    print(f'Gold bet_cancel: {tables[FACT].num_rows:,} fact rows and {len(tables) - 1} dimensions.')
+        staged = Path(staging) / destination.name
+        pq.write_table(table, staged, compression='snappy')
+        if not destination.is_file() or file_hash(destination) != file_hash(staged):
+            staged.replace(destination)
+    print(f'Gold bet_cancel: {table.num_rows:,} fact rows linked to shared dimensions.')
 
 
 if __name__ == '__main__':
