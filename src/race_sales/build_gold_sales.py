@@ -1,7 +1,8 @@
 """Build the ticket sales star schema from the shared quality-managed clean data.
 
-Run: python src/race_sales/build_gold_sales.py --silver-ref origin/develop
-Output: data/03_gold/race_sales. No Silver file or ticket row is changed.
+Run: python src/race_sales/build_gold_sales.py
+Read shared dimensions from data/03_gold/common (D-013 to D-016).
+Output: the ticket fact and its two private dimensions in data/03_gold/race_sales.
 """
 
 from __future__ import annotations
@@ -19,6 +20,11 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 SILVER = ROOT / "data" / "02_silver" / "clean"
 GOLD = ROOT / "data" / "03_gold" / "race_sales"
+COMMON = ROOT / "data" / "03_gold" / "common"
+COMMON_KEYS = {
+    "DIM_RACE": "RACE_KEY", "DIM_DATE": "DATE_KEY",
+    "DIM_CHANNEL": "CHANNEL_KEY", "DIM_MEMBER": "MEMBER_KEY",
+}
 SOURCE_TABLES = ("BET_TICKET", "BET_ORDER", "RC_RACE", "MBR_MASTER")
 FACT_NAME = "race_sales"
 
@@ -26,10 +32,6 @@ BET_TYPES = {
     "WIN": "단승", "PLC": "연승", "QNL": "복승", "QPL": "복연승",
     "EXA": "쌍승", "TRI": "삼복승", "TLA": "삼쌍승",
 }
-WEATHER_NAMES = {
-    "CLEAR": "맑음", "CLOUDY": "흐림", "RAIN": "비", "FOG": "안개",
-}
-WEEKDAY_NAMES = ("월", "화", "수", "목", "금", "토", "일")
 TICKET_STATUSES = {"SOLD": "정상 발매", "CANCEL": "발매 취소", "VOID": "무효"}
 
 
@@ -67,20 +69,20 @@ def read_sources(silver: Path, silver_ref: str | None) -> tuple[dict, dict]:
                 f"{filename}: hash differs from shared clean manifest (D-012)")
         frames[name] = pd.read_parquet(io.BytesIO(payload))
         hashes[filename] = digest
+    # Keep provenance independent of the Git ref used to read the same clean data.
     return frames, {
         "input_path": "data/02_silver/clean/",
-        "git_commit": commit,
         "manifest_source_commit": manifest["SOURCE_COMMIT"],
         "clean_version": manifest["CLEAN_VERSION"],
         "input_file_sha256": hashes,
     }
 
 
-def check_output_path(silver: Path, gold: Path) -> None:
+def check_output_path(silver: Path, gold: Path, common: Path = COMMON) -> None:
     """Reject output paths that overlap an earlier stage or the input directory."""
     output = gold.resolve()
     protected = [ROOT / "data" / stage for stage in ("00_origin", "01_bronze", "02_silver")]
-    for directory in [*protected, silver]:
+    for directory in [*protected, silver, COMMON, common]:
         directory = directory.resolve()
         require(not output.is_relative_to(directory) and not directory.is_relative_to(output),
                 f"Gold output overlaps protected input: {directory}")
@@ -91,33 +93,70 @@ def unique_key(frame: pd.DataFrame, columns: list[str], name: str) -> None:
     require(not frame.duplicated(columns).any(), f"{name}: duplicate PK {columns}")
 
 
-def race_key(frame: pd.DataFrame) -> pd.Series:
-    require(not frame[["RC_DT", "RC_NO"]].isna().any().any(), "null race key")
-    return frame["RC_DT"].astype(str) + "|" + frame["RC_NO"].astype(str)
+def read_common(common: Path) -> tuple[dict, dict]:
+    """Read shared dimensions without rewriting them, recording content hashes."""
+    dimensions, hashes = {}, {}
+    for name, key in COMMON_KEYS.items():
+        payload = (common / f"{name}.parquet").read_bytes()
+        frame = pd.read_parquet(io.BytesIO(payload))
+        unique_key(frame, [key], name)
+        require(pd.api.types.is_integer_dtype(frame[key]), f"{name}: non-integer PK")
+        require(int(frame[key].eq(0).sum()) == 1 and frame[key].ge(0).all(),
+                f"{name}: expected one UNKNOWN key 0 and nonnegative keys (D-013)")
+        dimensions[name] = frame
+        hashes[f"{name}.parquet"] = hashlib.sha256(payload).hexdigest()
+    return dimensions, {"input_path": "data/03_gold/common/", "input_file_sha256": hashes}
 
 
-def channel_key(frame: pd.DataFrame) -> pd.Series:
-    require(not frame["CHNL_CD"].isna().any(), "null channel code")
-    return frame["CHNL_CD"].astype(str) + "|" + frame["OTB_BRANCH_NO"].fillna("").astype(str)
-
-
-def date_key(frame: pd.DataFrame) -> pd.Series:
-    require(not frame["RC_DT"].isna().any(), "null race date")
-    return pd.to_datetime(frame["RC_DT"].astype(str)).dt.strftime("%Y%m%d")
+def date_key(values: pd.Series, dim_date: pd.DataFrame) -> pd.Series:
+    dates = pd.to_datetime(values)
+    keys = (dates.dt.year * 10000 + dates.dt.month * 100 + dates.dt.day).fillna(0).astype("int32")
+    return keys.where(keys.isin(dim_date["DATE_KEY"]), 0)
 
 
 def seoul_timestamp(values: pd.Series, name: str) -> pd.Series:
-    """Interpret shared naive timestamps in Korea time, as defined by MR-5."""
+    """Return timezone-naive KST wall time (D-013, MR-5)."""
     values = pd.to_datetime(values)
     require(not values.isna().any(), f"{name}: null timestamp")
-    if values.dt.tz is None:
-        return values.dt.tz_localize("Asia/Seoul")
-    return values.dt.tz_convert("Asia/Seoul")
+    if values.dt.tz is not None:
+        values = values.dt.tz_convert("Asia/Seoul").dt.tz_localize(None)
+    return values
 
 
-def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = None) -> dict:
-    check_output_path(silver, gold)
+def attach_common_keys(frame: pd.DataFrame, dimensions: dict) -> pd.DataFrame:
+    """Join business keys as specified in docs/gold/common.md section 2."""
+    races = dimensions["DIM_RACE"].query("RACE_KEY > 0")
+    channels = dimensions["DIM_CHANNEL"].query("CHANNEL_KEY > 0")
+    members = dimensions["DIM_MEMBER"]
+    known_members = members[members["MEMBER_TYPE_CD"].eq("MEMBER")]
+    non_member = members[members["MEMBER_TYPE_CD"].eq("NON_MEMBER")]
+    unique_key(races, ["RC_DT", "RC_NO"], "DIM_RACE business key")
+    unique_key(known_members, ["MBR_NO"], "DIM_MEMBER business key")
+    require(not channels.duplicated(["CHNL_CD", "OTB_BRANCH_NO"]).any(),
+            "DIM_CHANNEL: duplicate business key")
+    require(len(non_member) == 1 and non_member["MEMBER_KEY"].iloc[0] > 0,
+            "DIM_MEMBER: expected one positive NON_MEMBER key (D-016)")
+    result = frame.merge(races[["RC_DT", "RC_NO", "RACE_KEY"]],
+                         on=["RC_DT", "RC_NO"], how="left", validate="many_to_one")
+    result = result.merge(channels[["CHNL_CD", "OTB_BRANCH_NO", "CHANNEL_KEY"]],
+                          on=["CHNL_CD", "OTB_BRANCH_NO"], how="left", validate="many_to_one")
+    result.loc[result["CHNL_CD"].eq("UNKNOWN"), "CHANNEL_KEY"] = 0
+    result["MEMBER_KEY"] = result["MBR_NO"].map(known_members.set_index("MBR_NO")["MEMBER_KEY"])
+    non_member_rows = result["MBR_NO"].isna() | result["MBR_NO"].astype("string").str.strip().eq("").fillna(False)
+    result.loc[non_member_rows, "MEMBER_KEY"] = non_member["MEMBER_KEY"].iloc[0]
+    for key in ["RACE_KEY", "CHANNEL_KEY", "MEMBER_KEY"]:
+        result[key] = result[key].fillna(0).astype("int32")
+    result["DATE_KEY"] = date_key(result["RC_DT"], dimensions["DIM_DATE"])
+    result["SALE_DTM"] = seoul_timestamp(result["SALE_DTM"], "BET_ORDER.SALE_DTM")
+    result["SALE_DATE_KEY"] = date_key(result["SALE_DTM"], dimensions["DIM_DATE"])
+    return result
+
+
+def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = None,
+          common: Path = COMMON) -> dict:
+    check_output_path(silver, gold, common)
     sources, provenance = read_sources(silver, silver_ref)
+    dimensions, common_provenance = read_common(common)
     ticket, order, race, member = (sources[name] for name in SOURCE_TABLES)
 
     unique_key(ticket, ["ORDER_NO", "TICKET_SEQ"], "BET_TICKET")
@@ -143,56 +182,15 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
     require(ticket.loc[ticket.TICKET_STAT_CD.eq("VOID"), "BET_AMT"].ge(0).all(),
             "VOID amount must be nonnegative")
 
-    dim_race = race[[
-        "RC_DT", "RC_NO", "MEET_CD", "RC_DAY_SEQ", "RC_DIST_M",
-        "RC_GRADE_CD", "BUDAM_TYPE_CD", "HR_CLASS_NM", "RC_TITLE_NM",
-        "WEATHER_CD", "TRACK_STAT_CD", "TRACK_MOIST_RT", "START_DTM",
-    ]].copy()
-    dim_race.insert(0, "RACE_KEY", race_key(dim_race))
-    dim_race["START_DTM"] = seoul_timestamp(dim_race["START_DTM"], "RC_RACE.START_DTM")
-    dim_race["RC_DIST_NM"] = dim_race["RC_DIST_M"].astype("string") + "m"
-    dim_race["WEATHER_NM"] = dim_race["WEATHER_CD"].map(WEATHER_NAMES)
-    require(not dim_race["WEATHER_NM"].isna().any(), "unknown race weather code")
-    dim_race = dim_race.sort_values(["RC_DT", "RC_NO"], kind="stable").reset_index(drop=True)
-
-    dim_date = race[["RC_DT"]].drop_duplicates().copy()
-    dim_date.insert(0, "DATE_KEY", date_key(dim_date))
-    dates = pd.to_datetime(dim_date["RC_DT"].astype(str))
-    dim_date["YEAR_NO"] = dates.dt.year
-    dim_date["MONTH_NO"] = dates.dt.month
-    dim_date["DAY_NO"] = dates.dt.day
-    dim_date["WEEKDAY_NO"] = dates.dt.day_of_week + 1  # ISO Monday=1
-    dim_date["WEEKDAY_NM"] = dates.dt.day_of_week.map(dict(enumerate(WEEKDAY_NAMES)))
-    dim_date = dim_date.sort_values("DATE_KEY", kind="stable").reset_index(drop=True)
-
     bet_codes = sorted(ticket["BET_TYPE_CD"].dropna().unique().tolist())
     require(set(bet_codes).issubset(BET_TYPES), "BET_TICKET: unexpected bet type codes")
     dim_bet_type = pd.DataFrame(
         [(code, BET_TYPES[code]) for code in bet_codes],
         columns=["BET_TYPE_CD", "BET_TYPE_NM"],
     )
-    dim_channel = order[["CHNL_CD", "OTB_BRANCH_NO"]].drop_duplicates().copy()
-    dim_channel.insert(0, "CHANNEL_KEY", channel_key(dim_channel))
-    dim_channel["CHNL_NM"] = dim_channel["CHNL_CD"].map(
-        {"ONSITE": "현장", "APP": "온라인", "OTB": "장외발매소", "UNKNOWN": "미상"}
-    )
-    require(not dim_channel["CHNL_NM"].isna().any(), "unknown channel code")
-    dim_channel = dim_channel.sort_values("CHANNEL_KEY", kind="stable").reset_index(drop=True)
     dim_ticket_status = pd.DataFrame(
         list(TICKET_STATUSES.items()), columns=["TICKET_STAT_CD", "TICKET_STAT_NM"]
     ).sort_values("TICKET_STAT_CD", kind="stable").reset_index(drop=True)
-    require(not member["MBR_NO"].eq("NON_MEMBER").any(), "reserved member key exists")
-    dim_member = member[[
-        "MBR_NO", "BIRTH_DT", "JOIN_DT", "MBR_GRADE_CD", "MBR_STAT_CD",
-        "REGION_CD",
-    ]].copy().rename(columns={"MBR_NO": "MEMBER_KEY"})
-    non_member = pd.DataFrame({
-        "MEMBER_KEY": ["NON_MEMBER"], "BIRTH_DT": [pd.NaT], "JOIN_DT": [pd.NaT],
-        "MBR_GRADE_CD": [pd.NA], "MBR_STAT_CD": [pd.NA], "REGION_CD": [pd.NA],
-    })
-    dim_member = pd.concat([dim_member, non_member], ignore_index=True)
-    dim_member = dim_member.sort_values("MEMBER_KEY", kind="stable").reset_index(drop=True)
-    require(len(dim_member) == len(member) + 1, "member dimension row reconciliation failed")
 
     # A ticket retains its natural PK. ORDER_NO and TICKET_SEQ are degenerate
     # identifiers; dimension codes are foreign keys.
@@ -209,10 +207,8 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
     require(fact_ticket["_merge"].eq("both").all(), "BET_TICKET: missing BET_ORDER")
     fact_ticket = fact_ticket.drop(columns="_merge")
     require(len(fact_ticket) == len(ticket), "ticket join changed row count")
-    fact_ticket.insert(2, "RACE_KEY", race_key(fact_ticket))
-    fact_ticket.insert(3, "DATE_KEY", date_key(fact_ticket))
-    fact_ticket.insert(4, "CHANNEL_KEY", channel_key(fact_ticket))
-    fact_ticket.insert(5, "MEMBER_KEY", fact_ticket["MBR_NO"].fillna("NON_MEMBER"))
+    fact_ticket = attach_common_keys(fact_ticket, dimensions)
+    require(len(fact_ticket) == len(ticket), "common dimension joins changed row count")
 
     amt = fact_ticket["BET_AMT"].astype("int64")
     # D-003: zero-amount tickets stay in the fact but do not enter sales measures.
@@ -231,11 +227,10 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
     fact_ticket["NET_AFTER_CANCEL_AMT"] = (
         fact_ticket["VIRTUAL_GROSS_SALES_AMT"] - fact_ticket["CANCEL_AMT"]
     )
-    fact_ticket["SALE_DTM"] = seoul_timestamp(fact_ticket["SALE_DTM"], "BET_ORDER.SALE_DTM")
     fact_ticket["SALE_HOUR"] = fact_ticket["SALE_DTM"].dt.hour
     fact_ticket = fact_ticket[[
         "ORDER_NO", "TICKET_SEQ", "RACE_KEY", "DATE_KEY", "BET_TYPE_CD",
-        "CHANNEL_KEY", "MEMBER_KEY",
+        "CHANNEL_KEY", "MEMBER_KEY", "SALE_DATE_KEY",
         "RC_DT", "RC_NO",
         "ORDER_TYPE_CD", "ORIG_ORDER_NO", "MBR_NO", "SALE_DTM", "BIZ_DT", "SALE_HOUR",
         "TICKET_STAT_CD", "BET_AMT", "UNIT_CNT",
@@ -246,34 +241,35 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
     ]].sort_values(["ORDER_NO", "TICKET_SEQ"], kind="stable").reset_index(drop=True)
 
     tables = {
-        "DIM_RACE": (dim_race, ["RACE_KEY"]),
-        "DIM_DATE": (dim_date, ["DATE_KEY"]),
         "DIM_BET_TYPE": (dim_bet_type, ["BET_TYPE_CD"]),
-        "DIM_CHANNEL": (dim_channel, ["CHANNEL_KEY"]),
-        "DIM_MEMBER": (dim_member, ["MEMBER_KEY"]),
         "DIM_TICKET_STATUS": (dim_ticket_status, ["TICKET_STAT_CD"]),
         FACT_NAME: (fact_ticket, ["ORDER_NO", "TICKET_SEQ"]),
     }
     pk_duplicates = {}
-    for name, (frame, pk) in tables.items():
+    all_tables = {name: (frame, [COMMON_KEYS[name]]) for name, frame in dimensions.items()} | tables
+    for name, (frame, pk) in all_tables.items():
         unique_key(frame, pk, name)
         pk_duplicates[name] = int(frame.duplicated(pk).sum())
     missing_fks = {}
     for dimension, key in [
-        ("DIM_RACE", "RACE_KEY"), ("DIM_DATE", "DATE_KEY"),
+        ("DIM_RACE", "RACE_KEY"), ("DIM_DATE", "DATE_KEY"), ("DIM_DATE", "SALE_DATE_KEY"),
         ("DIM_BET_TYPE", "BET_TYPE_CD"), ("DIM_CHANNEL", "CHANNEL_KEY"),
         ("DIM_MEMBER", "MEMBER_KEY"), ("DIM_TICKET_STATUS", "TICKET_STAT_CD"),
     ]:
-        missing = fact_ticket[key].isna() | ~fact_ticket[key].isin(tables[dimension][0][key])
-        missing_fks[dimension] = int(missing.sum())
+        dim_key = COMMON_KEYS.get(dimension, key)
+        missing = fact_ticket[key].isna() | ~fact_ticket[key].isin(all_tables[dimension][0][dim_key])
+        missing_fks[dimension] = missing_fks.get(dimension, 0) + int(missing.sum())
         require(not missing.any(), f"{FACT_NAME}: missing {dimension} FK")
-    race_dates = dim_race[["RACE_KEY"]].assign(DATE_KEY=date_key(dim_race))
-    race_date_match = fact_ticket[["DATE_KEY", "RACE_KEY"]].merge(
-        race_dates, on=["DATE_KEY", "RACE_KEY"], how="left", validate="many_to_one", indicator=True
-    )["_merge"].eq("both")
+    dim_race = dimensions["DIM_RACE"]
+    race_dates = dim_race[["RACE_KEY"]].assign(DATE_KEY=date_key(dim_race["RC_DT"], dimensions["DIM_DATE"]))
+    expected_race_dates = fact_ticket["RACE_KEY"].map(race_dates.set_index("RACE_KEY")["DATE_KEY"])
+    race_date_match = fact_ticket["RACE_KEY"].eq(0) | fact_ticket["DATE_KEY"].eq(expected_race_dates)
     require(race_date_match.all(), f"{FACT_NAME}: race/date mismatch")
-    require(int(fact_ticket["MEMBER_KEY"].eq("NON_MEMBER").sum()) ==
-            int(fact_ticket["MBR_NO"].isna().sum()),
+    non_member_key = int(dimensions["DIM_MEMBER"].loc[
+        dimensions["DIM_MEMBER"]["MEMBER_TYPE_CD"].eq("NON_MEMBER"), "MEMBER_KEY"
+    ].iloc[0])
+    non_member_rows = fact_ticket["MBR_NO"].isna() | fact_ticket["MBR_NO"].astype("string").str.strip().eq("").fillna(False)
+    require(fact_ticket["MEMBER_KEY"].eq(non_member_key).eq(non_member_rows).all(),
             "non-member ticket reconciliation failed")
     require(len(fact_ticket) == len(ticket), "ticket row reconciliation failed")
     unique_key(fact_ticket, ["_SRC_ROW_NO"], f"{FACT_NAME} source row")
@@ -305,10 +301,12 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
 
     report = {
         "input_provenance": provenance,
+        "common_dimension_provenance": common_provenance,
         "grain": {FACT_NAME: ["ORDER_NO", "TICKET_SEQ"]},
         "source_rows": {"BET_TICKET": len(ticket), "BET_ORDER": len(order),
                         "MBR_MASTER": len(member), "RC_RACE": len(race)},
         "gold_rows": {name: len(frame) for name, (frame, _) in tables.items()},
+        "common_dimension_rows": {name: len(frame) for name, frame in dimensions.items()},
         "gold_excluded_rows": {"BET_TICKET": 0},
         "row_reconciliation": {"BET_TICKET": {
             "input_rows": len(ticket), "kept_rows": len(fact_ticket),
@@ -329,10 +327,16 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
         },
         "pk_duplicate_count": pk_duplicates,
         "missing_dimension_fk_count": {FACT_NAME: missing_fks},
+        "unknown_dimension_key_count": {
+            key: int(fact_ticket[key].eq(0).sum())
+            for key in ["RACE_KEY", "DATE_KEY", "SALE_DATE_KEY", "CHANNEL_KEY", "MEMBER_KEY"]
+        },
+        "non_member_ticket_count": int(non_member_rows.sum()),
         "race_date_mismatch_count": int((~race_date_match).sum()),
         "quality_decision_ids": {
             "zero_amount": "D-003", "late_cancel": "D-004", "order_flags": "D-006",
-            "clean_input": "D-012", "timestamp": "MR-5",
+            "clean_input": "D-012", "timestamp": "D-013", "common_keys": "D-013",
+            "date_roles": "D-014", "non_member": "D-016",
         },
     }
     gold.mkdir(parents=True, exist_ok=True)
@@ -350,5 +354,6 @@ if __name__ == "__main__":
     source.add_argument("--silver", type=Path, default=SILVER, help="Shared clean directory with _manifest.json")
     source.add_argument("--silver-ref", help="Read clean directly from a Git commit/ref without changing Silver files")
     parser.add_argument("--gold", type=Path, default=GOLD)
+    parser.add_argument("--common", type=Path, default=COMMON, help="Read-only shared Gold dimension directory")
     args = parser.parse_args()
-    print(json.dumps(build(args.silver, args.gold, args.silver_ref), ensure_ascii=False, indent=2))
+    print(json.dumps(build(args.silver, args.gold, args.silver_ref, args.common), ensure_ascii=False, indent=2))

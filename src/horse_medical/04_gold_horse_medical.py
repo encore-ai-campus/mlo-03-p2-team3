@@ -1,28 +1,26 @@
-"""Build the medical star schema from a verified Silver clean snapshot."""
+"""Build the medical star schema from verified Silver clean data and common dimensions."""
 
 import argparse
 import hashlib
 import json
 from bisect import bisect_right
 from collections import defaultdict
-from datetime import date, timedelta
 from pathlib import Path
 
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-DAY = timedelta(days=1)
 ROOT = Path(__file__).resolve().parents[2]
 CLEAN_DIR = ROOT / "data" / "02_silver" / "clean"
 GOLD_DIR = ROOT / "data" / "03_gold" / "horse_medical"
-HORSE_ATTRIBUTES = ("HR_SEX_CD", "HR_GRADE_CD", "HR_AGE", "TR_GRP_NO", "TR_NM", "TR_EXTERNAL_YN", "OW_NM")
+COMMON_DIR = GOLD_DIR.parent / "common"
+COMMON_DIMENSIONS = ("DIM_DATE", "DIM_HORSE", "DIM_TRAINER")
 KEYS = {
     "DIM_DATE": "DATE_KEY", "DIM_HORSE": "HORSE_KEY", "DIM_TRAINER": "TRAINER_KEY",
     "DIM_AGE_GROUP": "AGE_GROUP_KEY", "DIM_VET_TYPE": "VET_TYPE_KEY",
 }
 I32 = pa.int32()
 TEXT = pa.string()
-DATE = pa.date32()
 FK = {
     "VET_DT_KEY": "DIM_DATE", "REPORT_DT_KEY": "DIM_DATE", "HORSE_KEY": "DIM_HORSE",
     "TRAINER_KEY": "DIM_TRAINER", "AGE_GROUP_KEY": "DIM_AGE_GROUP",
@@ -53,8 +51,8 @@ def read_clean_manifest(expected_version):
     return version, manifest.get("SOURCE_COMMIT") if path.is_file() else None
 
 
-def read_clean(name, columns=None):
-    return pq.read_table(CLEAN_DIR / f"{name}.parquet", columns=columns).to_pylist()
+def read_clean(name):
+    return pq.read_table(CLEAN_DIR / f"{name}.parquet").to_pylist()
 
 
 def no_prior_snapshot(row):
@@ -70,72 +68,6 @@ def age_group_dimension():
             ("UNKNOWN", None, None), ("2~3세", 2, 3), ("4~5세", 4, 5), ("6~7세", 6, 7), ("8세 이상", 8, None)
         ])
     ], schema=pa.schema([("AGE_GROUP_KEY", I32), ("AGE_GROUP_NM", TEXT), ("MIN_AGE", I32), ("MAX_AGE", I32)]))
-
-
-def build_date_dimension(history):
-    medical_days = {row[column] for row in history for column in ("VET_DT", "REPORT_DT")}
-    race_days = {row["RC_DT"] for row in read_clean("RC_RACE", ["RC_DT"])}
-    first, last = min(medical_days), max(medical_days)
-    rows = []
-    for offset in range((last - first).days + 1):
-        day = first + offset * DAY
-        day_of_week = day.isoweekday()
-        rows.append({
-            "DATE_KEY": day.year * 10000 + day.month * 100 + day.day,
-            "FULL_DT": day, "YEAR_NO": day.year, "MONTH_NO": day.month, "DAY_NO": day.day,
-            "DOW_NO": day_of_week, "DOW_NM": "월화수목금토일"[day_of_week - 1],
-            "WEEK_NO": day.isocalendar().week, "RACE_DAY_YN": "Y" if day in race_days else "N",
-        })
-    return pa.Table.from_pylist(rows, schema=pa.schema([
-        ("DATE_KEY", I32), ("FULL_DT", DATE), ("YEAR_NO", I32), ("MONTH_NO", I32),
-        ("DAY_NO", I32), ("DOW_NO", I32), ("DOW_NM", TEXT), ("WEEK_NO", I32), ("RACE_DAY_YN", TEXT),
-    ]))
-
-
-def build_horse_dimension(age_groups):
-    columns = ["HR_NM", "SNAPSHOT_DT", "_SRC_ROW_NO", "HR_BIRTH_DT", "SIRE_NM", "DAM_NM", *HORSE_ATTRIBUTES]
-    snapshots = sorted(read_clean("HR_WEEKLY_SNAPSHOT", columns), key=lambda row: (
-        row["HR_NM"], row["SNAPSHOT_DT"], row["_SRC_ROW_NO"],
-    ))
-    versions = [{"HORSE_KEY": 0, "CURRENT_YN": "N"}]
-    age_names = {row["AGE_GROUP_KEY"]: row["AGE_GROUP_NM"] for row in age_groups}
-    previous = None
-    for snapshot in snapshots:
-        name = snapshot["HR_NM"]
-        values = {column: snapshot[column] for column in HORSE_ATTRIBUTES}
-        if previous and name == previous["HR_NM"]:
-            if values == {column: previous[column] for column in HORSE_ATTRIBUTES}:
-                continue
-            previous["VALID_TO_DT"] = snapshot["SNAPSHOT_DT"]
-            previous["CURRENT_YN"] = "N"
-        age_key = age_group_key(snapshot["HR_AGE"], age_groups)
-        previous = {
-            "HORSE_KEY": len(versions), "HR_NM": name, "VALID_FROM_DT": snapshot["SNAPSHOT_DT"] + DAY,
-            "VALID_TO_DT": date.max, "HR_BIRTH_DT": snapshot["HR_BIRTH_DT"], "CURRENT_YN": "Y",
-            "SRC_SNAPSHOT_DT": snapshot["SNAPSHOT_DT"], "SIRE_NM": snapshot["SIRE_NM"],
-            "DAM_NM": snapshot["DAM_NM"], "AGE_BAND_NM": age_names.get(age_key), **values,
-        }
-        versions.append(previous)
-    schema = pa.schema([
-        ("HORSE_KEY", I32), ("HR_NM", TEXT), ("HR_SEX_CD", TEXT), ("HR_BIRTH_DT", DATE),
-        ("HR_AGE", I32), ("AGE_BAND_NM", TEXT), ("HR_GRADE_CD", TEXT), ("TR_GRP_NO", TEXT),
-        ("TR_NM", TEXT), ("TR_EXTERNAL_YN", TEXT), ("OW_NM", TEXT), ("SIRE_NM", TEXT), ("DAM_NM", TEXT),
-        ("SRC_SNAPSHOT_DT", DATE), ("VALID_FROM_DT", DATE), ("VALID_TO_DT", DATE), ("CURRENT_YN", TEXT),
-    ])
-    return pa.Table.from_pylist(versions, schema=schema)
-
-
-def build_trainer_dimension():
-    columns = ["TR_NM", "TR_GRP_NO", "TR_BIRTH_DT", "DEBUT_DT", "SNAPSHOT_DT", "_SRC_ROW_NO"]
-    snapshots = sorted(read_clean("TR_WEEKLY_SNAPSHOT", columns), key=lambda row: (
-        row["TR_NM"], row["SNAPSHOT_DT"], row["_SRC_ROW_NO"],
-    ))
-    latest = {row["TR_NM"]: row for row in snapshots}
-    return pa.Table.from_pylist([
-        {"TRAINER_KEY": key, **row} for key, row in enumerate(latest.values(), 1)
-    ], schema=pa.schema([
-        ("TRAINER_KEY", I32), ("TR_NM", TEXT), ("TR_GRP_NO", TEXT), ("TR_BIRTH_DT", DATE), ("DEBUT_DT", DATE),
-    ]))
 
 
 def horse_index(dimension):
@@ -242,31 +174,35 @@ def main():
     clean_bridge = sorted(read_clean("HR_VET_TYPE_BRIDGE"), key=lambda row: (row["VET_SEQ"], row["VET_TYPE_NM"]))
     age_dimension = age_group_dimension()
     age_groups = [row for row in age_dimension.to_pylist() if row["AGE_GROUP_KEY"] != 0]
-    dimensions = {
-        "DIM_DATE": build_date_dimension(history),
-        "DIM_HORSE": build_horse_dimension(age_groups),
-        "DIM_TRAINER": build_trainer_dimension(),
-        "DIM_AGE_GROUP": age_dimension,
-    }
+    common_dimensions = {}
+    common_hashes = {}
+    for name in COMMON_DIMENSIONS:
+        path = COMMON_DIR / f"{name}.parquet"
+        content = path.read_bytes()
+        common_dimensions[name] = pq.read_table(pa.BufferReader(content))
+        common_hashes[path.name] = hashlib.sha256(content).hexdigest()
 
     names = sorted({row["VET_TYPE_NM"] for row in clean_bridge})
     type_keys = {label: i for i, label in enumerate(names, 1)}
-    dimensions["DIM_VET_TYPE"] = pa.Table.from_pylist(
+    type_dimension = pa.Table.from_pylist(
         [{"VET_TYPE_KEY": key, "VET_TYPE_NM": label} for label, key in type_keys.items()],
         schema=pa.schema([("VET_TYPE_KEY", I32), ("VET_TYPE_NM", TEXT)]),
     )
+    local_dimensions = {"DIM_AGE_GROUP": age_dimension, "DIM_VET_TYPE": type_dimension}
+    dimensions = {**common_dimensions, **local_dimensions}
     fact = make_fact(history, dimensions, age_groups)
     bridge = [{"VET_SEQ": row["VET_SEQ"], "VET_TYPE_KEY": type_keys[row["VET_TYPE_NM"]]} for row in clean_bridge]
     validate(fact, bridge, dimensions, history, clean_bridge)
 
     tables = {
-        **dimensions, "FCT_HORSE_MEDICAL": pa.Table.from_pylist(fact, schema=FACT_SCHEMA),
+        **local_dimensions, "FCT_HORSE_MEDICAL": pa.Table.from_pylist(fact, schema=FACT_SCHEMA),
         "BRIDGE_HR_VET_TYPE": pa.Table.from_pylist(bridge, schema=BRIDGE_SCHEMA),
     }
     report = {
-        "STATUS": "INDIVIDUAL_VALIDATED",
+        "STATUS": "COMMON_DIMENSIONS_VALIDATED",
         "CLEAN_VERSION": clean_version,
         "CLEAN_SOURCE_COMMIT": source_commit,
+        "COMMON_DIMENSION_SHA256": common_hashes,
         "CLEAN_INPUT_ROWS": {"HR_VET_HIST": len(history), "HR_VET_TYPE_BRIDGE": len(clean_bridge)},
         "GOLD_EXCLUDED_ROWS": 0,
         "TABLE_ROWS": {name: table.num_rows for name, table in tables.items()},
