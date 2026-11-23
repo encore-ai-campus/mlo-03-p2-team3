@@ -194,5 +194,5 @@
 | Bronze | `data/01_bronze/` | 원천을 값 그대로 Parquet로 저장 → `docs/BRONZE.md` |
 | Silver | `data/02_silver/` | 이름·타입·코드 표준화 → `docs/SILVER.md` |
 | Silver 품질 관리 | `data/02_silver/clean/`, `_excluded/` | 중복 제외, 0원·늦은 취소 등 표시, 마명 보정 → `docs/품질관리.md` |
-| Gold | `data/03_gold/race_entry/` | 경주 출전 스타 스키마 (FCT_RACE_ENTRY + 차원 4개) → `docs/gold/race_entry.md` |
+| Gold | `data/03_gold/race_entry/` | 경주 출전 팩트 FCT_RACE_ENTRY (차원은 공통 차원 4개) → `docs/gold/race_entry.md` |
 | Gold 공통 차원 | `data/03_gold/common/` | 네 팩트가 함께 쓰는 차원 6개 (DATE, RACE, HORSE, TRAINER, MEMBER, CHANNEL) → `docs/gold/common.md` |

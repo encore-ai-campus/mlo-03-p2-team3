@@ -4,7 +4,7 @@
 2. 행 수 = clean 기준 (차원 범위는 clean 전체)
 3. DIM_DATE: 연속, 팩트가 참조하는 clean 날짜를 모두 포함, 범위 = 팀 합의(2026-05-16 ~ 2026-11-18)
 4. DIM_HORSE SCD2: 기간 겹침·빈틈 없음, 현재 버전 1개, VALID_FROM_DT = 스냅샷 다음 날
-5. 기존 팩트와 호환: race_entry·horse_medical 차원은 키까지 그대로, 네 팩트의 업무 키가 모두 공통 차원에 연결됨
+5. 팩트와 연결: 전환한 팩트는 FK가 모두 공통 차원에 있음, 전환 전 팩트는 업무 키가 모두 공통 차원에서 찾아짐
 """
 import sys
 from datetime import date, timedelta
@@ -37,6 +37,81 @@ def same_rows(a, b):
     a, b = a.reset_index(drop=True), b.reset_index(drop=True)
     return list(a.columns) == list(b.columns) and len(a) == len(b) and all(
         ((a[c] == b[c]) | (a[c].isna() & b[c].isna())).all() for c in a.columns)
+
+
+# 팩트 FK 컬럼 → 공통 차원 (역할이 여럿인 날짜는 *_DT_KEY, *_DATE_KEY)
+def common_dim_of(col):
+    if col == "DATE_KEY" or col.endswith(("_DT_KEY", "_DATE_KEY")):
+        return "DIM_DATE"
+    return {"RACE_KEY": "DIM_RACE", "HORSE_KEY": "DIM_HORSE", "TRAINER_KEY": "DIM_TRAINER",
+            "MEMBER_KEY": "DIM_MEMBER", "CHANNEL_KEY": "DIM_CHANNEL"}.get(col)
+
+
+def check_converted(folder, d):
+    """공통 차원으로 전환한 팩트: FK가 모두 공통 차원 키에 있는지."""
+    for path in sorted(folder.glob("*.parquet")):
+        if path.stem.upper().startswith(("DIM_", "BRIDGE_")):
+            continue
+        f = pd.read_parquet(path)
+        for col in f.columns:
+            dim = common_dim_of(col)
+            if dim:
+                miss = int((~f[col].isin(d[dim][KEYS[dim]])).sum())
+                mark(miss == 0, f"{folder.name}/{path.stem}.{col} → common {dim}: 없는 키 {miss}, 미상(0) {int(f[col].eq(0).sum())}")
+
+
+def before_race_entry(x):
+    d = x["d"]
+    for n in ["DIM_RACE", "DIM_HORSE", "DIM_TRAINER"]:
+        old = gold(f"race_entry/{n}")
+        mark(same_rows(d[n][d[n][KEYS[n]] > 0], old), f"race_entry {n}: 미상 행 외에는 키·값 그대로")
+    old = gold("race_entry/DIM_DATE")  # 기존 177일(경주 기간)은 그대로, 범위만 넓어짐
+    mark(same_rows(d["DIM_DATE"][d["DIM_DATE"].DATE_KEY.isin(old.DATE_KEY)], old),
+         f"race_entry DIM_DATE: 기존 {len(old)}일은 키·값 그대로 (공통은 범위만 넓어짐)")
+
+
+def before_horse_medical(x):
+    d, fdates = x["d"], x["fdates"]
+    hm_h = gold("horse_medical/DIM_HORSE").sort_values("HORSE_KEY")
+    mark(same_rows(d["DIM_HORSE"].drop(columns="HR_NM"), hm_h.drop(columns="HR_NM"))
+         and same_rows(d["DIM_HORSE"][["HR_NM"]].iloc[1:], hm_h[["HR_NM"]].iloc[1:]),
+         "horse_medical DIM_HORSE: 키·값 그대로 (미상 행 HR_NM만 NULL → UNKNOWN, 팀 합의)")
+    t_old = gold("horse_medical/DIM_TRAINER")
+    mark(same_rows(d["DIM_TRAINER"][d["DIM_TRAINER"].TRAINER_KEY > 0], t_old), "horse_medical DIM_TRAINER: 18행 키·값 그대로")
+    hm = gold("horse_medical/FCT_HORSE_MEDICAL")
+    for c in ["VET_DT_KEY", "REPORT_DT_KEY"]:
+        mark(bool(hm[c].isin(fdates).all()), f"horse_medical {c} 모두 DIM_DATE에 있음")
+
+
+def before_race_sales(x):
+    ch, fdates, race_nk, mbr = x["ch"], x["fdates"], x["race_nk"], x["mbr"]
+    rs = gold("race_sales/race_sales")
+    mark(all(k in race_nk for k in zip(rs.RC_DT, rs.RC_NO)), "race_sales 경주(RC_DT, RC_NO) 모두 DIM_RACE에 있음")
+    mark(bool(rs.DATE_KEY.astype(int).isin(fdates).all()), "race_sales DATE_KEY(숫자로 바꾸면) 모두 DIM_DATE에 있음")
+    ch_nk = set(zip(ch.CHNL_CD, ch.OTB_BRANCH_NO.fillna("")))
+    rs_ch = rs.CHANNEL_KEY.str.split("|", expand=True)
+    mark(all(k in ch_nk for k in zip(rs_ch[0], rs_ch[1])), "race_sales 채널(CHNL_CD, OTB_BRANCH_NO) 모두 DIM_CHANNEL에 있음")
+    mark(bool((rs.MEMBER_KEY.eq("NON_MEMBER") | rs.MEMBER_KEY.isin(mbr)).all()), "race_sales 회원 모두 DIM_MEMBER에 있음 (비회원 → NON_MEMBER)")
+    print(f"    참고: race_sales 비회원 마권 {int(rs.MEMBER_KEY.eq('NON_MEMBER').sum()):,}행 (마권 기준)")
+
+
+def before_bet_cancel(x):
+    d, fdates, race_nk, mbr = x["d"], x["fdates"], x["race_nk"], x["mbr"]
+    bc = gold("bet_cancel/FCT_BET_SELECTION_CANCEL_50S")
+    for c in ["purchase_date_key", "cancel_date_key", "race_date_key", "snapshot_date_key"]:
+        mark(bool(bc[c].isin(fdates).all()), f"bet_cancel {c} 모두 DIM_DATE에 있음 (미상 0 포함)")
+    bm = gold("bet_cancel/DIM_MEMBER").set_index("member_key").member_no
+    mark(bool(bc.member_key.map(bm).dropna().isin(mbr).all()), "bet_cancel 회원 모두 DIM_MEMBER에 있음")
+    br = gold("bet_cancel/DIM_RACE").set_index("race_id")
+    mark(all(k in race_nk for k in zip(bc.race_id.map(br.race_date).dropna(), bc.race_id.map(br.race_no).dropna().astype(int))),
+         "bet_cancel 경주 모두 DIM_RACE에 있음")
+    bh = gold("bet_cancel/DIM_HORSE").set_index("horse_key").horse_name
+    mark(bool(bc.horse_key.map(bh).dropna().isin(set(d["DIM_HORSE"].HR_NM.dropna())).all()), "bet_cancel 말 이름 모두 DIM_HORSE에 있음")
+
+
+# 전환 전 팩트별 검사. 모든 팩트가 전환되면 지워도 된다
+BEFORE = {"race_entry": before_race_entry, "horse_medical": before_horse_medical,
+          "race_sales": before_race_sales, "bet_cancel": before_bet_cancel}
 
 
 def main():
@@ -94,46 +169,19 @@ def main():
          f"말 {h.HR_NM.nunique():,}두 모두 현재 버전 1개")
     mark(bool((h.VALID_FROM_DT == h.SRC_SNAPSHOT_DT.map(lambda x: x + timedelta(days=1))).all()), "VALID_FROM_DT = 스냅샷 다음 날")
 
-    print("\n[5] 기존 팩트와 호환 (develop에 올라온 팩트 기준)")
-    for n in ["DIM_RACE", "DIM_HORSE", "DIM_TRAINER"]:
-        old = gold(f"race_entry/{n}")
-        mark(same_rows(d[n][d[n][KEYS[n]] > 0], old), f"race_entry {n}: 미상 행 외에는 키·값 그대로")
-    old = gold("race_entry/DIM_DATE")  # 기존 177일(경주 기간)은 그대로, 범위만 넓어짐
-    mark(same_rows(d["DIM_DATE"][d["DIM_DATE"].DATE_KEY.isin(old.DATE_KEY)], old),
-         f"race_entry DIM_DATE: 기존 {len(old)}일은 키·값 그대로 (공통은 범위만 넓어짐)")
-    hm_h = gold("horse_medical/DIM_HORSE").sort_values("HORSE_KEY")
-    mark(same_rows(d["DIM_HORSE"].drop(columns="HR_NM"), hm_h.drop(columns="HR_NM"))
-         and same_rows(d["DIM_HORSE"][["HR_NM"]].iloc[1:], hm_h[["HR_NM"]].iloc[1:]),
-         "horse_medical DIM_HORSE: 키·값 그대로 (미상 행 HR_NM만 NULL → UNKNOWN, 팀 합의)")
-    t_old = gold("horse_medical/DIM_TRAINER")
-    mark(same_rows(d["DIM_TRAINER"][d["DIM_TRAINER"].TRAINER_KEY > 0], t_old), "horse_medical DIM_TRAINER: 18행 키·값 그대로")
-
-    fdates = set(d["DIM_DATE"].DATE_KEY)
-    hm = gold("horse_medical/FCT_HORSE_MEDICAL")
-    for c in ["VET_DT_KEY", "REPORT_DT_KEY"]:
-        mark(bool(hm[c].isin(fdates).all()), f"horse_medical {c} 모두 DIM_DATE에 있음")
-
-    rs = gold("race_sales/race_sales")
-    race_nk = set(zip(d["DIM_RACE"].RC_DT, d["DIM_RACE"].RC_NO))
-    mark(all(k in race_nk for k in zip(rs.RC_DT, rs.RC_NO)), "race_sales 경주(RC_DT, RC_NO) 모두 DIM_RACE에 있음")
-    mark(bool(rs.DATE_KEY.astype(int).isin(fdates).all()), "race_sales DATE_KEY(숫자로 바꾸면) 모두 DIM_DATE에 있음")
-    ch_nk = set(zip(ch.CHNL_CD, ch.OTB_BRANCH_NO.fillna("")))
-    rs_ch = rs.CHANNEL_KEY.str.split("|", expand=True)
-    mark(all(k in ch_nk for k in zip(rs_ch[0], rs_ch[1])), "race_sales 채널(CHNL_CD, OTB_BRANCH_NO) 모두 DIM_CHANNEL에 있음")
-    mbr = set(m.MBR_NO.dropna())
-    mark(bool((rs.MEMBER_KEY.eq("NON_MEMBER") | rs.MEMBER_KEY.isin(mbr)).all()), "race_sales 회원 모두 DIM_MEMBER에 있음 (비회원 → NON_MEMBER)")
-    print(f"    참고: race_sales 비회원 마권 {int(rs.MEMBER_KEY.eq('NON_MEMBER').sum()):,}행 (마권 기준)")
-
-    bc = gold("bet_cancel/FCT_BET_SELECTION_CANCEL_50S")
-    for c in ["purchase_date_key", "cancel_date_key", "race_date_key", "snapshot_date_key"]:
-        mark(bool(bc[c].isin(fdates).all()), f"bet_cancel {c} 모두 DIM_DATE에 있음 (미상 0 포함)")
-    bm = gold("bet_cancel/DIM_MEMBER").set_index("member_key").member_no
-    mark(bool(bc.member_key.map(bm).dropna().isin(mbr).all()), "bet_cancel 회원 모두 DIM_MEMBER에 있음")
-    br = gold("bet_cancel/DIM_RACE").set_index("race_id")
-    mark(all(k in race_nk for k in zip(bc.race_id.map(br.race_date).dropna(), bc.race_id.map(br.race_no).dropna().astype(int))),
-         "bet_cancel 경주 모두 DIM_RACE에 있음")
-    bh = gold("bet_cancel/DIM_HORSE").set_index("horse_key").horse_name
-    mark(bool(bc.horse_key.map(bh).dropna().isin(set(d["DIM_HORSE"].HR_NM.dropna())).all()), "bet_cancel 말 이름 모두 DIM_HORSE에 있음")
+    print("\n[5] 팩트와 연결")
+    print("    공통 차원으로 전환한 팩트는 FK가 모두 공통 차원에 있는지, 전환 전 팩트는 업무 키가 모두 공통 차원에서 찾아지는지 본다")
+    ctx = {"d": d, "ch": ch, "m": m, "fdates": set(d["DIM_DATE"].DATE_KEY),
+           "race_nk": set(zip(d["DIM_RACE"].RC_DT, d["DIM_RACE"].RC_NO)), "mbr": set(m.MBR_NO.dropna())}
+    for folder in sorted(p for p in C.GOLD_DIR.iterdir() if p.is_dir() and p.name != "common"):
+        own = [n for n in KEYS if (folder / f"{n}.parquet").exists()]
+        if not own:
+            check_converted(folder, d)
+        elif folder.name in BEFORE:
+            print(f"  - {folder.name}: 전환 전 (자기 차원 {len(own)}개)")
+            BEFORE[folder.name](ctx)
+        else:
+            mark(False, f"{folder.name}: 전환 전 검사가 정의되지 않음")
 
     print("\n공통 차원 검증:", "통과" if not FAILS else f"불일치 {len(FAILS)}건")
     for f in FAILS:

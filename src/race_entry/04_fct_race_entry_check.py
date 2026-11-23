@@ -1,4 +1,6 @@
-"""Gold 검증: 스타 스키마(FCT_RACE_ENTRY + 차원 4개)를 clean/에서 독립적으로 다시 계산해 확인한다.
+"""Gold 검증: 스타 스키마(FCT_RACE_ENTRY + 공통 차원 4개)를 clean/에서 독립적으로 다시 계산해 확인한다.
+
+차원은 공통 차원(03_gold/common/)을 읽는다. 미상 행(키 0)은 SCD2 검사에서 뺀다 (D-013).
 
 1. 테이블마다 PK 중복 0
 2. 팩트의 모든 키가 차원에 있음
@@ -16,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # src/config.py
 import config as C  # noqa: E402
 
 GOLD_DIR = C.GOLD_DIR / "race_entry"
+COMMON_DIR = C.GOLD_DIR / "common"
 
 FAILS = []
 FACT_COLS = ["RACE_KEY", "CHUL_NO", "DATE_KEY", "HORSE_KEY", "TRAINER_KEY", "START_CNT", "WIN_CNT", "PLACE_CNT", "EXPECT_WIN"]
@@ -28,7 +31,8 @@ def check(ok, msg):
 
 
 def main():
-    g = {t: pd.read_parquet(GOLD_DIR / f"{t}.parquet") for t in ["DIM_DATE", "DIM_RACE", "DIM_HORSE", "DIM_TRAINER", "FCT_RACE_ENTRY"]}
+    g = {t: pd.read_parquet(COMMON_DIR / f"{t}.parquet") for t in ["DIM_DATE", "DIM_RACE", "DIM_HORSE", "DIM_TRAINER"]}
+    g["FCT_RACE_ENTRY"] = pd.read_parquet(GOLD_DIR / "FCT_RACE_ENTRY.parquet")
     cl = {t: pd.read_parquet(C.CLEAN_DIR / f"{t}.parquet") for t in ["RC_ENTRY", "RC_RESULT", "RC_ODDS", "RC_RACE", "HR_WEEKLY_SNAPSHOT"]}
     f, dr, dh, dt, dd = g["FCT_RACE_ENTRY"], g["DIM_RACE"], g["DIM_HORSE"], g["DIM_TRAINER"], g["DIM_DATE"]
     E = C.EXPECTED_GOLD
@@ -43,7 +47,7 @@ def main():
     print("\n[2] 팩트의 키가 모두 차원에 있음")
     for col, dim, key in [("DATE_KEY", dd, "DATE_KEY"), ("RACE_KEY", dr, "RACE_KEY"), ("HORSE_KEY", dh, "HORSE_KEY"), ("TRAINER_KEY", dt, "TRAINER_KEY")]:
         miss = int((~f[col].isin(dim[key])).sum() + f[col].isna().sum())
-        check(miss == 0, f"FCT_RACE_ENTRY.{col} → {key}: 없는 키 {miss}")
+        check(miss == 0, f"FCT_RACE_ENTRY.{col} → {key}: 없는 키 {miss}, 미상(0) {int(f[col].eq(0).sum())}")
 
     print("\n[3] 그레인과 기대값")
     k3 = ["RC_DT", "RC_NO", "CHUL_NO"]
@@ -74,7 +78,7 @@ def main():
     check((tr.TR_NM == tr.TR_NM_D).all(), "TRAINER_KEY = 출전표의 조교사 (경주 당시)")
 
     print("\n[5] DIM_HORSE SCD2")
-    h = dh.sort_values(["HR_NM", "VALID_FROM_DT"])
+    h = dh[dh.HORSE_KEY != 0].sort_values(["HR_NM", "VALID_FROM_DT"])
     nxt = h.groupby("HR_NM").VALID_FROM_DT.shift(-1)
     gap = h[nxt.notna()]
     check(all(a + pd.Timedelta(days=1) == b for a, b in zip(pd.to_datetime(gap.VALID_TO_DT), pd.to_datetime(nxt.dropna()))),
@@ -90,7 +94,9 @@ def main():
     s = cl["HR_WEEKLY_SNAPSHOT"].assign(D=lambda q: pd.to_datetime(q.SNAPSHOT_DT)).sort_values("D")
     a = pd.merge_asof(v.assign(D=pd.to_datetime(v.RC_DT)).sort_values("D"), s, on="D", by="HR_NM", allow_exact_matches=False, suffixes=("", "_S"))
     cols = ["HR_SEX_CD", "HR_GRADE_CD", "HR_AGE", "TR_GRP_NO", "TR_NM", "OW_NM"]
-    diff = sum(int((a[c].astype(str) != a[c + "_S"].astype(str)).sum()) for c in cols)
+    # 공통 차원은 미상 행(NULL) 때문에 정수 컬럼이 실수로 읽힐 수 있어 4.0 → 4로 맞춰 비교한다
+    norm = lambda s: s.map(lambda x: "∅" if pd.isna(x) else str(int(x)) if isinstance(x, float) else str(x))  # noqa: E731
+    diff = sum(int((norm(a[c]) != norm(a[c + "_S"])).sum()) for c in cols)
     check(diff == 0, f"말 속성(성별·등급·나이·조·조교사·마주) = 경주일 이전(엄격) 최근 스냅샷 값, 불일치 {diff}")
     e = fk.merge(cl["RC_ENTRY"][k3 + ["HR_SEX_CD", "HR_AGE"]], on=k3).merge(dh[["HORSE_KEY", "HR_SEX_CD", "HR_AGE"]], on="HORSE_KEY", suffixes=("", "_D"))
     check(((e.HR_SEX_CD == e.HR_SEX_CD_D) & (e.HR_AGE == e.HR_AGE_D)).all(), "출전표의 성별·나이 = 연결된 말 버전의 성별·나이")
