@@ -56,7 +56,7 @@
 | `TR_WEEKLY_SNAPSHOT` | 특정 스냅샷 날짜의 조교사 1명 상태 (53시점 × 18명) | `SNAPSHOT_DT + TR_NM` | 954 | `DIM_TRAINER` |
 | `RC_RACE` | 경주 1개 | `RC_DT + RC_NO` | 386 | `DIM_RACE`, 출발 시각 기준 |
 | `RC_ENTRY` | 경주별 출전표에 오른 말 1두 | `RC_DT + RC_NO + CHUL_NO` | 3,666 | 출전 팩트의 grain |
-| `RC_ODDS` | 출전마 1두의 배당·구간 기록 | `RC_DT + RC_NO + CHUL_NO` | 3,666 | 출전 팩트 `EXPECT_WIN`, AI Ready 비교 기준선 |
+| `RC_ODDS` | 출전마 1두의 배당·구간 기록 | `RC_DT + RC_NO + CHUL_NO` | 3,666 | 출전 팩트 `EXPECT_WIN_RT`, AI Ready 비교 기준선 |
 | `RC_RESULT` | 출전마 1두의 경주 결과 | `RC_DT + RC_NO + CHUL_NO` | 3,666 | 출주·우승·입상 측정값, AI Ready 정답 |
 | `RC_SALES` | 경주 × 승식 매출 1건 또는 경주 합계 1행 | 승식별: `RC_DT + RC_NO + BET_TYPE_CD`<br>합계: `RC_DT + RC_NO` | 3,088 | Silver에서 승식별 2,702행·합계 386행 분리·대사 |
 | `HR_VET_HIST` | 말 진료 1건 (복수 진료명이 한 칸에 포함될 수 있음) | `VET_SEQ` (Silver에서 원천 행 번호로 부여) | 1,488 | 진료 팩트·진료 유형 브리지 |
@@ -126,6 +126,7 @@
 | S-03 | Silver | 정제 결과를 공용 clean으로 관리하고 버전·파일 해시를 고정한다. | [clean manifest](data/02_silver/clean/_manifest.json) · SHA-256 대조 | ✅ 14개 파일 일치 |
 | G-01 | Gold | 같은 clean에서 업무별 grain에 맞는 팩트와 공통 차원을 생성한다. | 팩트별 입력·grain 대사 | ✅ 팩트 4개·공통 차원 6개 |
 | G-02 | Gold | PK 중복·NULL과 FK 누락이 없어야 하며 말의 SCD2 기준일을 지킨다. | [공통 차원 검증](src/common/04_common_dims_check.py) · 팩트별 키/시점 검증 | ✅ 키 오류 0건·기간 검증 통과 |
+| G-04 | Gold | 컬럼 이름이 매핑 규칙서 13장(Gold 이름 규칙)을 따른다. | [04_gold_naming_check.py](src/common/04_gold_naming_check.py) | ✅ 15개 테이블·170개 컬럼 위반 0 |
 | G-03 | Gold | 팩트·브리지의 행 수와 측정값을 해당 입력·집계 정의에 맞춰 대사한다. | [팩트별 검증 결과](docs/wiki/Results.md) | ✅ 행 수·금액·건수 일치 |
 | A-01 | AI Ready | 실제 출주마 1두를 1행으로 구성하고 미출주마는 사유와 함께 별도 보존한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) | ✅ 유지 3,644 + 제외 22 = 3,666행, PK 중복 0 |
 | A-02 | AI Ready | 출발 전 정보로 피처를 구성하고 정답·최종 배당을 학습 피처와 분리한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 과거 성적/진료/거래 재계산 | ✅ 시점별 재계산 일치 |
@@ -167,10 +168,10 @@ Bronze의 원천값은 보존하고 Silver에서 이름·타입·단위·코드�
 
 | 주제 · 팩트 | 한 행의 의미 | PK | 주요 측정값 | 실제 행 수 |
 | --- | --- | --- | --- | ---: |
-| [경주 출전](docs/gold/race_entry.md) · `FCT_RACE_ENTRY` | 경주별 출전표에 오른 말 1두 | `RACE_KEY + CHUL_NO` | `START_CNT`, `WIN_CNT`, `PLACE_CNT`, `EXPECT_WIN` | 3,666 |
+| [경주 출전](docs/gold/race_entry.md) · `FCT_RACE_ENTRY` | 경주별 출전표에 오른 말 1두 | `RACE_KEY + CHUL_NO` | `START_CNT`, `WIN_CNT`, `PLACE_CNT`, `EXPECT_WIN_RT` | 3,666 |
 | [말 진료](docs/gold/horse_medical.md) · `FCT_HORSE_MEDICAL` | 진료 기록 1건 | `VET_SEQ` | `VET_CNT` | 1,488 |
 | [마권 매출](docs/gold/race_sales.md) · `FCT_RACE_SALES` | 전표 내 마권 기록 1건(발매·취소·무효 포함) | `ORDER_NO + TICKET_SEQ` | `VIRTUAL_GROSS_SALES_AMT`, `SOLD_TICKET_CNT`, `CANCEL_AMT`, `VOID_AMT`, `NET_AFTER_CANCEL_AMT` | 522,364 |
-| [50대 단승 취소](docs/gold/bet_cancel.md) · `FCT_BET_SELECTION_CANCEL_50S` | 만 50~59세 회원의 전표별·경주별·출주마별 단승 구매 묶음 | `FACT_ID` | `PURCHASE_DETAIL_COUNT`, `PURCHASE_AMOUNT_KRW`, `VERIFIED_CANCEL_AMOUNT_KRW`, `HAS_VERIFIED_CUSTOMER_CANCEL` | 41,141 |
+| [50대 단승 취소](docs/gold/bet_cancel.md) · `FCT_BET_SELECTION_CANCEL_50S` | 만 50~59세 회원의 전표별·경주별·출주마별 단승 구매 묶음 | `FACT_ID` | `PURCHASE_DETAIL_CNT`, `PURCHASE_AMT`, `VERIFIED_CANCEL_AMT`, `VERIFIED_CANCEL_YN` | 41,141 |
 
 ### 공통 차원
 

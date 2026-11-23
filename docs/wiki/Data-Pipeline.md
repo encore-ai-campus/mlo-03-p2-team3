@@ -41,6 +41,7 @@ python -X utf8 src/race_sales/build_gold_sales.py
 python -X utf8 src/bet_cancel/04_fct_bet_cancel.py
 
 python -X utf8 src/common/04_common_dims_check.py
+python -X utf8 src/common/04_gold_naming_check.py
 python -X utf8 src/race_entry/04_fct_race_entry_check.py
 python -X utf8 src/horse_medical/04_gold_horse_medical.py --check
 

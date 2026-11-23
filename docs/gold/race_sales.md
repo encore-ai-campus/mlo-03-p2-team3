@@ -50,7 +50,7 @@ python src/race_sales/build_gold_sales.py --silver-ref origin/develop
 erDiagram
     DIM_RACE ||--o{ FCT_RACE_SALES : RACE_KEY
     DIM_DATE ||--o{ FCT_RACE_SALES : DATE_KEY
-    DIM_DATE ||--o{ FCT_RACE_SALES : SALE_DATE_KEY
+    DIM_DATE ||--o{ FCT_RACE_SALES : SALE_DT_KEY
     DIM_BET_TYPE ||--o{ FCT_RACE_SALES : BET_TYPE_CD
     DIM_CHANNEL ||--o{ FCT_RACE_SALES : CHANNEL_KEY
     DIM_MEMBER ||--o{ FCT_RACE_SALES : MEMBER_KEY
@@ -61,7 +61,7 @@ erDiagram
 |---|---|---|---:|
 | `FCT_RACE_SALES` | 전표번호 + 마권순번으로 식별되는 마권 기록 1건 | `ORDER_NO`, `TICKET_SEQ` | 522,364 |
 | `DIM_RACE` (공통) | 경주 1개 + 미상 | `RACE_KEY` | 387 |
-| `DIM_DATE` (공통) | 연속 날짜 1일 + 미상 | `DATE_KEY`, `SALE_DATE_KEY` | 188 |
+| `DIM_DATE` (공통) | 연속 날짜 1일 + 미상 | `DATE_KEY`, `SALE_DT_KEY` | 188 |
 | `DIM_BET_TYPE` | 마권 구매 승식 1개 | `BET_TYPE_CD` | 3 |
 | `DIM_CHANNEL` (공통) | 판매 채널·장외 지점 조합 1개 + 미상 | `CHANNEL_KEY` | 40 |
 | `DIM_MEMBER` (공통) | 회원 1명 / 비회원 / 미상 | `MEMBER_KEY` | 4,385 |
@@ -72,10 +72,10 @@ erDiagram
 | 차원 | 주요 속성과 키 생성 |
 |---|---|
 | `DIM_RACE` | `RC_DT` + `RC_NO`로 공통 순번 키에 연결. 경주 날짜·번호, 개최지, 거리(`RC_DIST_M`), 등급, 부담 유형, 말 분류, 경주명, 날씨 코드, 주로 상태·함수율, 출발 시각. 기존 매출 전용 `RC_DIST_NM`, `WEATHER_NM`은 공통 차원에 없으며 조회 시 표시값을 계산 |
-| `DIM_DATE` | `DATE_KEY=YYYYMMDD` 정수. `FULL_DT`, `YEAR_NO`, `MONTH_NO`, `DAY_NO`, `DOW_NO`(월=1), `DOW_NM`, `WEEK_NO`, `RACE_DAY_YN`. 2026-05-16 ~ 11-18 연속 187일 + 키 0 미상 |
+| `DIM_DATE` | `DATE_KEY=YYYYMMDD` 정수. `FULL_DT`, `YEAR_NO`, `MONTH_NO`, `DAY_NO`, `DOW_NO`(월=1), `DOW_NM`, `WEEK_NO`, `RC_DAY_YN`. 2026-05-16 ~ 11-18 연속 187일 + 키 0 미상 |
 | `DIM_BET_TYPE` | `BET_TYPE_CD`, `BET_TYPE_NM`. WIN=단승, PLC=연승, QNL=복승 |
 | `DIM_CHANNEL` | `CHNL_CD` + `OTB_BRANCH_NO`로 공통 순번 키에 연결. 지점 없는 앱·현장은 NULL 지점끼리 연결하고 `CHNL_CD=UNKNOWN` 및 미연결 값은 키 0 |
-| `DIM_MEMBER` | `MBR_NO`로 공통 순번 키에 연결. 회원 4,383명 + `MEMBER_TYPE_CD=NON_MEMBER`(양수 키) + `UNKNOWN`(키 0). 생년월일, 가입일, 등급, 상태, 지역 |
+| `DIM_MEMBER` | `MBR_NO`로 공통 순번 키에 연결. 회원 4,383명 + `MBR_TYPE_CD=NON_MEMBER`(양수 키) + `UNKNOWN`(키 0). 생년월일, 가입일, 등급, 상태, 지역 |
 | `DIM_TICKET_STATUS` | `TICKET_STAT_CD`, `TICKET_STAT_NM`. SOLD=정상 발매, CANCEL=발매 취소, VOID=무효 |
 
 ## 팩트 속성과 시간 기준
@@ -83,18 +83,18 @@ erDiagram
 | 구분 | 컬럼 |
 |---|---|
 | 식별자 | `ORDER_NO`, `TICKET_SEQ` |
-| 차원 FK | `RACE_KEY`, `DATE_KEY`, `SALE_DATE_KEY`, `BET_TYPE_CD`, `CHANNEL_KEY`, `MEMBER_KEY`, `TICKET_STAT_CD` |
+| 차원 FK | `RACE_KEY`, `DATE_KEY`, `SALE_DT_KEY`, `BET_TYPE_CD`, `CHANNEL_KEY`, `MEMBER_KEY`, `TICKET_STAT_CD` |
 | 경주 원래 값 | `RC_DT`, `RC_NO` |
 | 전표·회원 원래 값 | `ORDER_TYPE_CD`, `ORIG_ORDER_NO`, `MBR_NO` |
-| 구매 시각 | `SALE_DTM`, `BIZ_DT`, `SALE_HOUR` |
+| 구매 시각 | `SALE_DTM`, `BIZ_DT`, `SALE_HOUR_NO` |
 | 입력 금액·수량 | `BET_AMT`, `UNIT_CNT` |
 | 측정값 | `VIRTUAL_GROSS_SALES_AMT`, `SOLD_TICKET_CNT`, `CANCEL_AMT`, `VOID_AMT`, `NET_AFTER_CANCEL_AMT` |
 | 집계·품질 플래그 | `SALES_AGG_INCLUDE_YN`, `INVALID_YN`, `LATE_CANCEL_YN`, `ZERO_LATE_CANCEL_YN`, `HEADER_MISMATCH_YN`, `ORIG_MISSING_YN` |
 | 입력 추적 | `_SRC_ROW_NO`(BET_TICKET), `_ORDER_SRC_ROW_NO`(BET_ORDER) |
 
-`DATE_KEY`는 **경주 날짜 기준**, `SALE_DATE_KEY`는 **전표의 판매·취소 기록 날짜 기준**으로 같은 공통 `DIM_DATE`에 연결합니다(D-014). 구매 분석은 정상 발매 행의 `SALE_DATE_KEY`를 사용합니다. 영업일은 `BIZ_DT`, 구매 시간대는 `SALE_HOUR`(0~23)로 분석합니다. 경주·날짜·회원·채널을 공통 차원에서 찾지 못하면 키 0으로 연결합니다([연결 조건](common.md#2-팩트에서-연결하는-방법)).
+`DATE_KEY`는 **경주 날짜 기준**, `SALE_DT_KEY`는 **전표의 판매·취소 기록 날짜 기준**으로 같은 공통 `DIM_DATE`에 연결합니다(D-014). 구매 분석은 정상 발매 행의 `SALE_DT_KEY`를 사용합니다. 영업일은 `BIZ_DT`, 구매 시간대는 `SALE_HOUR_NO`(0~23)로 분석합니다. 경주·날짜·회원·채널을 공통 차원에서 찾지 못하면 키 0으로 연결합니다([연결 조건](common.md#2-팩트에서-연결하는-방법)).
 
-`SALE_DTM`과 공통 차원의 `START_DTM`은 시간대 없는 KST입니다(D-013, MR-5). 시간대가 있는 판매 시각은 먼저 KST로 변환한 뒤 시간대 정보를 제거합니다. 시간대 없는 입력은 시각을 그대로 유지합니다. `SALE_DATE_KEY`와 `SALE_HOUR`는 이 KST 판매 시각에서 추출하며 Silver와 공통 차원 파일은 변경하지 않습니다.
+`SALE_DTM`과 공통 차원의 `START_DTM`은 시간대 없는 KST입니다(D-013, MR-5). 시간대가 있는 판매 시각은 먼저 KST로 변환한 뒤 시간대 정보를 제거합니다. 시간대 없는 입력은 시각을 그대로 유지합니다. `SALE_DT_KEY`와 `SALE_HOUR_NO`는 이 KST 판매 시각에서 추출하며 Silver와 공통 차원 파일은 변경하지 않습니다.
 
 출발 전 구매 집중도는 팩트와 `DIM_RACE`를 `RACE_KEY`로 연결한 후 `(START_DTM - SALE_DTM)`의 분 단위 값으로 분석합니다. 정상 구매 분석에는 `SOLD_TICKET_CNT=1`인 행을 사용합니다.
 
@@ -123,7 +123,7 @@ erDiagram
 
 비율과 평균은 분모가 0이면 계산하지 않습니다. 집단별 평균을 다시 단순 평균하지 않고 금액과 분모를 재집계합니다. 시간대별 금액·비중도 동일한 정의를 적용합니다. 취소 차감 후 금액은 취소 행까지 포함해 합산해야 하며 SOLD만 먼저 남기면 취소액이 빠집니다.
 
-비회원의 `MBR_NO`는 빈 값을 보존하고 공통 차원의 `MEMBER_TYPE_CD=NON_MEMBER` 행의 양수 키로 연결합니다(D-016, 현재 키 4,384). 회원번호가 있지만 공통 차원에 없으면 미확인 키 0입니다. 비회원은 전표 4,921건, 매출 팩트에서는 마권 106,647행입니다. 비회원 행을 한 사람으로 세거나 비회원 개인당 구매액을 계산하지 않습니다. 회원 등급·상태·지역은 입력 회원 마스터의 속성이며 구매 당시의 변경 이력을 복원하지 않습니다. 연령을 계산할 때는 생년월일과 분석 기준 날짜가 모두 있는 회원만 사용합니다.
+비회원의 `MBR_NO`는 빈 값을 보존하고 공통 차원의 `MBR_TYPE_CD=NON_MEMBER` 행의 양수 키로 연결합니다(D-016, 현재 키 4,384). 회원번호가 있지만 공통 차원에 없으면 미확인 키 0입니다. 비회원은 전표 4,921건, 매출 팩트에서는 마권 106,647행입니다. 비회원 행을 한 사람으로 세거나 비회원 개인당 구매액을 계산하지 않습니다. 회원 등급·상태·지역은 입력 회원 마스터의 속성이며 구매 당시의 변경 이력을 복원하지 않습니다. 연령을 계산할 때는 생년월일과 분석 기준 날짜가 모두 있는 회원만 사용합니다.
 
 마권 매출은 마권 입력의 모집단을 기준으로 합니다. 별도 `RC_SALES`의 7개 승식 매출과 같은 거래 집합이라고 가정하거나 직접 대사하지 않습니다. 이번 산출물에는 `FACT_ACTUAL_RACE_SALES`와 `DIM_POOL`을 생성하지 않습니다.
 

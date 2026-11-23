@@ -11,11 +11,11 @@
 
 | 차원 | 행 | 키 (업무 키 정렬 순번) | 미상 행 | 비고 |
 |:--|--:|:--|:--|:--|
-| `DIM_DATE` | 188 | `DATE_KEY` = YYYYMMDD | `0` | 2026-05-16 ~ 2026-11-18 연속 187일 + 미상. `RACE_DAY_YN` = 경주일(52일) |
+| `DIM_DATE` | 188 | `DATE_KEY` = YYYYMMDD | `0` | 2026-05-16 ~ 2026-11-18 연속 187일 + 미상. `RC_DAY_YN` = 경주일(52일) |
 | `DIM_RACE` | 387 | `RACE_KEY` (`RC_DT`, `RC_NO` 순) | `0` | 경주 386개 |
 | `DIM_HORSE` | 4,127 | `HORSE_KEY` (`HR_NM`, `VALID_FROM_DT` 순) | `0` | SCD2. 말 1,250두, 버전 4,126개 |
 | `DIM_TRAINER` | 19 | `TRAINER_KEY` (`TR_NM` 순) | `0` | 조교사 18명 |
-| `DIM_MEMBER` | 4,385 | `MEMBER_KEY` (`MBR_NO` 순) | `0` | 회원 4,383명 + `NON_MEMBER`(키 4,384). `MEMBER_TYPE_CD`로 구분 |
+| `DIM_MEMBER` | 4,385 | `MEMBER_KEY` (`MBR_NO` 순) | `0` | 회원 4,383명 + `NON_MEMBER`(키 4,384). `MBR_TYPE_CD`로 구분 |
 | `DIM_CHANNEL` | 40 | `CHANNEL_KEY` (`CHNL_CD`, `OTB_BRANCH_NO` 순) | `0` | 앱·현장·장외 지점 37개. 채널 빈칸(`UNKNOWN`, 전표 13건)은 미상 행 |
 
 미상 행은 키 0, 이름 컬럼 `UNKNOWN`, 나머지 NULL입니다. 날짜 미상은 `DATE_KEY = 0`, `FULL_DT` NULL입니다.
@@ -28,7 +28,7 @@
 | `DIM_RACE` | `RC_DT` + `RC_NO` | `0` |
 | `DIM_HORSE` | `HR_NM` 같고 `VALID_FROM_DT ≤ 기준일 ≤ VALID_TO_DT`. 기준일: 경주는 경주일, 진료는 진료일, 취소 분석은 원구매일. 버전은 스냅샷 **다음 날**부터 유효하므로 기준일 **이전** 스냅샷의 속성이 됩니다 | `0` |
 | `DIM_TRAINER` | `TR_NM` (진료처럼 조 번호만 있으면 `TR_GRP_NO`) | `0` |
-| `DIM_MEMBER` | `MBR_NO`. 회원번호 빈칸(비회원)은 `MEMBER_TYPE_CD = 'NON_MEMBER'` 행의 키 | `0` |
+| `DIM_MEMBER` | `MBR_NO`. 회원번호 빈칸(비회원)은 `MBR_TYPE_CD = 'NON_MEMBER'` 행의 키 | `0` |
 | `DIM_CHANNEL` | `CHNL_CD` + `OTB_BRANCH_NO`. `CHNL_CD = 'UNKNOWN'`은 키 0 | `0` |
 
 ## 3. 기존 차원과 비교

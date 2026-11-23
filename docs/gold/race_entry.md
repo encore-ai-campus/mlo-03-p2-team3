@@ -10,7 +10,7 @@
 |:--|:--|
 | 업무 프로세스 | 경주 출전 |
 | 팩트 그레인 | **경주별 출전마 1두** (`RC_DT` + `RC_NO` + `CHUL_NO`). 출전표 1행 = 팩트 1행 (3,666행) |
-| 측정값 | `START_CNT` 출주, `WIN_CNT` 1착, `PLACE_CNT` 3착 안, `EXPECT_WIN` 배당 기반 예상 우승 확률 |
+| 측정값 | `START_CNT` 출주, `WIN_CNT` 1착, `PLACE_CNT` 3착 안, `EXPECT_WIN_RT` 배당 기반 예상 우승 확률 |
 | 보고 싶은 것 | 조교사별 / 말 성별·나이대·등급·부마별 / 경주 거리·주로·날씨별 우승률·입상률 |
 | 원천 (clean) | RC_ENTRY, RC_RESULT, RC_ODDS, RC_RACE, HR_WEEKLY_SNAPSHOT, TR_WEEKLY_SNAPSHOT |
 
@@ -34,7 +34,7 @@ erDiagram
         int START_CNT "출주"
         int WIN_CNT "1착"
         int PLACE_CNT "3착 안"
-        double EXPECT_WIN "예상 우승 확률"
+        double EXPECT_WIN_RT "예상 우승 확률"
     }
     DIM_DATE {
         int DATE_KEY PK
@@ -44,7 +44,7 @@ erDiagram
         int DAY_NO
         string DOW_NM
         int WEEK_NO
-        string RACE_DAY_YN
+        string RC_DAY_YN
     }
     DIM_RACE {
         int RACE_KEY PK
@@ -60,7 +60,7 @@ erDiagram
         int HORSE_KEY PK
         string HR_NM "마명 (자연키)"
         string HR_SEX_CD "성별"
-        string AGE_BAND_NM "나이대"
+        string AGE_GROUP_NM "나이대"
         string HR_GRADE_CD "등급"
         string SIRE_NM "부마"
         date VALID_FROM_DT "SCD2 시작"
@@ -91,7 +91,7 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
 
 | # | 규칙 | 구현 |
 |:-:|:--|:--|
-| 1 | 착순 94 = 경주제외, 95 = 출주취소 → 순위 아님, `START_CNT = 0` | `ENTRY_STAT_CD`가 RAN일 때만 1. 이 22두는 `WIN_CNT`·`PLACE_CNT`·`EXPECT_WIN`도 0 |
+| 1 | 착순 94 = 경주제외, 95 = 출주취소 → 순위 아님, `START_CNT = 0` | `ENTRY_STAT_CD`가 RAN일 때만 1. 이 22두는 `WIN_CNT`·`PLACE_CNT`·`EXPECT_WIN_RT`도 0 |
 | 2 | 말 ID가 없어 마명(`HR_NM`)으로 연결 | 마명이 자연키입니다. 같은 이름이면 생일·부마·모마가 모든 스냅샷에서 같은 것을 확인했습니다 |
 | 3 | 말 등급·속성은 경주일 **이전** 가장 최근 스냅샷 기준, DIM_HORSE는 SCD2 | `VALID_FROM_DT` = 스냅샷 다음 날. 스냅샷 날짜와 경주일이 같은 날이면 그 스냅샷은 쓰지 않습니다(엄격히 이전) |
 | 4 | 팩트에는 키 + 측정값만. 설명 속성은 차원, 승률은 마트에서 계산 | 팩트 컬럼은 키 5개 + 측정값 4개. 비율은 저장하지 않고, 마트는 만들지 않기로 했습니다 (4장의 조회 예시 참고) |
@@ -113,10 +113,10 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
 | `START_CNT` | 측정값 | 출주 1 / 경주제외·출주취소 0 |
 | `WIN_CNT` | 측정값 | 착순 1이면 1 |
 | `PLACE_CNT` | 측정값 | 착순 3 이하면 1 |
-| `EXPECT_WIN` | 측정값 | 경주 안에서 (1 / 단승 배당) ÷ Σ(1 / 단승 배당). 경주마다 합이 1, 뛰지 않은 말은 0 |
+| `EXPECT_WIN_RT` | 측정값 | 경주 안에서 (1 / 단승 배당) ÷ Σ(1 / 단승 배당). 경주마다 합이 1, 뛰지 않은 말은 0 |
 
 - 조교사를 말 차원이 아니라 출전표에서 연결하는 이유: 말 스냅샷의 조교사 칸은 외부마와 소속 사이를 자주 오갑니다. 지금 데이터에서는 두 값이 0건 차이로 같지만, 기준은 경주 당시 출전표로 정했습니다.
-- `EXPECT_WIN`을 정규화한 이유: 1/배당을 그대로 더하면 공제금 때문에 경주당 합이 약 1.25가 되어 실제 우승 수와 비교할 수 없습니다.
+- `EXPECT_WIN_RT`을 정규화한 이유: 1/배당을 그대로 더하면 공제금 때문에 경주당 합이 약 1.25가 되어 실제 우승 수와 비교할 수 없습니다.
 
 ### DIM_HORSE (공통 차원, 4,126행 + 미상 1행, SCD2)
 
@@ -124,7 +124,7 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
 |:--|:--|
 | `HORSE_KEY` | 대리키 (버전마다 하나) |
 | `HR_NM` | 마명 (자연키) |
-| `HR_SEX_CD`, `HR_AGE`, `AGE_BAND_NM`, `HR_GRADE_CD` | 성별, 나이, 나이대(2~3세 / 4~5세 / 6~7세 / 8세 이상), 등급 |
+| `HR_SEX_CD`, `HR_AGE`, `AGE_GROUP_NM`, `HR_GRADE_CD` | 성별, 나이, 나이대(2~3세 / 4~5세 / 6~7세 / 8세 이상), 등급 |
 | `TR_GRP_NO`, `TR_NM`, `TR_EXTERNAL_YN`, `OW_NM` | 스냅샷 기준 소속 조, 조교사, 외부마 여부, 마주 |
 | `HR_BIRTH_DT`, `SIRE_NM`, `DAM_NM` | 생일, 부마, 모마 (변하지 않는 값) |
 | `SRC_SNAPSHOT_DT` | 이 버전이 시작된 스냅샷 날짜 |
@@ -149,7 +149,7 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
 
 ### DIM_DATE (공통 차원, 187행 + 미상 1행)
 - 범위는 2026-05-16 ~ 2026-11-18의 연속 날짜이고(네 팩트가 참조하는 날짜 전체, D-014), 그중 경마일이 52일입니다. 이 팩트의 경주일은 2026-05-22 ~ 2026-11-14입니다.
-- 컬럼: `DATE_KEY`(YYYYMMDD), `FULL_DT`, `YEAR_NO`, `MONTH_NO`, `DAY_NO`, `DOW_NO`(1 = 월), `DOW_NM`, `WEEK_NO`(ISO), `RACE_DAY_YN`
+- 컬럼: `DATE_KEY`(YYYYMMDD), `FULL_DT`, `YEAR_NO`, `MONTH_NO`, `DAY_NO`, `DOW_NO`(1 = 월), `DOW_NM`, `WEEK_NO`(ISO), `RC_DAY_YN`
 
 ## 4. 우승률·입상률 조회 방법 (비율은 조회할 때 계산)
 
@@ -157,10 +157,10 @@ GitHub에서 열면 위 코드가 그림으로 보입니다. 행 수는 FCT_RACE
 import pandas as pd
 f = pd.read_parquet("data/03_gold/race_entry/FCT_RACE_ENTRY.parquet")
 x = f.merge(pd.read_parquet("data/03_gold/common/DIM_HORSE.parquet"), on="HORSE_KEY")
-a = x.groupby("AGE_BAND_NM")[["START_CNT", "WIN_CNT", "PLACE_CNT", "EXPECT_WIN"]].sum()
+a = x.groupby("AGE_GROUP_NM")[["START_CNT", "WIN_CNT", "PLACE_CNT", "EXPECT_WIN_RT"]].sum()
 a["WIN_RT"] = a.WIN_CNT / a.START_CNT      # 우승률
 a["PLACE_RT"] = a.PLACE_CNT / a.START_CNT  # 입상률
-a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예상 우승
+a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN_RT      # 실제 우승 ÷ 배당 기반 예상 우승
 ```
 
 **실행 결과 예 (나이대별)**
@@ -173,7 +173,7 @@ a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예�
 | 8세 이상 | 357 | 19 | 78 | 5.3% | 21.8% | 0.92 |
 
 **주의: 실제 ÷ 예상(A/E)은 출전마 단위 속성에서만 의미가 있습니다.**
-- `EXPECT_WIN`은 경주 안에서 합이 1이 되도록 만들었습니다.
+- `EXPECT_WIN_RT`은 경주 안에서 합이 1이 되도록 만들었습니다.
 - 그래서 거리·주로·날씨처럼 **경주 단위 속성**으로 묶으면 예상 우승 합이 그 묶음의 경주 수와 같아지고, 실제 우승 수와도 같아져서 A/E가 항상 1.0입니다.
 - 예상 대비 비교는 말·조교사·성별·나이대·등급·부마처럼 **출전마 단위 속성**에서 쓰세요. 우승률·입상률은 어떤 속성으로 묶어도 의미가 있습니다.
 
@@ -187,7 +187,7 @@ a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예�
 | SUM(START_CNT) / SUM(WIN_CNT) / SUM(PLACE_CNT) | 3,644 / 386 / 1,158 |
 | 우승률 | 10.59% |
 | 측정값 행 단위 재계산 (clean 결과표·배당표) | 4개 측정값 모두 일치 |
-| EXPECT_WIN | 경주마다 합 1, 전체 합 386.000000, 뛰지 않은 말 0 |
+| EXPECT_WIN_RT | 경주마다 합 1, 전체 합 386.000000, 뛰지 않은 말 0 |
 | TRAINER_KEY = 출전표 조교사 | 일치 |
 | SCD2: 기간이 겹치지 않고 빈틈 없음, 말마다 현재 버전 1개 | 통과 |
 | 팩트의 말 버전 = 경주일 **이전** 최근 스냅샷 (독립 재계산) | 속성 불일치 0 |
@@ -198,4 +198,4 @@ a["AE_RT"] = a.WIN_CNT / a.EXPECT_WIN      # 실제 우승 ÷ 배당 기반 예�
 ## 6. 남은 것
 
 - **공통 차원 통합 (D-010):** 완료. 차원 4개는 공통 차원(`data/03_gold/common/`)을 씁니다. 결정은 D-013 ~ D-016, 안건 기록은 `docs/gold/COMMON_DIMENSIONS.md`에 있습니다.
-- **시점 주의 (AI-ready용):** `EXPECT_WIN`은 최종 배당 기준이라 발매 마감 시점에야 알 수 있는 값입니다. 경주 결과 예측의 특성으로 쓸 때는 이 점을 명시해야 합니다.
+- **시점 주의 (AI-ready용):** `EXPECT_WIN_RT`은 최종 배당 기준이라 발매 마감 시점에야 알 수 있는 값입니다. 경주 결과 예측의 특성으로 쓸 때는 이 점을 명시해야 합니다.

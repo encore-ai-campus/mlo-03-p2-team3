@@ -22,17 +22,17 @@ COMMON_ROOT = ROOT / 'data/03_gold/common'
 GOLD_ROOT = ROOT / 'data/03_gold/bet_cancel'
 TYPES = {'s': pa.string(), 'i': pa.int64(), 'd': pa.date32(), 'n': pa.int32(),
          'f': pa.float64(), 't': pa.timestamp('ms')}
-FACT_FIELDS = '''fact_id:s original_order_no:s member_key:n horse_key:n race_key:n channel_key:n
-        purchase_date_key:n cancel_date_key:n race_date_key:n snapshot_date_key:n bet_type_cd:s chul_no:n
-        age_at_purchase:n purchase_at:t horse_age_at_race:n horse_sex_at_race:s
-        purchase_detail_count:i purchase_stake_units:i purchase_amount_krw:i
-        horse_snapshot_date:d snapshot_age_days:n recent1y_starts:i recent1y_wins:i recent1y_win_rate:f
-        recent1y_win_rate_band:s career_starts:i career_wins:i career_win_rate:f
-        has_verified_customer_cancel:n cancel_label_status:s cancel_transaction_count:i
-        raw_linked_cancel_amount_krw:i verified_cancel_amount_krw:i verified_cancel_stake_units:i
-        first_cancel_at:t cancel_delay_seconds:i late_cancel_detail_count:i unresolved_cancel_order_count:i
-        header_detail_mismatch:n observation_end_at:t analysis_eligible:n exclusion_reasons:s
-        purchase_order_row_id:s entry_row_id:s snapshot_row_id:s dq_dataset_version:s rule_version:s'''
+FACT_FIELDS = '''fact_id:s orig_order_no:s member_key:n horse_key:n race_key:n channel_key:n
+        purchase_dt_key:n cancel_dt_key:n date_key:n snapshot_dt_key:n bet_type_cd:s chul_no:n
+        mbr_age:n purchase_dtm:t hr_age:n hr_sex_cd:s
+        purchase_detail_cnt:i purchase_unit_cnt:i purchase_amt:i
+        snapshot_dt:d snapshot_age_day_cnt:n y1_rc_cnt:i y1_1st_cnt:i y1_win_rt:f
+        y1_win_rt_band_cd:s tot_rc_cnt:i tot_1st_cnt:i tot_win_rt:f
+        verified_cancel_yn:s cancel_label_stat_cd:s cancel_order_cnt:i
+        raw_cancel_amt:i verified_cancel_amt:i verified_cancel_unit_cnt:i
+        first_cancel_dtm:t cancel_delay_sec:i late_cancel_detail_cnt:i unresolved_cancel_order_cnt:i
+        header_mismatch_yn:s observation_end_dtm:t analysis_eligible_yn:s exclude_reason_cd:s
+        purchase_order_row_id:s entry_row_id:s snapshot_row_id:s clean_version_cd:s rule_version_cd:s'''
 COMMON_KEYS = {
     'DIM_MEMBER': 'MEMBER_KEY',
     'DIM_HORSE': 'HORSE_KEY',
@@ -45,10 +45,10 @@ FACT_FKS = {
     'horse_key': 'DIM_HORSE',
     'race_key': 'DIM_RACE',
     'channel_key': 'DIM_CHANNEL',
-    'purchase_date_key': 'DIM_DATE',
-    'cancel_date_key': 'DIM_DATE',
-    'race_date_key': 'DIM_DATE',
-    'snapshot_date_key': 'DIM_DATE',
+    'purchase_dt_key': 'DIM_DATE',
+    'cancel_dt_key': 'DIM_DATE',
+    'date_key': 'DIM_DATE',
+    'snapshot_dt_key': 'DIM_DATE',
 }
 
 
@@ -166,11 +166,11 @@ def build(data, version, dimensions):
         histories[name] = (sorted(d for d in by_date if d is not None), by_date)
     member_keys = {
         row['MBR_NO']: row['MEMBER_KEY'] for row in dimensions['DIM_MEMBER']
-        if row['MEMBER_TYPE_CD'] == 'MEMBER'
+        if row['MBR_TYPE_CD'] == 'MEMBER'
     }
     non_member_key = next(
         row['MEMBER_KEY'] for row in dimensions['DIM_MEMBER']
-        if row['MEMBER_TYPE_CD'] == 'NON_MEMBER'
+        if row['MBR_TYPE_CD'] == 'NON_MEMBER'
     )
     race_keys = {
         (row['RC_DT'], row['RC_NO']): row['RACE_KEY'] for row in dimensions['DIM_RACE']
@@ -322,29 +322,29 @@ def build(data, version, dimensions):
         member_key = member_keys.get(member_no, UNKNOWN_KEY) if member_no else non_member_key
         horse_key = horse_key_at(horse_versions, name, day) if snapshot else UNKNOWN_KEY
         channel_key = channel_keys.get((o['CHNL_CD'], o['OTB_BRANCH_NO']), UNKNOWN_KEY)
-        facts.append(dict(fact_id=g['fid'], original_order_no=key[0], member_key=member_key,
+        facts.append(dict(fact_id=g['fid'], orig_order_no=key[0], member_key=member_key,
                           horse_key=horse_key, race_key=race_keys.get(rk[:2], UNKNOWN_KEY),
                           channel_key=channel_key,
-                          purchase_date_key=date_key(day, date_keys),
-                          cancel_date_key=date_key(first.date() if first else None, date_keys),
-                          race_date_key=date_key(rk[0], date_keys),
-                          snapshot_date_key=date_key(snapshot['SNAPSHOT_DT'] if snapshot else None, date_keys),
-                          bet_type_cd='WIN', chul_no=rk[2], age_at_purchase=g['age'], purchase_at=when,
-                          horse_age_at_race=e.get('HR_AGE') if e else None, horse_sex_at_race=e.get('HR_SEX_CD') if e else None,
-                          purchase_detail_count=len(g['details']), purchase_stake_units=units, purchase_amount_krw=amount,
-                          horse_snapshot_date=snapshot['SNAPSHOT_DT'] if snapshot else None,
-                          snapshot_age_days=(day - snapshot['SNAPSHOT_DT']).days if snapshot else None,
-                          recent1y_starts=recent, recent1y_wins=wins, recent1y_win_rate=rate, recent1y_win_rate_band=band(rate),
-                          career_starts=career, career_wins=careerwins, career_win_rate=cr,
-                          has_verified_customer_cancel=label, cancel_label_status='AMBIGUOUS' if label is None else 'VERIFIED_CANCEL' if label else 'NO_CANCEL_OBSERVED',
-                          cancel_transaction_count=len(g['cancel_ids']), raw_linked_cancel_amount_krw=g['cancel_raw'],
-                          verified_cancel_amount_krw=g['cancel_amount'], verified_cancel_stake_units=g['cancel_units'],
-                          first_cancel_at=first, cancel_delay_seconds=int((first - when).total_seconds()) if first else None,
-                          late_cancel_detail_count=g['late_count'], unresolved_cancel_order_count=len(g['unresolved']),
-                          header_detail_mismatch=int(o.get('HEADER_MISMATCH_YN') == 'Y'), observation_end_at=cutoff,
-                          analysis_eligible=int(not bad), exclusion_reasons='|'.join(sorted(bad)), purchase_order_row_id=o['_DQ_ROW_ID'],
+                          purchase_dt_key=date_key(day, date_keys),
+                          cancel_dt_key=date_key(first.date() if first else None, date_keys),
+                          date_key=date_key(rk[0], date_keys),
+                          snapshot_dt_key=date_key(snapshot['SNAPSHOT_DT'] if snapshot else None, date_keys),
+                          bet_type_cd='WIN', chul_no=rk[2], mbr_age=g['age'], purchase_dtm=when,
+                          hr_age=e.get('HR_AGE') if e else None, hr_sex_cd=e.get('HR_SEX_CD') if e else None,
+                          purchase_detail_cnt=len(g['details']), purchase_unit_cnt=units, purchase_amt=amount,
+                          snapshot_dt=snapshot['SNAPSHOT_DT'] if snapshot else None,
+                          snapshot_age_day_cnt=(day - snapshot['SNAPSHOT_DT']).days if snapshot else None,
+                          y1_rc_cnt=recent, y1_1st_cnt=wins, y1_win_rt=rate, y1_win_rt_band_cd=band(rate),
+                          tot_rc_cnt=career, tot_1st_cnt=careerwins, tot_win_rt=cr,
+                          verified_cancel_yn=None if label is None else "Y" if label else "N", cancel_label_stat_cd='AMBIGUOUS' if label is None else 'VERIFIED_CANCEL' if label else 'NO_CANCEL_OBSERVED',
+                          cancel_order_cnt=len(g['cancel_ids']), raw_cancel_amt=g['cancel_raw'],
+                          verified_cancel_amt=g['cancel_amount'], verified_cancel_unit_cnt=g['cancel_units'],
+                          first_cancel_dtm=first, cancel_delay_sec=int((first - when).total_seconds()) if first else None,
+                          late_cancel_detail_cnt=g['late_count'], unresolved_cancel_order_cnt=len(g['unresolved']),
+                          header_mismatch_yn="Y" if o.get("HEADER_MISMATCH_YN") == "Y" else "N", observation_end_dtm=cutoff,
+                          analysis_eligible_yn="N" if bad else "Y", exclude_reason_cd='|'.join(sorted(bad)), purchase_order_row_id=o['_DQ_ROW_ID'],
                           entry_row_id=e['_DQ_ROW_ID'] if e else None, snapshot_row_id=snapshot['_DQ_ROW_ID'] if snapshot else None,
-                          dq_dataset_version=version, rule_version=RULE_VERSION))
+                          clean_version_cd=version, rule_version_cd=RULE_VERSION))
     if len({row['fact_id'] for row in facts}) != len(facts):
         raise ValueError(f'{FACT}: duplicate primary key')
     for field, dimension in FACT_FKS.items():

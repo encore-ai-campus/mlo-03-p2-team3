@@ -14,9 +14,9 @@
     "input_path": "data/03_gold/common/",
     "input_file_sha256": {
       "DIM_RACE.parquet": "ec0fca203d54e3e286a30d6e938e655c3f246fd93f0eb14de5e11ba555975ad8",
-      "DIM_DATE.parquet": "f357bd895fb4a1e19d66cebff33a7c31080ef589c91058775c18881b4169d5c9",
+      "DIM_DATE.parquet": "e7cad76e58bd8ba96a29609a7d8deb6aae748c4105d47ed191e27ef4e34932a8",
       "DIM_CHANNEL.parquet": "8decb729e1a50b03edc642582cb6cdee8c40f6e4d2dcff204769a20d4cea92d0",
-      "DIM_MEMBER.parquet": "78e34fa66589005ed4dd08278962a1a796f6e0ede0a8cb3a6a9b911e1de99328"
+      "DIM_MEMBER.parquet": "b40056cc46454789a376479be8a1f136bc86d1da05276ab02ba6258126e5ee9c"
     }
   },
   "grain": {
@@ -96,7 +96,7 @@
   "unknown_dimension_key_count": {
     "RACE_KEY": 0,
     "DATE_KEY": 0,
-    "SALE_DATE_KEY": 0,
+    "SALE_DT_KEY": 0,
     "CHANNEL_KEY": 308,
     "MEMBER_KEY": 0
   },

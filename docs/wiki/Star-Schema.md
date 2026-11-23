@@ -12,10 +12,10 @@
 
 | 주제 · 팩트 | 한 행의 의미 | PK | 주요 측정값 | 실제 행 수 |
 | --- | --- | --- | --- | ---: |
-| [경주 출전](../gold/race_entry.md) · `FCT_RACE_ENTRY` | 경주별 출전표에 오른 말 1두 | `RACE_KEY + CHUL_NO` | `START_CNT`, `WIN_CNT`, `PLACE_CNT`, `EXPECT_WIN` | 3,666 |
+| [경주 출전](../gold/race_entry.md) · `FCT_RACE_ENTRY` | 경주별 출전표에 오른 말 1두 | `RACE_KEY + CHUL_NO` | `START_CNT`, `WIN_CNT`, `PLACE_CNT`, `EXPECT_WIN_RT` | 3,666 |
 | [말 진료](../gold/horse_medical.md) · `FCT_HORSE_MEDICAL` | 진료 기록 1건 | `VET_SEQ` | `VET_CNT` | 1,488 |
 | [마권 매출](../gold/race_sales.md) · `FCT_RACE_SALES` | 전표 내 마권 기록 1건(발매·취소·무효 포함) | `ORDER_NO + TICKET_SEQ` | `VIRTUAL_GROSS_SALES_AMT`, `SOLD_TICKET_CNT`, `CANCEL_AMT`, `VOID_AMT`, `NET_AFTER_CANCEL_AMT` | 522,364 |
-| [50대 단승 취소](../gold/bet_cancel.md) · `FCT_BET_SELECTION_CANCEL_50S` | 만 50~59세 회원의 전표별·경주별·출주마별 단승 구매 묶음 | `FACT_ID` | `PURCHASE_DETAIL_COUNT`, `PURCHASE_AMOUNT_KRW`, `VERIFIED_CANCEL_AMOUNT_KRW`, `HAS_VERIFIED_CUSTOMER_CANCEL` | 41,141 |
+| [50대 단승 취소](../gold/bet_cancel.md) · `FCT_BET_SELECTION_CANCEL_50S` | 만 50~59세 회원의 전표별·경주별·출주마별 단승 구매 묶음 | `FACT_ID` | `PURCHASE_DETAIL_CNT`, `PURCHASE_AMT`, `VERIFIED_CANCEL_AMT`, `VERIFIED_CANCEL_YN` | 41,141 |
 
 ## 공통 차원
 
@@ -39,12 +39,12 @@
 | 팩트 | 측정값 | 입력과 계산 정의 |
 | --- | --- | --- |
 | 출전 | `START_CNT`, `WIN_CNT`, `PLACE_CNT` | clean `RC_RESULT`에서 출주(`RAN`) 1, 1착 1, 3착 이내 1. 미출주마는 0 |
-| 출전 | `EXPECT_WIN` | clean `RC_ODDS.WIN_ODDS`의 역수를 경주별 역수 합으로 나눈 값. 미출주마는 0 |
+| 출전 | `EXPECT_WIN_RT` | clean `RC_ODDS.WIN_ODDS`의 역수를 경주별 역수 합으로 나눈 값. 미출주마는 0 |
 | 진료 | `VET_CNT` | clean `HR_VET_HIST`의 진료 기록 1건당 1. 유형을 넘나들어 집계할 때는 `VET_SEQ` 중복 제거 |
 | 매출 | `VIRTUAL_GROSS_SALES_AMT`, `SOLD_TICKET_CNT` | clean `BET_TICKET`에서 `INVALID_YN=N`인 `SOLD`의 금액과 행 수, 나머지 0 |
 | 매출 | `CANCEL_AMT`, `VOID_AMT`, `NET_AFTER_CANCEL_AMT` | 유효 `CANCEL` 금액의 부호를 반전, 유효 `VOID` 금액은 별도 집계. 취소 차감 후 금액 = 정상 발매액 − 취소액 |
-| 취소 | `PURCHASE_DETAIL_COUNT`, `PURCHASE_STAKE_UNITS`, `PURCHASE_AMOUNT_KRW` | 구매 당시 만 50~59세 회원의 0원 제외 단승 구매 상세를 전표·경주·출주마별로 묶어 건수·구좌·금액 합산 |
-| 취소 | `VERIFIED_CANCEL_AMOUNT_KRW`, `HAS_VERIFIED_CUSTOMER_CANCEL` | 원전표·회원·선택이 일치하고 상세 검증을 통과한 취소 금액의 절댓값 합계, 취소 유무. 판정 불명확은 NULL |
-| 취소 | `RECENT1Y_WIN_RATE`, `CAREER_WIN_RATE` | 구매일보다 앞선 최신 말 스냅샷의 최근 1년·통산 1착수 ÷ 출전수. 분모 0·유효하지 않은 전적은 NULL |
+| 취소 | `PURCHASE_DETAIL_CNT`, `PURCHASE_UNIT_CNT`, `PURCHASE_AMT` | 구매 당시 만 50~59세 회원의 0원 제외 단승 구매 상세를 전표·경주·출주마별로 묶어 건수·구좌·금액 합산 |
+| 취소 | `VERIFIED_CANCEL_AMT`, `VERIFIED_CANCEL_YN` | 원전표·회원·선택이 일치하고 상세 검증을 통과한 취소 금액의 절댓값 합계, 취소 유무. 판정 불명확은 NULL |
+| 취소 | `Y1_WIN_RT`, `TOT_WIN_RT` | 구매일보다 앞선 최신 말 스냅샷의 최근 1년·통산 1착수 ÷ 출전수. 분모 0·유효하지 않은 전적은 NULL |
 
-금액은 원 단위입니다. 매출의 취소 차감 후 금액에는 무효액을 추가 차감하지 않습니다. 마권 매출은 WIN·PLC·QNL 입력 기준이며 별도 `RC_SALES`의 7개 승식 매출과 동일한 모집단으로 가정하지 않습니다. `EXPECT_WIN`은 최종 배당 기반이므로 후속 예측 데이터에서는 이용 가능한 시점을 검토해야 합니다.
+금액은 원 단위입니다. 매출의 취소 차감 후 금액에는 무효액을 추가 차감하지 않습니다. 마권 매출은 WIN·PLC·QNL 입력 기준이며 별도 `RC_SALES`의 7개 승식 매출과 동일한 모집단으로 가정하지 않습니다. `EXPECT_WIN_RT`은 최종 배당 기반이므로 후속 예측 데이터에서는 이용 가능한 시점을 검토해야 합니다.

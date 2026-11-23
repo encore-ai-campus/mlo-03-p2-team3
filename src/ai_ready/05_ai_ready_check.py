@@ -72,7 +72,7 @@ def main():
           f"TRAIN {len(tr):,} (~{tr.RC_DT.max().date()}) / TEST {len(te):,} ({te.RC_DT.min().date()}~), 날짜가 겹치지 않음")
 
     print("\n[4] 누수")
-    leak = {"FINISH_ORD", "WIN_CNT", "PLACE_CNT", "START_CNT", "EXPECT_WIN", "ENTRY_STAT_CD", "WIN_ODDS", "PLC_ODDS"}
+    leak = {"FINISH_ORD", "WIN_CNT", "PLACE_CNT", "START_CNT", "EXPECT_WIN_RT", "ENTRY_STAT_CD", "WIN_ODDS", "PLC_ODDS"}
     check(not (leak & set(t.columns)), "결과·배당 컬럼이 피처에 없음 (배당은 BASE_EXPECT_WIN 기준선으로만)")
 
     # 과거 성적: 행마다 같은 말의 '이전 날짜' 경주만 루프로 다시 센다
@@ -121,17 +121,17 @@ def main():
 
     # 취소: 출발 전 거래만으로 다시 판정한 값. Gold 취소 팩트(전체 기간 판정)와 대사
     g = pd.read_parquet(C.GOLD_DIR / "bet_cancel" / "FCT_BET_SELECTION_CANCEL_50S.parquet").merge(t[["RACE_KEY", "CHUL_NO"]], on=["RACE_KEY", "CHUL_NO"])
-    vg = g[g.CANCEL_LABEL_STATUS.eq("VERIFIED_CANCEL")]
-    pure = vg[vg.LATE_CANCEL_DETAIL_COUNT.eq(0)]
-    mixed = vg[vg.LATE_CANCEL_DETAIL_COUNT.gt(0)]
-    unres = g[g.CANCEL_LABEL_STATUS.eq("AMBIGUOUS") & g.EXCLUSION_REASONS.str.contains("UNRESOLVED_CANCEL_CONTEXT")
-              & ~g.EXCLUSION_REASONS.str.contains("CANCEL_EXCEEDS_PURCHASE") & g.CANCEL_TRANSACTION_COUNT.gt(0)]
+    vg = g[g.CANCEL_LABEL_STAT_CD.eq("VERIFIED_CANCEL")]
+    pure = vg[vg.LATE_CANCEL_DETAIL_CNT.eq(0)]
+    mixed = vg[vg.LATE_CANCEL_DETAIL_CNT.gt(0)]
+    unres = g[g.CANCEL_LABEL_STAT_CD.eq("AMBIGUOUS") & g.EXCLUDE_REASON_CD.str.contains("UNRESOLVED_CANCEL_CONTEXT")
+              & ~g.EXCLUDE_REASON_CD.str.contains("CANCEL_EXCEEDS_PURCHASE") & g.CANCEL_ORDER_CNT.gt(0)]
     got_cnt, got_amt = int(t.WIN_50S_CANCEL_GROUP_CNT.sum()), int(t.WIN_50S_CANCEL_AMT.sum())
     check((got_cnt, got_amt) == (905, 3812500), f"은빈 님 숫자: 출발 전 확인 취소 {got_cnt:,}묶음 {got_amt:,}원 (기대 905묶음 3,812,500원)")
-    check(len(pure) <= got_cnt <= len(pure) + len(mixed) + len(unres) and int(pure.VERIFIED_CANCEL_AMOUNT_KRW.sum()) <= got_amt,
-          f"Gold 확인 취소 중 출발 전만 있는 {len(pure):,}묶음 {int(pure.VERIFIED_CANCEL_AMOUNT_KRW.sum()):,}원은 모두 포함, "
+    check(len(pure) <= got_cnt <= len(pure) + len(mixed) + len(unres) and int(pure.VERIFIED_CANCEL_AMT.sum()) <= got_amt,
+          f"Gold 확인 취소 중 출발 전만 있는 {len(pure):,}묶음 {int(pure.VERIFIED_CANCEL_AMT.sum()):,}원은 모두 포함, "
           f"나머지는 출발 전·후가 섞인 {len(mixed)}묶음의 출발 전 부분과 연결 불확실 {len(unres)}묶음 중 출발 전에는 문제없는 묶음")
-    pt = pure.groupby(["RACE_KEY", "CHUL_NO"]).VERIFIED_CANCEL_AMOUNT_KRW.sum()
+    pt = pure.groupby(["RACE_KEY", "CHUL_NO"]).VERIFIED_CANCEL_AMT.sum()
     bad = int((t.set_index(["RACE_KEY", "CHUL_NO"]).WIN_50S_CANCEL_AMT.reindex(pt.index) < pt).sum())
     check(bad == 0, f"말마다 취소액 ≥ Gold의 출발 전 확인 취소액, 미달 {bad}")
     check(int((t.WIN_50S_CANCEL_AMT > t.WIN_50S_PURCHASE_AMT).sum()) == 0 and int((t.WIN_50S_CANCEL_GROUP_CNT > t.WIN_50S_PURCHASE_GROUP_CNT).sum()) == 0,
