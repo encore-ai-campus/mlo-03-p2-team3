@@ -400,7 +400,7 @@
 
 ## 13. Gold 이름 규칙 (D-017)
 
-1~12장은 Silver 기준이다. Gold는 데이터 사전에 없고 이름을 검사하지 않아, 팩트마다 이름 체계가 달라졌다. 이 장은 Gold에서 **새로 만드는 컬럼**과 **Silver에서 가져오는 컬럼**의 이름 규칙을 정하고, `src/common/04_gold_naming_check.py`가 모든 Gold 테이블에 대해 검사한다.
+1~12장은 Silver 기준이다. Gold는 처음에 데이터 사전에 없고 이름을 검사하지 않아, 팩트마다 이름 체계가 달라졌다. 지금은 Gold·AI Ready 컬럼도 종합 데이터 사전(`data_dictionary.csv`, `LAYER = GOLD / AI_READY`)에 있다. 이 장은 Gold에서 **새로 만드는 컬럼**과 **Silver에서 가져오는 컬럼**의 이름 규칙을 정하고, `src/common/04_gold_naming_check.py`가 모든 Gold 테이블에 대해 검사한다.
 
 ### 13.1 규칙
 
@@ -474,4 +474,5 @@
 ### 13.4 검증
 
 - `src/common/04_gold_naming_check.py`: 모든 Gold 테이블·컬럼이 13.1을 지키는지, `_YN` 값이 Y/N/NULL인지 확인한다. 바꾸기 전 Gold에서는 42건이 걸렸다(`AGE_BAND_NM`은 "같은 개념 두 이름"이라 패턴으로는 잡히지 않아 직접 확인).
-- 새 Gold 컬럼을 만들면 이 검사가 통과해야 한다.
+- 같은 검사가 종합 데이터 사전의 GOLD·AI_READY 행과 실제 파일의 컬럼 이름·순서·타입을 대조한다.
+- 새 Gold 컬럼을 만들면 사전에 행을 추가하고 이 검사가 통과해야 한다.

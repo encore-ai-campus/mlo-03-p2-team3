@@ -274,6 +274,7 @@ def bronze_doc():
            "| `_LOAD_DTM` | 적재 시각 (KST). 원천 파일 해시가 같으면 처음 기록한 시각을 다시 씀 |",
            "| `_SRC_ROW_NO` | 원천 파일의 데이터 행 번호 (첫 데이터 행 = 1). Silver·이슈 로그가 이 번호로 원천 행을 가리킴 |", ""]
     dic = pd.read_csv(C.DATA_DICTIONARY, dtype=str, keep_default_na=False)
+    dic = dic[dic.LAYER.eq("SILVER")].drop(columns="LAYER")  # 종합 사전 중 Silver 행
     silver_of = {"bet_order": ["BET_ORDER"], "bet_ticket": ["BET_TICKET"], "RC_SALES": ["RC_SALES", "RC_SALES_TOTAL"],
                  "HR_VET_HIST": ["HR_VET_HIST", "HR_VET_TYPE_BRIDGE"], "race_change_events": ["RC_CHANGE_EVENT"]}
     for src in C.SOURCES:
@@ -321,6 +322,7 @@ def silver_values(s, col, typ):
 
 def silver_doc():
     dic = pd.read_csv(C.DATA_DICTIONARY, dtype=str, keep_default_na=False)
+    dic = dic[dic.LAYER.eq("SILVER")].drop(columns="LAYER")  # 종합 사전 중 Silver 행
     issues = pd.read_csv(C.SILVER_ISSUE_LOG, dtype=str, keep_default_na=False)
     rn = issues[issues.ISSUE_CD == "RULE_NULL"].groupby(["TABLE_NM", "COL_NM", "NOTE"]).size()
     out = ["# Silver 컬럼 사전", "",
@@ -367,6 +369,7 @@ def main():
                            if s["bronze"] == "race_change_events" else pd.read_parquet(C.BRONZE_DIR / f"{s['bronze']}.parquet").columns)
                  if not c.startswith("_") and not desc(B, s["bronze"], c)]
     dic = pd.read_csv(C.DATA_DICTIONARY, dtype=str, keep_default_na=False)
+    dic = dic[dic.LAYER.eq("SILVER")].drop(columns="LAYER")  # 종합 사전 중 Silver 행
     missing_s = [(r.TABLE_NM, r.COL_NM) for r in dic[dic.COL_NM != "(제외)"].itertuples() if not desc(S, r.TABLE_NM, r.COL_NM)]
     print("docs/BRONZE_COLUMNS.md, docs/SILVER_COLUMNS.md 생성")
     print("뜻이 비어 있는 컬럼 - Bronze:", missing_b or "없음", "/ Silver:", missing_s or "없음")

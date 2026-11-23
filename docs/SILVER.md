@@ -97,7 +97,7 @@
 
 | 파일 | 열면 알 수 있는 것 |
 |:--|:--|
-| `data_dictionary.csv` | Silver 컬럼마다 타입, 어느 원천 컬럼에서 왔는지, 어떤 규칙을 적용했는지 (162줄) |
+| `data_dictionary.csv` | 종합 데이터 사전 중 `LAYER = SILVER` 행: Silver 컬럼마다 타입, 어느 원천 컬럼에서 왔는지, 어떤 규칙을 적용했는지 (162줄) |
 | `silver_value_map.csv` | 코드 컬럼에서 원천값이 어떤 표준코드로 몇 건 바뀌었는지 |
 | `silver_issue_log.csv` | 원천에 값이 있었는데 NULL이 된 칸 전부. `SRC_ROW_NO`, `RAW_VAL`(원천값), `ISSUE_CD`, `NOTE`(사유) |
 | `silver_column_profile.csv` | 컬럼별 행 수, NULL 수, TRIM 수, 변환 실패·코드표 밖·규칙상 NULL 건수 |

@@ -125,6 +125,7 @@ def main():
     std = {t: pa_std[t].to_pandas() for t in TABLES}
     bronze = {b: pd.read_parquet(C.BRONZE_DIR / f"{b}.parquet") for b in set(C.SILVER_FROM_BRONZE.values())}
     dic = pd.read_csv(C.DATA_DICTIONARY, dtype=str, keep_default_na=False)
+    dic = dic[dic.LAYER.eq("SILVER")].drop(columns="LAYER")  # 종합 사전 중 Silver 행
     issues = pd.read_csv(C.SILVER_ISSUE_LOG, dtype=str, keep_default_na=False)
     vmap = pd.read_csv(C.SILVER_VALUE_MAP, dtype=str, keep_default_na=False)
 
