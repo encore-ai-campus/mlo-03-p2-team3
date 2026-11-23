@@ -147,9 +147,12 @@ def cancel_50s():
 
     # 출발 전 단승 취소만 본다 (같은 전표의 연승·복승 취소가 섞이지 않게 단승만)
     c = x[x["ORDER_TYPE_CD"].eq("CANCEL") & x["BET_TYPE_CD"].eq("WIN") & (x["SALE_DTM"] < x["START_DTM"])]
-    # 원구매에 연결되는 취소: 원전표가 같은 회원의 SALE 전표이고 같은 말에 단승 마권이 있음 (시각·상태와 무관하게 연결 여부만)
-    sale_win = t.merge(o[["ORDER_NO", "ORDER_TYPE_CD", "MBR_NO"]], on="ORDER_NO")
-    sale_win = sale_win[sale_win["ORDER_TYPE_CD"].eq("SALE") & sale_win["BET_TYPE_CD"].eq("WIN")][["ORDER_NO", "MBR_NO"] + k].drop_duplicates()
+    # 원구매에 연결되는 취소: 원전표가 같은 회원의 '출발 전' SALE 전표이고 같은 말에 단승 마권이 있음.
+    # 출발 후 판매는 예측 시점에 없던 거래라 연결 후보에서 뺀다 (출발 후 거래가 출발 전 판정을 바꾸지 않게)
+    sale_win = t.merge(o[["ORDER_NO", "ORDER_TYPE_CD", "MBR_NO", "SALE_DTM"]], on="ORDER_NO", validate="m:1")
+    sale_win = sale_win.merge(rc[["RC_DT", "RC_NO", "START_DTM"]], on=["RC_DT", "RC_NO"], validate="m:1")
+    sale_win = sale_win[sale_win["ORDER_TYPE_CD"].eq("SALE") & sale_win["BET_TYPE_CD"].eq("WIN")
+                        & (sale_win["SALE_DTM"] < sale_win["START_DTM"])][["ORDER_NO", "MBR_NO"] + k].drop_duplicates()
     c = c.merge(sale_win.rename(columns={"ORDER_NO": "ORIG_ORDER_NO"}).assign(LINKABLE=True), on=["ORIG_ORDER_NO", "MBR_NO"] + k, how="left")
     c["LINKABLE"] = c["LINKABLE"].fillna(False).astype(bool)
     linked = c[c["LINKABLE"]].merge(pg.rename(columns={"ORDER_NO": "ORIG_ORDER_NO"}), on=["ORIG_ORDER_NO", "MBR_NO"] + k)
