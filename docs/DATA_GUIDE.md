@@ -1,112 +1,197 @@
-# 데이터 파이프라인 안내
+# 데이터 안내서: 무엇이 들어 있나
 
-[데이터 안내](DATA_GUIDE.md) · [원천 현황](AS-IS.md) · [Bronze](BRONZE.md) · [Bronze 컬럼](BRONZE_COLUMNS.md) · [Silver](SILVER.md) · [Silver 컬럼](SILVER_COLUMNS.md)
+## 한 줄 요약
 
-> 기록 기준: 2026-11-20 (KST). 완료·미수행·계획을 구분합니다.
+**제주 경마장의 경주 정보와 마권 판매 기록**입니다. 기간은 2026-05-22 ~ 2026-11-14이고, 경마일 52일, 경주 386개입니다.
 
-## 현재 진행 상태
+데이터는 다섯 덩어리로 나뉩니다.
 
-| 단계 | 상태 | 입력 → 출력 | 현재 기록 |
-| --- | --- | --- | --- |
-| 원천 / AS-IS | 현황 확인 완료 | `../data/00_origin` 읽기 전용 | 12개 파일, 625,411행; 일부 품질 징후 실측 |
-| Bronze | 구현·생성·검증 완료 | `../data/00_origin` → `data/01_bronze/` | 원천 보존 + source_file / ingested_at 추가 |
-| Silver 표준화 | 구현·생성·검증 완료 | `../data/01_bronze` → `data/02_silver/` | 평면 Parquet 14개; 입력 행 보존·표준화 변환 건수 기록 |
-| Silver 품질 관리 | 구현·생성·읽기 전용 재검증 완료 | 표준화 14개 → clean 14개 + 중복 제외 1개 | D-001~D-012; 중복 1,052행 제외, 진료 유형 의미 병합 감소 2행 별도 대사; QUALITY_REVIEW.md 참조 |
-| Gold | 구현·생성·읽기 전용 재검증 완료 | clean → `../data/03_gold` | fact 41,141행·차원5개; 적격39,284행·확인취소894묶음; 공통 차원 계약은 이 브랜치 제안 |
+```
+[경주]  RC_RACE ─┬─ RC_ENTRY (누가 나왔나)
+                 ├─ RC_ODDS (배당률·구간기록)
+                 ├─ RC_RESULT (몇 등 했나)
+                 ├─ RC_SALES / RC_SALES_TOTAL (승식별 매출)
+                 └─ RC_CHANGE_EVENT (기수변경·말취소·주로상태 공지)
 
-현재 문서 작성 브랜치는 `FCT_BET_CANCEL`입니다. 앞선 Bronze 작업은 사용자 요청으로 만든 `KEB`에서 진행했습니다.
+[판매]  MBR_MASTER ── BET_ORDER (전표) ── BET_TICKET (마권 한 장 한 장)
 
-## 문서 읽는 순서
+[말·조교사]  HR_WEEKLY_SNAPSHOT (말 주간 현황)
+             TR_WEEKLY_SNAPSHOT (조교사 주간 현황)
+             HR_VET_HIST ── HR_VET_TYPE_BRIDGE (진료 기록)
+```
 
-| 문서 | 확인할 내용 |
-| --- | --- |
-| [AS-IS.md](AS-IS.md) | 원천 목록, 실제 관측한 문제와 아직 검증하지 않은 항목 |
-| [bronze_usage.md](bronze_usage.md) | 처음 환경 준비부터 config.py 설정·실행·결과 확인까지 따라 하는 사용법 |
-| [BRONZE.md](BRONZE.md) | 설정·실행 방법, 출처 기록, 저장 구조, 검증 결과 |
-| [BRONZE_COLUMNS.md](BRONZE_COLUMNS.md) | 현재 존재하는 모든 Bronze 컬럼의 의미·타입·예시·NULL/빈값 |
-| [SILVER.md](SILVER.md) | 실제 표준화·테이블 분리·행 보존 대사·검증 결과 |
-| [SILVER_CHANGES.md](SILVER_CHANGES.md) | 테이블 / 원천컬럼 / 표준컬럼 / 바꾼내용 / 변경 건수 |
-| [silver_usage.md](silver_usage.md) | 다른 프로젝트 실행·경로 인자·규칙 JSON 사용법 |
-| [SILVER_COLUMNS.md](SILVER_COLUMNS.md) | 실제 Silver 컬럼·타입·원천 매핑·NULL 수·NULL 이유 |
-| [QUALITY.md](QUALITY.md) | 품질 규칙별 실측·테이블별 대사·검증 결과 |
-| [QUALITY_REVIEW.md](QUALITY_REVIEW.md) | 사용자 규칙·팩트 관점 대조와 최신 재검증, 재사용 범위 |
-| [QUALITY_CHANGES.md](QUALITY_CHANGES.md) / [QUALITY_COLUMNS.md](QUALITY_COLUMNS.md) | 품질 처리 건수와 추가 컬럼 사전 |
-| [quality_usage.md](quality_usage.md) | 읽기 전용 확인·처리 실행·다른 프로젝트 적용 |
-| [GOLD_INPUT_CONTRACT.md](GOLD_INPUT_CONTRACT.md) | 공통 clean 입력 버전·팩트 그레인·후속 Gold 검증 |
-| [GOLD.md](GOLD.md) / [GOLD_COLUMNS.md](GOLD_COLUMNS.md) | Gold 실제 테이블·행 수·PK/FK·금액 대사·컬럼 사전 |
-| [gold_usage.md](gold_usage.md) / [GOLD_VERIFICATION.md](GOLD_VERIFICATION.md) | 생성·확인·다른 프로젝트 적용, 최종 검증 기록 |
+- 아래의 테이블 이름과 행 수는 Silver(`data/02_silver/`) 기준입니다.
+- 컬럼별 자세한 뜻과 실제 값은 `docs/BRONZE_COLUMNS.md`(원천 그대로)와 `docs/SILVER_COLUMNS.md`(표준화 후)에 있습니다.
 
-## 원천 및 Bronze 현황
+## 경마 용어
 
-| 원천 상대 경로 (`../data/00_origin` 기준) | 내용 | 원천 행 수 | 원천 열 수 | Bronze 열 수 |
-| --- | --- | --- | --- | --- |
-| `event/race_change_events.jsonl` | 경주 변경 이벤트 | 149 | 7 | 9 |
-| `horse/HR_VET_HIST.csv` | 말 진료 이력 | 1,488 | 6 | 8 |
-| `horse/HR_WEEKLY_SNAPSHOT.csv` | 말 주간 스냅샷 | 52,642 | 23 | 25 |
-| `horse/TR_WEEKLY_SNAPSHOT.csv` | 조교사 주간 스냅샷 | 954 | 14 | 16 |
-| `member/MBR_MASTER.csv` | 회원 기본 정보 | 4,383 | 6 | 8 |
-| `order/bet_order.csv` | 발매·취소 전표 | 27,907 | 9 | 11 |
-| `order/bet_ticket.csv` | 전표에 포함된 마권 | 523,416 | 13 | 15 |
-| `race/RC_ENTRY.csv` | 경주 출전 정보 | 3,666 | 13 | 15 |
-| `race/RC_ODDS.csv` | 경주 배당·구간 기록 | 3,666 | 7 | 9 |
-| `race/RC_RACE.csv` | 경주 기본 정보 | 386 | 13 | 15 |
-| `race/RC_RESULT.csv` | 경주 결과 | 3,666 | 9 | 11 |
-| `race/RC_SALES.csv` | 승식별 매출 | 3,088 | 4 | 6 |
-| **합계** | **12개 파일** | **625,411** | — | — |
+| 용어 | 뜻 |
+|:--|:--|
+| 경주번호 `RC_NO` | 그날 몇 번째 경주인지 (하루 6~9경주) |
+| 마번 `CHUL_NO` | 경주에서 말이 받은 출전 번호 (1~10) |
+| 착순 `FINISH_ORD` | 들어온 순위 |
+| 부담중량 `BUDAM_KG` | 말이 지고 뛰는 무게 (기수 + 추) |
+| 착차 `MARGIN` | 앞 말과의 거리. 말 몸 길이 단위(1½ 등), 또는 코·머리·목 차이 |
+| 주로 상태 / 함수율 | 경주로 모래가 얼마나 젖었는지. 건조 → 양호 → 다습 → 포화 → 불량 |
+| 승식 `BET_TYPE` | 마권 종류. 단승(WIN), 연승(PLC), 복승(QNL), 복연승(QPL), 쌍승(EXA), 삼복승(TRI), 삼쌍승(TLA) |
+| 전표 / 마권 | 한 번 구매한 영수증이 전표, 그 안의 개별 베팅이 마권 |
+| 구좌 | 100원 단위. 마권 금액 ÷ 100 |
+| OTB | 장외발매소 (경마장 밖 판매점). 지점 37개 |
 
-## 데이터 파일과 관계를 이해하는 기준
+---
 
-| 파일 | 원천 행 단위 | 연결 후보 / 주의점 |
-| --- | --- | --- |
-| race_change_events | JSON 객체 1개 = 이벤트 1행 | 이름·기준일 등의 연결 기준은 Silver/Gold 설계에서 확정; 이름의 유일성을 가정하지 않음 |
-| HR_VET_HIST | 원천 진료 기록 1행. 여러 진료명이 한 칸에 있을 수 있음 | 이름·기준일 등의 연결 기준은 Silver/Gold 설계에서 확정; 이름의 유일성을 가정하지 않음 |
-| HR_WEEKLY_SNAPSHOT | 기준일별 말 정보 1행 | 이름·기준일 등의 연결 기준은 Silver/Gold 설계에서 확정; 이름의 유일성을 가정하지 않음 |
-| TR_WEEKLY_SNAPSHOT | 기준일별 조교사 정보 1행 | 이름·기준일 등의 연결 기준은 Silver/Gold 설계에서 확정; 이름의 유일성을 가정하지 않음 |
-| MBR_MASTER | 원천 회원 정보 1행 | 이름·기준일 등의 연결 기준은 Silver/Gold 설계에서 확정; 이름의 유일성을 가정하지 않음 |
-| bet_order | 원천 전표 1행. 전표번호 유일성은 Bronze에서 강제하지 않음 | 전표번호: order_no; 회원: member_no / MBR_NO |
-| bet_ticket | 원천 마권 상세 1행. 중복 포함 | order_no로 전표 연결; rc_date·rc_no·chul_no로 경주/출전마 연결 후보 |
-| RC_ENTRY | 경주별 출전마 정보 1행 | RC_DATE·RC_NO·CHUL_NO 등 원천 식별값 확인 필요; PK/FK 검증은 아직 미수행 |
-| RC_ODDS | 경주별 말의 배당·구간 원문 1행 | RC_DATE·RC_NO·CHUL_NO 등 원천 식별값 확인 필요; PK/FK 검증은 아직 미수행 |
-| RC_RACE | 경주 기본 정보 1행 | RC_DATE·RC_NO·CHUL_NO 등 원천 식별값 확인 필요; PK/FK 검증은 아직 미수행 |
-| RC_RESULT | 경주별 말의 결과 원문 1행 | RC_DATE·RC_NO·CHUL_NO 등 원천 식별값 확인 필요; PK/FK 검증은 아직 미수행 |
-| RC_SALES | 경주별 매출 구분 1행. 합계 행도 포함 | RC_DATE·RC_NO·CHUL_NO 등 원천 식별값 확인 필요; PK/FK 검증은 아직 미수행 |
+## 1. 경주
 
-## 저장소 탐색
+### RC_RACE: 경주 (386행)
+- **한 행 = 경주 1개**
+- 키: `RC_DT` + `RC_NO`
 
-| 경로 | 역할 |
-| --- | --- |
-| [`../data/00_origin`](../data/00_origin/) | 팀 공용 원천; 수정·이동·삭제하지 않음 |
-| [`../data/01_bronze`](../data/01_bronze/) | 원천 보존 Parquet 12개 |
-| [`../src/config.py`](../src/config.py) | 파일 경로·패턴·시트·컬럼·인코딩 설정 |
-| [`../src/01_bronze.py`](../src/01_bronze.py) | 변환과 출처 추가, 검증, 수집 이력 기록 |
-| [`../src/01_bronze_preview.ipynb`](../src/01_bronze_preview.ipynb) | 원천/결과 경로와 head(3), 최근 실행 대사 |
-| [`../tests/test_bronze.py`](../tests/test_bronze.py) | Bronze 자동 테스트 9개 |
-| [`../meta/bronze_ingestion.jsonl`](../meta/bronze_ingestion.jsonl) | 실행별 수집 이력과 최초 수집 시각 재사용 근거 |
-| [`../meta/mapping_rules.md`](../meta/mapping_rules.md) | 팀 공용 매핑 규칙서; Bronze에는 일시 표기 규칙만 적용 |
-| `docs/` | 사람이 읽는 단계별 작업 기록; 앞으로 계속 갱신 |
-| `../meta` | 기계 판독 이력·규칙·향후 데이터 사전 및 품질관리 근거 |
+| 주요 컬럼 | 내용 |
+|:--|:--|
+| `RC_DIST_M` | 거리. 900 / 1000 / 1110 / 1200 / 1300 / 1400 / 1610m |
+| `RC_GRADE_CD` | 경주 등급. 1~6, OPEN |
+| `BUDAM_TYPE_CD` | 부담 방식. HANDICAP / SPECIAL_A |
+| `WEATHER_CD`, `TRACK_STAT_CD`, `TRACK_MOIST_RT` | 날씨, 주로 상태, 함수율(%) |
+| `PRIZE1_AMT` ~ `PRIZE5_AMT` | 1~5위 상금(원) |
+| `START_TM`, `START_DTM` | 출발 시각 |
+| `RC_TITLE_NM` | 이름 붙은 특별 경주만 있음 (25개). 일반 경주는 NULL |
 
-## 문서 갱신 기준
+### RC_ENTRY: 출전표 (3,666행)
+- **한 행 = 경주 하나에 나온 말 1마리** (경주당 7~10마리)
+- 키: `RC_DT` + `RC_NO` + `CHUL_NO`
+- 주요 컬럼: 말 이름 `HR_NM`, 성별 `HR_SEX_CD`(M/F/G), 나이 `HR_AGE`, 부담중량 `BUDAM_KG`, 기수 `JK_NM`, 조교사 `TR_NM`, 마주 `OW_NM`, 레이팅 `RATING_VAL`
+- 등장 수: 말 833마리, 기수 24명, 조교사 18명, 마주 160명
 
-| 작업 | 함께 갱신할 문서 |
-| --- | --- |
-| 원천 추가·새 문제 확인 | AS-IS.md, DATA_GUIDE.md |
-| Bronze 코드·설정·출처·검증 변경 | bronze_usage.md, BRONZE.md, BRONZE_COLUMNS.md, DATA_GUIDE.md |
-| Silver 구현·변환 규칙·검증 | SILVER.md, SILVER_COLUMNS.md, SILVER_CHANGES.md, silver_usage.md, DATA_GUIDE.md 및 meta 데이터 사전 |
-| 품질 관리 | 제외·유지 행 수, 사유, 근거 결정 ID와 검증 결과를 해당 단계 문서에 추가 |
-| Gold 시작 | GOLD.md, GOLD_COLUMNS.md를 추가하고 DATA_GUIDE.md에서 연결 |
+### RC_ODDS: 배당률·구간기록 (3,666행)
+- **한 행 = 출전마 1마리.** 키가 `RC_ENTRY`와 같고 행도 1:1로 대응합니다.
+- 주요 컬럼:
+  - `WIN_ODDS`, `PLC_ODDS`: 단승·연승 배당률(배)
+  - `SECT1_SEC` ~ `SECT7_SEC`: 구간별 기록(초). 거리에 따라 비어 있는 구간이 있습니다.
+- 출전하지 않은 22마리는 배당률이 NULL입니다.
 
-단계 문서에는 입력·출력, 적용 규칙, 실제 변경, 검증 결과, 해결되지 않은 문제, 변경 이력을 남깁니다.
-수치에는 측정 조건을 적고, 계획·규칙서 기대값과 실측값을 구분합니다. 첨부 예시의 완료 결과는 이 프로젝트의 결과로 복사하지 않습니다.
+### RC_RESULT: 경주 결과 (3,666행)
+- **한 행 = 출전마 1마리.** 키가 `RC_ENTRY`와 같습니다.
 
-## 문서 경로 변경 이력
+| 주요 컬럼 | 내용 |
+|:--|:--|
+| `ENTRY_STAT_CD` | RAN(뜀) 3,644 / EXCLUDED(경주제외) 18 / SCRATCHED(출주취소) 4 |
+| `FINISH_ORD` | 착순. 뛰지 않은 말은 NULL |
+| `HR_WGT_KG`, `HR_WGT_DIFF_KG` | 말 체중, 지난번 대비 증감 |
+| `RC_TIME_SEC` | 경주 기록(초) |
+| `MARGIN_CD`, `MARGIN_LEN` | 착차 종류(FIRST/LEN/NOSE/HEAD/NECK/DH/NA)와 길이 |
+| `PASS_ORD_S1` ~ `S6` | 구간별 통과 순위 |
 
-| 일자 (KST) | 변경 |
-| --- | --- |
-| 2026-11-20 | 사용자 확인에 따라 문서 폴더를 docs로 통일. 기존 문서는 사용자가 이동했으며, 관련 안내·링크·작업 규칙을 갱신함 |
+### RC_SALES: 승식별 매출 (2,702행) / RC_SALES_TOTAL: 경주별 합계 (386행)
+- **RC_SALES 한 행 = 경주 1개 × 승식 1개** (승식 7종 × 386경주)
+- **RC_SALES_TOTAL 한 행 = 경주 1개의 매출 합계**
+  - 원천에서 '합계' 행만 따로 뺀 것으로, 검증용입니다.
+  - 확인 결과 386경주 모두 승식별 합 = 합계였습니다.
 
-## Silver 표준화 진행 이력
+### RC_CHANGE_EVENT: 변경 공지 (149행)
+- **한 행 = 공지 1건.** 원천은 MongoDB JSON입니다.
 
-| 일자 (KST) | 작업 | 범위 |
-| --- | --- | --- |
-| 2026-11-20 | Bronze 기반 02_normalize.py 표준화와 변경 건수·데이터 사전·검증 구현 | 사용자 확인에 따라 합계·진료명 브리지를 분리해 Silver 바로 아래 14개 파일 생성. 품질 정제·중복 제거·행 제외는 미수행 |
+| `EVENT_TYPE_CD` | 건수 | 채워지는 컬럼 |
+|:--|--:|:--|
+| JOCKEY_CHANGE (기수 변경) | 75 | 경주·말 + `BEF_JK_NM`, `AFT_JK_NM`, `BUDAM_KG`, `CHG_REASON_NM` |
+| TRACK_STATUS (주로 상태) | 52 | `TRACK_STAT_CD`, `TRACK_MOIST_RT` (경주·말 칸은 NULL) |
+| SCRATCH (말 취소) | 22 | 경주·말 + `SCRATCH_REASON_NM` |
+
+---
+
+## 2. 판매
+
+### MBR_MASTER: 회원 (4,383행)
+- **한 행 = 회원 1명**
+- 키: `MBR_NO` (중복 0)
+- 주요 컬럼:
+  - `BIRTH_DT`: 생일 (27명 빈칸)
+  - `JOIN_DT`: 가입일 (2021-06 ~ 2026-11)
+  - `REGION_CD`: 지역, 11개
+  - `MBR_GRADE_CD`: 등급. NORMAL 3,287 / GOLD 876 / VIP 220
+  - `MBR_STAT_CD`: 상태. 10 정상 3,479 / 20 휴면 812 / 90 탈퇴 92
+
+### BET_ORDER: 전표 (27,907행)
+- **한 행 = 구매(또는 취소) 1건**
+- 키: `ORDER_NO`
+
+| 주요 컬럼 | 내용 |
+|:--|:--|
+| `ORDER_TYPE_CD` | SALE 23,802 / CANCEL 4,105. 취소 전표는 금액이 음수 |
+| `ORIG_ORDER_NO` | 취소 전표가 가리키는 원래 전표. CANCEL 4,105건 중 3,461건에만 있음 |
+| `MBR_NO` | 회원번호. 빈칸 4,921건은 비회원. 나머지 회원번호는 모두 `MBR_MASTER`에 있음 |
+| `CHNL_CD`, `OTB_BRANCH_NO` | 채널(ONSITE 25,991 / OTB 1,543 / APP 360 / UNKNOWN 13), 장외발매소 지점 번호 |
+| `SALE_DTM`, `BIZ_DT` | 판매 일시, 영업일 |
+| `TICKET_CNT`, `TOTAL_AMT` | 마권 장수, 총액 |
+
+### BET_TICKET: 마권 (523,416행)
+- **한 행 = 전표 안의 베팅 1개**
+- 키: `ORDER_NO` + `TICKET_SEQ`
+- 주의: 이 키가 완전히 같은 중복 행이 1,052개 있습니다. 품질 관리 단계에서 처리할 예정입니다.
+
+| 주요 컬럼 | 내용 |
+|:--|:--|
+| `RC_DT`, `RC_NO` | 어느 경주에 걸었는지 |
+| `BET_TYPE_CD` | 승식. WIN 255,993 / PLC 160,114 / QNL 107,309 |
+| `CHUL_NO`, `HR_NM` | 고른 말 |
+| `CHUL_NO2`, `HR_NM2` | 복승(QNL)일 때 두 번째 말 |
+| `UNIT_CNT`, `BET_AMT` | 구좌 수, 금액 (`BET_AMT` = `UNIT_CNT` × 100) |
+| `TICKET_STAT_CD` | SOLD 512,032 / CANCEL 9,610 / VOID 1,774 |
+
+- 모든 마권의 경주가 `RC_RACE`에 있고, 경주+마번이 `RC_ENTRY`에 있습니다.
+
+---
+
+## 3. 말·조교사
+
+### HR_WEEKLY_SNAPSHOT: 말 주간 현황 (52,642행)
+- **한 행 = 특정 주(`SNAPSHOT_DT`)의 말 1마리 상태**
+- 53주 × 주당 약 1,000마리, 말은 모두 1,250마리입니다.
+- 키: `SNAPSHOT_DT` + `HR_NM` (중복 0)
+
+| 주요 컬럼 | 내용 |
+|:--|:--|
+| `HR_GRADE_CD` | 등급. 1~6, NONE(미등급) |
+| `TR_GRP_NO`, `TR_NM`, `TR_EXTERNAL_YN` | 소속 조, 조교사. 외부마는 조 88, `TR_NM` NULL, `TR_EXTERNAL_YN`=Y (25,428행) |
+| `TOT_*_CNT`, `Y1_*_CNT` | 통산·최근 1년 출전 수, 1·2·3착 수 |
+| `PRIZE_AMT`, `RATING_VAL` | 상금, 레이팅 |
+| `INTRO_AMT`, `INTRO_TYPE_NM` | 도입가(원), 도입 유형(개별 / 자가생산) |
+| `SIRE_NM`, `DAM_NM` | 부마, 모마 |
+
+- `RC_ENTRY`의 말은 모두 이 테이블에 있습니다.
+
+### TR_WEEKLY_SNAPSHOT: 조교사 주간 현황 (954행)
+- **한 행 = 특정 주의 조교사 1명** (53주 × 18명)
+- 주요 컬럼: `TR_GRP_NO`(조), `TR_BIRTH_DT`, `TR_AGE`, `DEBUT_DT`, 통산·1년 성적
+- `RC_ENTRY`의 조교사는 모두 이 테이블에 있습니다.
+
+### HR_VET_HIST: 진료 기록 (1,488행) / HR_VET_TYPE_BRIDGE: 진료명 (1,664행)
+- **HR_VET_HIST 한 행 = 진료 1건** (말 569마리, 2026-05-16 ~ 2026-11-18)
+  - 주요 컬럼: `VET_DT`, `HR_NM`, `VET_NM`(원본 진료명), `REPORT_DT`
+- **HR_VET_TYPE_BRIDGE 한 행 = 진료 1건 × 진료명 1개**
+  - 원천에서 한 칸에 '정치,낭치'처럼 진료명이 여러 개 들어 있는 경우를 나눈 것입니다.
+  - `VET_SEQ`로 진료 기록에 연결됩니다.
+  - 진료명은 54종입니다. 많은 순서로 좌전지파행, 운동기질환 기타, 우전지파행, 정치, 감기입니다.
+
+---
+
+## 테이블을 잇는 키
+
+| 연결 | 키 |
+|:--|:--|
+| 경주 ↔ 출전·배당·결과·매출·공지 | `RC_DT` + `RC_NO` |
+| 출전 ↔ 배당 ↔ 결과 ↔ 마권 | `RC_DT` + `RC_NO` + `CHUL_NO` |
+| 전표 ↔ 마권 | `ORDER_NO` |
+| 회원 ↔ 전표 | `MBR_NO` |
+| 출전 ↔ 말 현황 ↔ 진료 | `HR_NM` (말 고유번호가 없어서 이름으로 연결) |
+| 출전 ↔ 조교사 현황 | `TR_NM` |
+| 진료 ↔ 진료명 | `VET_SEQ` |
+
+## 데이터가 있는 곳
+
+| 단계 | 경로 | 상태 |
+|:--|:--|:--|
+| 원천 | `data/00_origin/` | CSV 11개 + JSONL 1개, 지저분한 원본 |
+| Bronze | `data/01_bronze/` | 원천을 값 그대로 Parquet로 저장 → `docs/BRONZE.md` |
+| Silver | `data/02_silver/` | 이름·타입·코드 표준화 → `docs/SILVER.md` |
+| Silver 품질 관리 | `data/02_silver/clean/`, `_excluded/` | 중복 제외, 0원·늦은 취소 등 표시, 마명 보정 → `docs/품질관리.md` |
+| Gold | `data/03_gold/race_entry/` | 경주 출전 스타 스키마 (FCT_RACE_ENTRY + 차원 4개) → `docs/gold/race_entry.md` |

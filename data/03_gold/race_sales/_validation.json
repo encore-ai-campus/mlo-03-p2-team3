@@ -1,0 +1,94 @@
+{
+  "input_provenance": {
+    "input_path": "data/02_silver/clean/",
+    "git_commit": "fdb6c724c9e4328af3d87d98b64ad035aea6c2bf",
+    "manifest_source_commit": "8a129d06e52f05e5e8ec36ec33cda3b4b1ae5d6a",
+    "clean_version": "948fe690c7a42511710c7264904d9ada523c5aeb12b118aa570a423dce428b6c",
+    "input_file_sha256": {
+      "BET_TICKET.parquet": "003cba5bf3fddbe0cd9e14d6f31d36dfb96e78c26366c7ea264b205c5a23f59a",
+      "BET_ORDER.parquet": "fb601f91d9131ae71b3f4aa60514e00310d6e26f289570b25304634f2c2a40b0",
+      "RC_RACE.parquet": "67f533d047cf7afe052533016db8d46710474f4699f61cbc12f6d7c6a0bc655b",
+      "MBR_MASTER.parquet": "84f836abaeafa61e736a3fea99dc2b845a30eed4293b77167189712cd07aee07"
+    }
+  },
+  "grain": {
+    "race_sales": [
+      "ORDER_NO",
+      "TICKET_SEQ"
+    ]
+  },
+  "source_rows": {
+    "BET_TICKET": 522364,
+    "BET_ORDER": 27907,
+    "MBR_MASTER": 4383,
+    "RC_RACE": 386
+  },
+  "gold_rows": {
+    "DIM_RACE": 386,
+    "DIM_DATE": 52,
+    "DIM_BET_TYPE": 3,
+    "DIM_CHANNEL": 40,
+    "DIM_MEMBER": 4384,
+    "DIM_TICKET_STATUS": 3,
+    "race_sales": 522364
+  },
+  "gold_excluded_rows": {
+    "BET_TICKET": 0
+  },
+  "row_reconciliation": {
+    "BET_TICKET": {
+      "input_rows": 522364,
+      "kept_rows": 522364,
+      "excluded_rows": 0,
+      "one_to_one_source_row_mapping": true
+    }
+  },
+  "source_ticket_measures_krw": {
+    "VIRTUAL_GROSS_SALES_AMT": 1903091700,
+    "CANCEL_AMT": 41064800,
+    "VOID_AMT": 8192700,
+    "NET_AFTER_CANCEL_AMT": 1862026900
+  },
+  "ticket_measures_krw": {
+    "VIRTUAL_GROSS_SALES_AMT": 1903091700,
+    "CANCEL_AMT": 41064800,
+    "VOID_AMT": 8192700,
+    "NET_AFTER_CANCEL_AMT": 1862026900
+  },
+  "sold_ticket_count": {
+    "source": 507383,
+    "gold": 507383
+  },
+  "quality_flag_count": {
+    "INVALID_YN": 3632,
+    "LATE_CANCEL_YN": 1000,
+    "ZERO_LATE_CANCEL_YN": 0
+  },
+  "pk_duplicate_count": {
+    "DIM_RACE": 0,
+    "DIM_DATE": 0,
+    "DIM_BET_TYPE": 0,
+    "DIM_CHANNEL": 0,
+    "DIM_MEMBER": 0,
+    "DIM_TICKET_STATUS": 0,
+    "race_sales": 0
+  },
+  "missing_dimension_fk_count": {
+    "race_sales": {
+      "DIM_RACE": 0,
+      "DIM_DATE": 0,
+      "DIM_BET_TYPE": 0,
+      "DIM_CHANNEL": 0,
+      "DIM_MEMBER": 0,
+      "DIM_TICKET_STATUS": 0
+    }
+  },
+  "race_date_mismatch_count": 0,
+  "quality_decision_ids": {
+    "zero_amount": "D-003",
+    "late_cancel": "D-004",
+    "order_flags": "D-006",
+    "clean_input": "D-012",
+    "timestamp": "MR-5"
+  }
+}
