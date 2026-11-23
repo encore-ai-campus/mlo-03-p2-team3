@@ -60,9 +60,9 @@
 | 팩트 | 공통 차원 전환 |
 |:--|:--|
 | race_entry | 완료 (팩트 전환 전후 바이트까지 동일) |
-| horse_medical | 진행 예정 |
+| horse_medical | 완료 (PR #16) |
 | race_sales | 완료 (공통 경주·날짜·회원·채널 연결, 행 수·측정값 대사 통과) |
-| bet_cancel | 진행 예정 |
+| bet_cancel | 완료 (PR #18) |
 
 
 1. 팩트 코드가 자기 차원 대신 `data/03_gold/common/`을 읽어 키를 붙이도록 수정
