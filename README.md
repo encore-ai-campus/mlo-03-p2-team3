@@ -169,6 +169,38 @@ flowchart LR
 
 [전체 실행 순서·디렉터리 구조](docs/wiki/Data-Pipeline.md)
 
+### 컬럼명·타입 변경 규칙 (Bronze → Silver)
+
+Bronze의 원천값은 보존하고, Silver에서 다음 규칙을 적용합니다. 표준화 단계에서는 기본 테이블의 행을 삭제하지 않습니다.
+
+| 컬럼명 규칙 | 적용 예 |
+| --- | --- |
+| 대문자·언더스코어(`UPPER_SNAKE_CASE`), 공통 약어 사용 | `member_no` → `MBR_NO`, `RC_DATE` → `RC_DT`, `HR_NAME` → `HR_NM` |
+| 식별 번호·순번 구분 | `_NO`: `ORDER_NO` / `_SEQ`: `TICKET_SEQ` |
+| 날짜·일시·시각 구분 | `_DT`: `RC_DT` / `_DTM`: `SALE_DTM` / `_TM`: `START_TM` |
+| 이름·코드·여부 구분 | `_NM`: `HR_NM` / `_CD`: `HR_SEX_CD` / `_YN`: `TR_EXTERNAL_YN` |
+| 측정 단위·의미를 접미사에 표시 | `_AMT` 금액(원), `_CNT` 건수, `_KG` 무게, `_SEC` 시간 길이, `_ODDS` 배당률 |
+| 같은 이름의 다른 의미를 분리 | `ticket_cnt`: 전표의 마권 장수는 `TICKET_CNT`, 마권의 구좌 수는 `UNIT_CNT` |
+
+| 타입 규칙 | 적용 예 |
+| --- | --- |
+| 식별자·코드는 문자열 유지 | `ORDER_NO`, `MBR_NO`, `TR_GRP_NO`는 `VARCHAR`; `01`의 앞 0 보존. 숫자 모양 상태 코드 `10/20/90`도 문자열 |
+| 정수·금액은 컬럼별 `INT` / `BIGINT` | 건수·순위·나이는 `INT`. 현재 사전에서 `BET_AMT`는 `INT`, `TOTAL_AMT`·상금·도입가는 `BIGINT` |
+| 소수는 고정 정밀도 `DECIMAL(p,s)` | 부담중량 `(4,1)`, 배당률 `(6,1)`, 경주 기록 `(5,1)`, 착차 `(5,2)`. 정밀도 초과·반올림이 필요한 값은 변환 실패로 기록 |
+| 날짜·시간은 전용 타입 사용 | 날짜 `DATE`(`YYYY-MM-DD`), 일시 `TIMESTAMP`(KST), 시각 `TIME`(`HH:MM:SS`). 혼합된 원천 형식은 정해진 순서로 파싱 |
+| 문자열·결측·코드 표기 통일 | 앞뒤 공백 제거, 빈 문자열·공백·`-----`는 NULL, 한글·영문 혼용 코드는 코드표로 매핑 |
+
+| 실제 원천값 | Silver 결과 |
+| --- | --- |
+| `RC_DATE = 20260522` | `RC_DT = 2026-05-22` (`DATE`) |
+| `WG_HR_RAW = 279+14` | `HR_WGT_KG = 279`, `HR_WGT_DIFF_KG = 14` (`INT`) |
+| `RC_TIME_RAW = 1:13.2` | `RC_TIME_SEC = 73.2`초 (`DECIMAL(5,1)`) |
+| `INTRO_PRICE_RAW = 3,000천원(개별)` | `INTRO_AMT = 3,000,000`원 (`BIGINT`), `INTRO_TYPE_NM = 개별` |
+
+변환 실패·코드표 밖 값·규칙에 따른 NULL 처리는 원천 행 번호와 함께 이슈 로그에 남깁니다. 컬럼별 이름·타입·변환/제외 규칙은 데이터 사전에서 관리합니다.
+
+[전체 매핑 규칙](meta/mapping_rules.md) · [데이터 사전](meta/data_dictionary.csv) · [변환 이슈 로그](meta/silver_issue_log.csv) · [표준화 검증](src/02_normalize_check.py)
+
 ### AI Ready Data
 
 | 항목 | 내용 |
