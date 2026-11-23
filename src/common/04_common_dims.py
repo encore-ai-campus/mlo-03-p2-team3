@@ -69,11 +69,11 @@ def dim_date(clean):
         "DOW_NO": [d.isoweekday() for d in days],
         "DOW_NM": [DOW_NM[d.weekday()] for d in days],
         "WEEK_NO": [d.isocalendar()[1] for d in days],
-        "RACE_DAY_YN": ["Y" if d in race_days else "N" for d in days],
+        "RC_DAY_YN": ["Y" if d in race_days else "N" for d in days],
     })
     schema = pa.schema([("DATE_KEY", pa.int32()), ("FULL_DT", pa.date32()), ("YEAR_NO", pa.int32()),
                         ("MONTH_NO", pa.int32()), ("DAY_NO", pa.int32()), ("DOW_NO", pa.int32()),
-                        ("DOW_NM", pa.string()), ("WEEK_NO", pa.int32()), ("RACE_DAY_YN", pa.string())])
+                        ("DOW_NM", pa.string()), ("WEEK_NO", pa.int32()), ("RC_DAY_YN", pa.string())])
     return with_unknown(schema, rows, "DATE_KEY", {"DOW_NM": "UNKNOWN"})
 
 
@@ -100,13 +100,13 @@ def dim_horse(snap):
     nxt = v.groupby("HR_NM")["VALID_FROM_DT"].shift(-1)
     v["VALID_TO_DT"] = [END_DT if pd.isna(n) else n - timedelta(days=1) for n in nxt]
     v["CURRENT_YN"] = ["Y" if d == END_DT else "N" for d in v["VALID_TO_DT"]]
-    v["AGE_BAND_NM"] = v["HR_AGE"].map(age_band)
+    v["AGE_GROUP_NM"] = v["HR_AGE"].map(age_band)
     v = v.sort_values(["HR_NM", "VALID_FROM_DT"], kind="stable").reset_index(drop=True)
     v["HORSE_KEY"] = range(1, len(v) + 1)
     v = v.rename(columns={"SNAPSHOT_DT": "SRC_SNAPSHOT_DT"})
     s_, d_, i_ = pa.string(), pa.date32(), pa.int32()
     schema = pa.schema([("HORSE_KEY", i_), ("HR_NM", s_), ("HR_SEX_CD", s_), ("HR_BIRTH_DT", d_), ("HR_AGE", i_),
-                        ("AGE_BAND_NM", s_), ("HR_GRADE_CD", s_), ("TR_GRP_NO", s_), ("TR_NM", s_),
+                        ("AGE_GROUP_NM", s_), ("HR_GRADE_CD", s_), ("TR_GRP_NO", s_), ("TR_NM", s_),
                         ("TR_EXTERNAL_YN", s_), ("OW_NM", s_), ("SIRE_NM", s_), ("DAM_NM", s_),
                         ("SRC_SNAPSHOT_DT", d_), ("VALID_FROM_DT", d_), ("VALID_TO_DT", d_), ("CURRENT_YN", s_)])
     return with_unknown(schema, v, "HORSE_KEY", {"HR_NM": "UNKNOWN", "CURRENT_YN": "N"})
@@ -123,13 +123,13 @@ def dim_trainer(tr):
 def dim_member(mbr):
     m = mbr.sort_values("MBR_NO", kind="stable").reset_index(drop=True)
     m.insert(0, "MEMBER_KEY", range(1, len(m) + 1))
-    m["MEMBER_TYPE_CD"] = "MEMBER"
-    non_member = {"MEMBER_KEY": len(m) + 1, "MEMBER_TYPE_CD": "NON_MEMBER"}  # 회원번호 빈칸 = 실제 비회원 (전표 기준)
+    m["MBR_TYPE_CD"] = "MEMBER"
+    non_member = {"MEMBER_KEY": len(m) + 1, "MBR_TYPE_CD": "NON_MEMBER"}  # 회원번호 빈칸 = 실제 비회원 (전표 기준)
     m = pd.concat([m, pd.DataFrame([non_member])], ignore_index=True)
-    schema = pa.schema([("MEMBER_KEY", pa.int32()), ("MBR_NO", pa.string()), ("MEMBER_TYPE_CD", pa.string()),
+    schema = pa.schema([("MEMBER_KEY", pa.int32()), ("MBR_NO", pa.string()), ("MBR_TYPE_CD", pa.string()),
                         ("BIRTH_DT", pa.date32()), ("JOIN_DT", pa.date32()), ("REGION_CD", pa.string()),
                         ("MBR_GRADE_CD", pa.string()), ("MBR_STAT_CD", pa.string())])
-    return with_unknown(schema, m, "MEMBER_KEY", {"MEMBER_TYPE_CD": "UNKNOWN"})
+    return with_unknown(schema, m, "MEMBER_KEY", {"MBR_TYPE_CD": "UNKNOWN"})
 
 
 def dim_channel(order):

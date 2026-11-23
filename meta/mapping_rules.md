@@ -397,3 +397,81 @@
 | `RC_ODDS.SECTION_TIMES_RAW` | 양끝 공백을 제거하기 전에 원문을 7글자씩 잘라 위치를 유지 |
 
 빈 착차는 `FIRST`, 빈 발매 채널은 `UNKNOWN`으로 표준화한다.
+
+## 13. Gold 이름 규칙 (D-017)
+
+1~12장은 Silver 기준이다. Gold는 데이터 사전에 없고 이름을 검사하지 않아, 팩트마다 이름 체계가 달라졌다. 이 장은 Gold에서 **새로 만드는 컬럼**과 **Silver에서 가져오는 컬럼**의 이름 규칙을 정하고, `src/common/04_gold_naming_check.py`가 모든 Gold 테이블에 대해 검사한다.
+
+### 13.1 규칙
+
+| 항목 | 규칙 | 예 |
+|:--|:--|:--|
+| Silver에서 가져온 컬럼 | **이름을 바꾸지 않는다** | `HR_SEX_CD`, `ORIG_ORDER_NO`, `Y1_RC_CNT`는 Gold에서도 같은 이름 |
+| 새로 만든 컬럼 | 2장의 주제어(`HR_`, `MBR_`, `RC_`, `TR_`, `CHNL_`)와 접미사(`_AMT`, `_CNT`, `_DT`, `_DTM`, `_SEC`, `_RT`, `_YN`, `_CD`, `_NM`)를 따른다 | `PURCHASE_AMT`, `CANCEL_ORDER_CNT`, `FIRST_CANCEL_DTM` |
+| 테이블 | 팩트 `FCT_`, 차원 `DIM_`, 브리지 `BRIDGE_` | `FCT_RACE_ENTRY`, `DIM_HORSE` |
+| 대리키 | `차원이름_KEY`, 정수, 미상은 `0`. 주제어로 줄이지 않는다 | `HORSE_KEY`, `MEMBER_KEY`, `TRAINER_KEY` |
+| 날짜 키 | 경주일은 `DATE_KEY`, 그 외 역할은 `역할_DT_KEY` | `SALE_DT_KEY`, `VET_DT_KEY`, `PURCHASE_DT_KEY` |
+| 여부 | `_YN`, 값은 `Y`/`N`. 판단할 수 없으면 NULL | `ANALYSIS_ELIGIBLE_YN`, `HEADER_MISMATCH_YN` |
+| 비율·확률 | `_RT` | `EXPECT_WIN_RT`, `Y1_WIN_RT` |
+| 시간대·순번처럼 접미사가 없는 정수 | `_NO` | `SALE_HOUR_NO` |
+| 추적 컬럼 | `_`로 시작(원천 행 번호) 또는 `_ID`(행 식별자) | `_SRC_ROW_NO`, `ENTRY_ROW_ID` |
+| 같은 개념 | 팩트·차원이 달라도 이름 하나만 쓴다 | 나이대는 `AGE_GROUP_NM` |
+
+### 13.2 결정한 것
+
+| 항목 | 결정 | 고려한 다른 안 |
+|:--|:--|:--|
+| 역할 날짜 키 | `_DT_KEY` (진료가 이미 사용, 바뀌는 곳이 적음) | `_DATE_KEY` |
+| 경주일 키 | `DATE_KEY` 유지 (출전·매출이 이미 사용) | 모든 팩트를 `RC_DT_KEY`로 |
+| 취소 라벨 `HAS_VERIFIED_CUSTOMER_CANCEL` | `VERIFIED_CANCEL_YN` (Y/N/NULL) | 학습 라벨이라 0/1 정수 유지, 이름만 `VERIFIED_CANCEL_FLAG` |
+
+### 13.3 바꾼 이름 (2026-11-23, 43개)
+
+값은 그대로 두고 이름만 바꿨다. 여부 3개(`VERIFIED_CANCEL_YN`, `HEADER_MISMATCH_YN`, `ANALYSIS_ELIGIBLE_YN`)만 값 형식이 1/0에서 Y/N으로 바뀌었다. 바꾸기 전·후 Gold 15개·AI Ready 3개 파일을 비교해 행 수와 모든 값이 같음을 확인했다.
+
+**원주: 공통 차원·출전 (4)**
+
+| 테이블 | 전 | 후 | 비고 |
+|:--|:--|:--|:--|
+| `DIM_MEMBER` | `MEMBER_TYPE_CD` | `MBR_TYPE_CD` | 매출·취소 코드도 읽음 |
+| `DIM_HORSE` | `AGE_BAND_NM` | `AGE_GROUP_NM` | 진료 `DIM_AGE_GROUP`과 같은 개념 |
+| `FCT_RACE_ENTRY` | `EXPECT_WIN` | `EXPECT_WIN_RT` | AI Ready 생성 코드도 읽음 |
+| `DIM_DATE` | `RACE_DAY_YN` | `RC_DAY_YN` | 주제어 `RC_` |
+
+**희정: 매출 (2)**
+
+| 테이블 | 전 | 후 |
+|:--|:--|:--|
+| `FCT_RACE_SALES` | `SALE_DATE_KEY` | `SALE_DT_KEY` |
+| `FCT_RACE_SALES` | `SALE_HOUR` | `SALE_HOUR_NO` |
+
+**은빈: 50대 단승 취소 `FCT_BET_SELECTION_CANCEL_50S` (37)**
+
+| 전 | 후 | 전 | 후 |
+|:--|:--|:--|:--|
+| `ORIGINAL_ORDER_NO` | `ORIG_ORDER_NO` | `RECENT1Y_WIN_RATE_BAND` | `Y1_WIN_RT_BAND_CD` |
+| `PURCHASE_DATE_KEY` | `PURCHASE_DT_KEY` | `CAREER_STARTS` | `TOT_RC_CNT` |
+| `CANCEL_DATE_KEY` | `CANCEL_DT_KEY` | `CAREER_WINS` | `TOT_1ST_CNT` |
+| `RACE_DATE_KEY` | `DATE_KEY` | `CAREER_WIN_RATE` | `TOT_WIN_RT` |
+| `SNAPSHOT_DATE_KEY` | `SNAPSHOT_DT_KEY` | `HAS_VERIFIED_CUSTOMER_CANCEL` | `VERIFIED_CANCEL_YN` (13.2) |
+| `AGE_AT_PURCHASE` | `MBR_AGE` | `CANCEL_LABEL_STATUS` | `CANCEL_LABEL_STAT_CD` |
+| `PURCHASE_AT` | `PURCHASE_DTM` | `CANCEL_TRANSACTION_COUNT` | `CANCEL_ORDER_CNT` |
+| `HORSE_AGE_AT_RACE` | `HR_AGE` | `RAW_LINKED_CANCEL_AMOUNT_KRW` | `RAW_CANCEL_AMT` |
+| `HORSE_SEX_AT_RACE` | `HR_SEX_CD` | `VERIFIED_CANCEL_AMOUNT_KRW` | `VERIFIED_CANCEL_AMT` |
+| `PURCHASE_DETAIL_COUNT` | `PURCHASE_DETAIL_CNT` | `VERIFIED_CANCEL_STAKE_UNITS` | `VERIFIED_CANCEL_UNIT_CNT` |
+| `PURCHASE_STAKE_UNITS` | `PURCHASE_UNIT_CNT` | `FIRST_CANCEL_AT` | `FIRST_CANCEL_DTM` |
+| `PURCHASE_AMOUNT_KRW` | `PURCHASE_AMT` | `CANCEL_DELAY_SECONDS` | `CANCEL_DELAY_SEC` |
+| `HORSE_SNAPSHOT_DATE` | `SNAPSHOT_DT` | `LATE_CANCEL_DETAIL_COUNT` | `LATE_CANCEL_DETAIL_CNT` |
+| `SNAPSHOT_AGE_DAYS` | `SNAPSHOT_AGE_DAY_CNT` | `UNRESOLVED_CANCEL_ORDER_COUNT` | `UNRESOLVED_CANCEL_ORDER_CNT` |
+| `RECENT1Y_STARTS` | `Y1_RC_CNT` | `HEADER_DETAIL_MISMATCH` (1/0) | `HEADER_MISMATCH_YN` (Y/N) |
+| `RECENT1Y_WINS` | `Y1_1ST_CNT` | `OBSERVATION_END_AT` | `OBSERVATION_END_DTM` |
+| `RECENT1Y_WIN_RATE` | `Y1_WIN_RT` | `ANALYSIS_ELIGIBLE` (1/0) | `ANALYSIS_ELIGIBLE_YN` (Y/N) |
+| `EXCLUSION_REASONS` | `EXCLUDE_REASON_CD` | `DQ_DATASET_VERSION` | `CLEAN_VERSION_CD` |
+| `RULE_VERSION` | `RULE_VERSION_CD` | | |
+
+세은(진료)은 바꿀 것 없음. 대리키(`*_KEY`)와 `FACT_ID`, `CHUL_NO`, `BET_TYPE_CD`, `*_ROW_ID`는 규칙에 맞아 그대로 둔다.
+
+### 13.4 검증
+
+- `src/common/04_gold_naming_check.py`: 모든 Gold 테이블·컬럼이 13.1을 지키는지, `_YN` 값이 Y/N/NULL인지 확인한다. 바꾸기 전 Gold에서는 42건이 걸렸다(`AGE_BAND_NM`은 "같은 개념 두 이름"이라 패턴으로는 잡히지 않아 직접 확인).
+- 새 Gold 컬럼을 만들면 이 검사가 통과해야 한다.

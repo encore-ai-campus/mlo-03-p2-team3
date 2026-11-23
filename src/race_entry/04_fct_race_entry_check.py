@@ -21,7 +21,7 @@ GOLD_DIR = C.GOLD_DIR / "race_entry"
 COMMON_DIR = C.GOLD_DIR / "common"
 
 FAILS = []
-FACT_COLS = ["RACE_KEY", "CHUL_NO", "DATE_KEY", "HORSE_KEY", "TRAINER_KEY", "START_CNT", "WIN_CNT", "PLACE_CNT", "EXPECT_WIN"]
+FACT_COLS = ["RACE_KEY", "CHUL_NO", "DATE_KEY", "HORSE_KEY", "TRAINER_KEY", "START_CNT", "WIN_CNT", "PLACE_CNT", "EXPECT_WIN_RT"]
 
 
 def check(ok, msg):
@@ -69,11 +69,11 @@ def main():
     check((r.PLACE_CNT == (ran & r.FINISH_ORD.le(3)).astype(int)).all(), "PLACE_CNT = 착순 3 이하")
     inv = (1 / r.WIN_ODDS.astype(float)).where(ran, 0.0).fillna(0.0)
     exp = inv / inv.groupby([r.RC_DT, r.RC_NO]).transform("sum")
-    check(((r.EXPECT_WIN - exp).abs() < 1e-12).all(), "EXPECT_WIN = 경주 안에서 (1/단승 배당) ÷ Σ(1/단승 배당), 뛰지 않은 말 0")
-    per_race = f.groupby("RACE_KEY").EXPECT_WIN.sum()
-    check(((per_race - 1).abs() < 1e-9).all() and abs(f.EXPECT_WIN.sum() - f.WIN_CNT.sum()) < 1e-6,
-          f"경주마다 EXPECT_WIN 합 = 1, 전체 합 {f.EXPECT_WIN.sum():.6f} ≈ 우승 {int(f.WIN_CNT.sum())}")
-    check(((f.START_CNT == 0) <= (f.EXPECT_WIN == 0)).all(), "뛰지 않은 말 22두의 EXPECT_WIN = 0")
+    check(((r.EXPECT_WIN_RT - exp).abs() < 1e-12).all(), "EXPECT_WIN_RT = 경주 안에서 (1/단승 배당) ÷ Σ(1/단승 배당), 뛰지 않은 말 0")
+    per_race = f.groupby("RACE_KEY").EXPECT_WIN_RT.sum()
+    check(((per_race - 1).abs() < 1e-9).all() and abs(f.EXPECT_WIN_RT.sum() - f.WIN_CNT.sum()) < 1e-6,
+          f"경주마다 EXPECT_WIN_RT 합 = 1, 전체 합 {f.EXPECT_WIN_RT.sum():.6f} ≈ 우승 {int(f.WIN_CNT.sum())}")
+    check(((f.START_CNT == 0) <= (f.EXPECT_WIN_RT == 0)).all(), "뛰지 않은 말 22두의 EXPECT_WIN_RT = 0")
     tr = fk.merge(cl["RC_ENTRY"][k3 + ["TR_NM"]], on=k3).merge(dt[["TRAINER_KEY", "TR_NM"]], on="TRAINER_KEY", suffixes=("", "_D"))
     check((tr.TR_NM == tr.TR_NM_D).all(), "TRAINER_KEY = 출전표의 조교사 (경주 당시)")
 

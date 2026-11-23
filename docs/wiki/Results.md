@@ -58,7 +58,7 @@
 | 취소 | 전체 구매 금액 / 전체 검증 통과 취소 금액 | 241,761,600원 / 4,274,800원 |
 | 공통 | Gold 테이블별 PK 중복·NULL / 팩트·브리지 FK 누락 | 각각 0건 |
 
-취소 분석 제외 1,857행은 `ANALYSIS_ELIGIBLE=0`과 사유를 가진 채 팩트에 보존됩니다. 전체 구매·취소 금액과 적격 39,284묶음의 분석 범위를 구분해야 합니다.
+취소 분석 제외 1,857행은 `ANALYSIS_ELIGIBLE_YN=N`과 사유를 가진 채 팩트에 보존됩니다. 전체 구매·취소 금액과 적격 39,284묶음의 분석 범위를 구분해야 합니다.
 
 FK 누락 0건은 업무 속성이 모두 알려져 있다는 뜻은 아닙니다. 진료 71행의 말, 매출 308행의 채널은 실제 차원에 존재하는 **미상 키 0**을 참조합니다. 취소일이 없는 취소 팩트 40,187행도 날짜 키 0을 사용합니다.
 
@@ -91,6 +91,7 @@ python -X utf8 src/01_bronze_check.py
 python -X utf8 src/02_normalize_check.py
 python -X utf8 src/03_quality_check.py
 python -X utf8 src/common/04_common_dims_check.py
+python -X utf8 src/common/04_gold_naming_check.py
 python -X utf8 src/race_entry/04_fct_race_entry_check.py
 python -X utf8 src/horse_medical/04_gold_horse_medical.py --check
 python -X utf8 src/ai_ready/05_ai_ready_check.py

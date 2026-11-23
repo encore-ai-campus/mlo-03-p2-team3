@@ -235,16 +235,16 @@
         <mxCell id="DIM_DATE-type-MONTH_NO" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_DATE">
           <mxGeometry as="geometry" x="260" y="125" width="94" height="27" />
         </mxCell>
-        <mxCell id="DIM_DATE-row-RACE_DAY_YN" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_DATE">
+        <mxCell id="DIM_DATE-row-RC_DAY_YN" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_DATE">
           <mxGeometry as="geometry" x="0" y="152" width="360" height="27" />
         </mxCell>
-        <mxCell id="DIM_DATE-flag-RACE_DAY_YN" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_DATE">
+        <mxCell id="DIM_DATE-flag-RC_DAY_YN" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_DATE">
           <mxGeometry as="geometry" x="8" y="152" width="52" height="27" />
         </mxCell>
-        <mxCell id="DIM_DATE-name-RACE_DAY_YN" value="RACE_DAY_YN" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_DATE">
+        <mxCell id="DIM_DATE-name-RC_DAY_YN" value="RC_DAY_YN" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_DATE">
           <mxGeometry as="geometry" x="64" y="152" width="192" height="27" />
         </mxCell>
-        <mxCell id="DIM_DATE-type-RACE_DAY_YN" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_DATE">
+        <mxCell id="DIM_DATE-type-RC_DAY_YN" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_DATE">
           <mxGeometry as="geometry" x="260" y="152" width="94" height="27" />
         </mxCell>
         <mxCell id="DIM_DATE-count" value="188 rows  |  역할별 날짜 FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#2646A3;fillColor=#EAF1FF;spacingLeft=14;" vertex="1" parent="DIM_DATE">
@@ -475,16 +475,16 @@
         <mxCell id="DIM_MEMBER-type-MBR_NO" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_MEMBER">
           <mxGeometry as="geometry" x="260" y="71" width="94" height="27" />
         </mxCell>
-        <mxCell id="DIM_MEMBER-row-MEMBER_TYPE_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_MEMBER">
+        <mxCell id="DIM_MEMBER-row-MBR_TYPE_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="DIM_MEMBER">
           <mxGeometry as="geometry" x="0" y="98" width="360" height="27" />
         </mxCell>
-        <mxCell id="DIM_MEMBER-flag-MEMBER_TYPE_CD" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_MEMBER">
+        <mxCell id="DIM_MEMBER-flag-MBR_TYPE_CD" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#2646A3;" vertex="1" parent="DIM_MEMBER">
           <mxGeometry as="geometry" x="8" y="98" width="52" height="27" />
         </mxCell>
-        <mxCell id="DIM_MEMBER-name-MEMBER_TYPE_CD" value="MEMBER_TYPE_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_MEMBER">
+        <mxCell id="DIM_MEMBER-name-MBR_TYPE_CD" value="MBR_TYPE_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="DIM_MEMBER">
           <mxGeometry as="geometry" x="64" y="98" width="192" height="27" />
         </mxCell>
-        <mxCell id="DIM_MEMBER-type-MEMBER_TYPE_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_MEMBER">
+        <mxCell id="DIM_MEMBER-type-MBR_TYPE_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="DIM_MEMBER">
           <mxGeometry as="geometry" x="260" y="98" width="94" height="27" />
         </mxCell>
         <mxCell id="DIM_MEMBER-row-BIRTH_DT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="DIM_MEMBER">
@@ -667,16 +667,16 @@
         <mxCell id="FCT_RACE_ENTRY-type-PLACE_CNT" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
           <mxGeometry as="geometry" x="420" y="283" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_RACE_ENTRY-row-EXPECT_WIN" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
+        <mxCell id="FCT_RACE_ENTRY-row-EXPECT_WIN_RT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_ENTRY">
           <mxGeometry as="geometry" x="0" y="310" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_RACE_ENTRY-flag-EXPECT_WIN" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
+        <mxCell id="FCT_RACE_ENTRY-flag-EXPECT_WIN_RT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#176A51;" vertex="1" parent="FCT_RACE_ENTRY">
           <mxGeometry as="geometry" x="8" y="310" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_RACE_ENTRY-name-EXPECT_WIN" value="EXPECT_WIN" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
+        <mxCell id="FCT_RACE_ENTRY-name-EXPECT_WIN_RT" value="EXPECT_WIN_RT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_ENTRY">
           <mxGeometry as="geometry" x="64" y="310" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_RACE_ENTRY-type-EXPECT_WIN" value="double" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
+        <mxCell id="FCT_RACE_ENTRY-type-EXPECT_WIN_RT" value="double" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_ENTRY">
           <mxGeometry as="geometry" x="420" y="310" width="94" height="27" />
         </mxCell>
         <mxCell id="FCT_RACE_ENTRY-count" value="3,666 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#176A51;fillColor=#E8F5F0;spacingLeft=14;" vertex="1" parent="FCT_RACE_ENTRY">
@@ -835,16 +835,16 @@
         <mxCell id="FCT_RACE_SALES-type-DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="175" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_RACE_SALES-row-SALE_DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
+        <mxCell id="FCT_RACE_SALES-row-SALE_DT_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="202" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_RACE_SALES-flag-SALE_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
+        <mxCell id="FCT_RACE_SALES-flag-SALE_DT_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="202" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_RACE_SALES-name-SALE_DATE_KEY" value="SALE_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
+        <mxCell id="FCT_RACE_SALES-name-SALE_DT_KEY" value="SALE_DT_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="202" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_RACE_SALES-type-SALE_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
+        <mxCell id="FCT_RACE_SALES-type-SALE_DT_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="202" width="94" height="27" />
         </mxCell>
         <mxCell id="FCT_RACE_SALES-row-MEMBER_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
@@ -1027,112 +1027,112 @@
         <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-CHANNEL_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="202" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_DATE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_DT_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="229" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_DT_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="229" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_DATE_KEY" value="PURCHASE_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_DT_KEY" value="PURCHASE_DT_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="229" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_DT_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="229" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-CANCEL_DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-CANCEL_DT_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="256" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-CANCEL_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-CANCEL_DT_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="256" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-CANCEL_DATE_KEY" value="CANCEL_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-CANCEL_DT_KEY" value="CANCEL_DT_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="256" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-CANCEL_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-CANCEL_DT_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="256" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-RACE_DATE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-DATE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="283" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-RACE_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="283" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-RACE_DATE_KEY" value="RACE_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-DATE_KEY" value="DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="283" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-RACE_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="283" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-SNAPSHOT_DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-SNAPSHOT_DT_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="310" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-SNAPSHOT_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-SNAPSHOT_DT_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="310" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-SNAPSHOT_DATE_KEY" value="SNAPSHOT_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-SNAPSHOT_DT_KEY" value="SNAPSHOT_DT_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="310" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-SNAPSHOT_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-SNAPSHOT_DT_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="310" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_DETAIL_COUNT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_DETAIL_CNT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="337" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_DETAIL_COUNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_DETAIL_CNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="337" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_DETAIL_COUNT" value="PURCHASE_DETAIL_COUNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_DETAIL_CNT" value="PURCHASE_DETAIL_CNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="337" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_DETAIL_COUNT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_DETAIL_CNT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="337" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_AMOUNT_KRW" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-PURCHASE_AMT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="364" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_AMOUNT_KRW" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-PURCHASE_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="364" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_AMOUNT_KRW" value="PURCHASE_AMOUNT_KRW" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-PURCHASE_AMT" value="PURCHASE_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="364" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_AMOUNT_KRW" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-PURCHASE_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="364" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-VERIFIED_CANCEL_AMOUNT_KRW" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-VERIFIED_CANCEL_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="391" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-VERIFIED_CANCEL_AMOUNT_KRW" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-VERIFIED_CANCEL_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="391" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-VERIFIED_CANCEL_AMOUNT_KRW" value="VERIFIED_CANCEL_AMOUNT_KRW" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-VERIFIED_CANCEL_AMT" value="VERIFIED_CANCEL_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="391" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-VERIFIED_CANCEL_AMOUNT_KRW" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-VERIFIED_CANCEL_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="391" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-HAS_VERIFIED_CUSTOMER_CANCEL" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-VERIFIED_CANCEL_YN" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="418" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-HAS_VERIFIED_CUSTOMER_CANCEL" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-VERIFIED_CANCEL_YN" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="418" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-HAS_VERIFIED_CUSTOMER_CANCEL" value="HAS_VERIFIED_CUSTOMER_CANCEL" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-VERIFIED_CANCEL_YN" value="VERIFIED_CANCEL_YN" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="418" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-HAS_VERIFIED_CUSTOMER_CANCEL" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-VERIFIED_CANCEL_YN" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="418" width="94" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-ANALYSIS_ELIGIBLE" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-row-ANALYSIS_ELIGIBLE_YN" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="0" y="445" width="520" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-ANALYSIS_ELIGIBLE" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-flag-ANALYSIS_ELIGIBLE_YN" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#A13B58;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="8" y="445" width="52" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-ANALYSIS_ELIGIBLE" value="ANALYSIS_ELIGIBLE" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-name-ANALYSIS_ELIGIBLE_YN" value="ANALYSIS_ELIGIBLE_YN" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="64" y="445" width="352" height="27" />
         </mxCell>
-        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-ANALYSIS_ELIGIBLE" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
+        <mxCell id="FCT_BET_SELECTION_CANCEL_50S-type-ANALYSIS_ELIGIBLE_YN" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">
           <mxGeometry as="geometry" x="420" y="445" width="94" height="27" />
         </mxCell>
         <mxCell id="FCT_BET_SELECTION_CANCEL_50S-count" value="41,141 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#A13B58;fillColor=#FCEBEF;spacingLeft=14;" vertex="1" parent="FCT_BET_SELECTION_CANCEL_50S">

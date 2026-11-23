@@ -13,7 +13,7 @@
 - 은빈 bet_cancel: 구매 당시 만 50~59세 회원의 단승 구매와 그 구매의 출발 전 취소를 경주 + 출전 번호별로 집계.
   Gold 취소 팩트는 출발 후 취소까지 합친 값이라 출발 전 취소만 보려고 clean 전표·마권(D-012 공용 입력)에서 계산한다
 
-배당(EXPECT_WIN)은 피처가 아니라 비교 기준선이라 BASE_ 접두어로 따로 둔다 (최종 배당이라 관측 시각을 모름).
+배당(EXPECT_WIN_RT)은 피처가 아니라 비교 기준선이라 BASE_ 접두어로 따로 둔다 (최종 배당이라 관측 시각을 모름).
 """
 import sys
 from pathlib import Path
@@ -191,7 +191,7 @@ def build():
     x["WIN_50S_CANCEL_AMT_RATE"] = x["WIN_50S_CANCEL_AMT"] / x["WIN_50S_PURCHASE_AMT"].where(x["WIN_50S_PURCHASE_AMT"] > 0)
 
     x[LABEL] = x["PLACE_CNT"]
-    x[BASELINE] = x["EXPECT_WIN"]
+    x[BASELINE] = x["EXPECT_WIN_RT"]
     x["SPLIT_CD"] = (x["RC_DT"] < SPLIT_DT).map({True: "TRAIN", False: "TEST"})
     x = x.sort_values(["RACE_KEY", "CHUL_NO"], kind="stable").reset_index(drop=True)
     return x[ID_COLS + [LABEL, BASELINE] + FEATURES], excluded.sort_values(["RACE_KEY", "CHUL_NO"]).reset_index(drop=True)

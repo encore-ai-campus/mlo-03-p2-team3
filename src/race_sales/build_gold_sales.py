@@ -128,8 +128,8 @@ def attach_common_keys(frame: pd.DataFrame, dimensions: dict) -> pd.DataFrame:
     races = dimensions["DIM_RACE"].query("RACE_KEY > 0")
     channels = dimensions["DIM_CHANNEL"].query("CHANNEL_KEY > 0")
     members = dimensions["DIM_MEMBER"]
-    known_members = members[members["MEMBER_TYPE_CD"].eq("MEMBER")]
-    non_member = members[members["MEMBER_TYPE_CD"].eq("NON_MEMBER")]
+    known_members = members[members["MBR_TYPE_CD"].eq("MEMBER")]
+    non_member = members[members["MBR_TYPE_CD"].eq("NON_MEMBER")]
     unique_key(races, ["RC_DT", "RC_NO"], "DIM_RACE business key")
     unique_key(known_members, ["MBR_NO"], "DIM_MEMBER business key")
     require(not channels.duplicated(["CHNL_CD", "OTB_BRANCH_NO"]).any(),
@@ -148,7 +148,7 @@ def attach_common_keys(frame: pd.DataFrame, dimensions: dict) -> pd.DataFrame:
         result[key] = result[key].fillna(0).astype("int32")
     result["DATE_KEY"] = date_key(result["RC_DT"], dimensions["DIM_DATE"])
     result["SALE_DTM"] = seoul_timestamp(result["SALE_DTM"], "BET_ORDER.SALE_DTM")
-    result["SALE_DATE_KEY"] = date_key(result["SALE_DTM"], dimensions["DIM_DATE"])
+    result["SALE_DT_KEY"] = date_key(result["SALE_DTM"], dimensions["DIM_DATE"])
     return result
 
 
@@ -227,12 +227,12 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
     fact_ticket["NET_AFTER_CANCEL_AMT"] = (
         fact_ticket["VIRTUAL_GROSS_SALES_AMT"] - fact_ticket["CANCEL_AMT"]
     )
-    fact_ticket["SALE_HOUR"] = fact_ticket["SALE_DTM"].dt.hour
+    fact_ticket["SALE_HOUR_NO"] = fact_ticket["SALE_DTM"].dt.hour
     fact_ticket = fact_ticket[[
         "ORDER_NO", "TICKET_SEQ", "RACE_KEY", "DATE_KEY", "BET_TYPE_CD",
-        "CHANNEL_KEY", "MEMBER_KEY", "SALE_DATE_KEY",
+        "CHANNEL_KEY", "MEMBER_KEY", "SALE_DT_KEY",
         "RC_DT", "RC_NO",
-        "ORDER_TYPE_CD", "ORIG_ORDER_NO", "MBR_NO", "SALE_DTM", "BIZ_DT", "SALE_HOUR",
+        "ORDER_TYPE_CD", "ORIG_ORDER_NO", "MBR_NO", "SALE_DTM", "BIZ_DT", "SALE_HOUR_NO",
         "TICKET_STAT_CD", "BET_AMT", "UNIT_CNT",
         "VIRTUAL_GROSS_SALES_AMT", "SOLD_TICKET_CNT", "CANCEL_AMT", "VOID_AMT",
         "NET_AFTER_CANCEL_AMT", "SALES_AGG_INCLUDE_YN", "INVALID_YN",
@@ -252,7 +252,7 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
         pk_duplicates[name] = int(frame.duplicated(pk).sum())
     missing_fks = {}
     for dimension, key in [
-        ("DIM_RACE", "RACE_KEY"), ("DIM_DATE", "DATE_KEY"), ("DIM_DATE", "SALE_DATE_KEY"),
+        ("DIM_RACE", "RACE_KEY"), ("DIM_DATE", "DATE_KEY"), ("DIM_DATE", "SALE_DT_KEY"),
         ("DIM_BET_TYPE", "BET_TYPE_CD"), ("DIM_CHANNEL", "CHANNEL_KEY"),
         ("DIM_MEMBER", "MEMBER_KEY"), ("DIM_TICKET_STATUS", "TICKET_STAT_CD"),
     ]:
@@ -266,7 +266,7 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
     race_date_match = fact_ticket["RACE_KEY"].eq(0) | fact_ticket["DATE_KEY"].eq(expected_race_dates)
     require(race_date_match.all(), f"{FACT_NAME}: race/date mismatch")
     non_member_key = int(dimensions["DIM_MEMBER"].loc[
-        dimensions["DIM_MEMBER"]["MEMBER_TYPE_CD"].eq("NON_MEMBER"), "MEMBER_KEY"
+        dimensions["DIM_MEMBER"]["MBR_TYPE_CD"].eq("NON_MEMBER"), "MEMBER_KEY"
     ].iloc[0])
     non_member_rows = fact_ticket["MBR_NO"].isna() | fact_ticket["MBR_NO"].astype("string").str.strip().eq("").fillna(False)
     require(fact_ticket["MEMBER_KEY"].eq(non_member_key).eq(non_member_rows).all(),
@@ -329,7 +329,7 @@ def build(silver: Path = SILVER, gold: Path = GOLD, silver_ref: str | None = Non
         "missing_dimension_fk_count": {FACT_NAME: missing_fks},
         "unknown_dimension_key_count": {
             key: int(fact_ticket[key].eq(0).sum())
-            for key in ["RACE_KEY", "DATE_KEY", "SALE_DATE_KEY", "CHANNEL_KEY", "MEMBER_KEY"]
+            for key in ["RACE_KEY", "DATE_KEY", "SALE_DT_KEY", "CHANNEL_KEY", "MEMBER_KEY"]
         },
         "non_member_ticket_count": int(non_member_rows.sum()),
         "race_date_mismatch_count": int((~race_date_match).sum()),

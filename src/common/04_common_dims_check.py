@@ -137,7 +137,7 @@ def main():
         mark(len(d[n]) == e, f"{n}: {len(d[n]):,}행 = 기대 {e:,}")
     m = d["DIM_MEMBER"]
     mark(set(m.loc[m.MEMBER_KEY > 0, "MBR_NO"].dropna()) == set(cl["MBR_MASTER"]["MBR_NO"]), "DIM_MEMBER: 회원 전원 포함")
-    nm = m[m.MEMBER_TYPE_CD.eq("NON_MEMBER")]
+    nm = m[m.MBR_TYPE_CD.eq("NON_MEMBER")]
     mark(len(nm) == 1 and nm.MEMBER_KEY.iloc[0] > 0, f"DIM_MEMBER: NON_MEMBER 1행, 양수 키 {nm.MEMBER_KEY.tolist()}")
     mark(int(o.MBR_NO.isna().sum()) == 4921, f"비회원 전표 {int(o.MBR_NO.isna().sum()):,}건 (전표 기준, 기대 4,921)")
     mark(int((~o.MBR_NO.dropna().isin(cl['MBR_MASTER'].MBR_NO)).sum()) == 0, "회원번호가 있는데 회원 마스터에 없는 전표 0건")
@@ -157,7 +157,7 @@ def main():
         miss = (~s.dropna().isin(set(dd.FULL_DT))).sum()
         mark(miss == 0, f"{nm_} 모두 포함 (빠진 날짜 {miss})")
     race_days = set(cl["RC_RACE"].RC_DT)
-    mark(bool((dd.RACE_DAY_YN.eq("Y") == dd.FULL_DT.isin(race_days)).all()), f"RACE_DAY_YN=Y {int(dd.RACE_DAY_YN.eq('Y').sum())}일 = 경주일")
+    mark(bool((dd.RC_DAY_YN.eq("Y") == dd.FULL_DT.isin(race_days)).all()), f"RC_DAY_YN=Y {int(dd.RC_DAY_YN.eq('Y').sum())}일 = 경주일")
 
     print("\n[4] DIM_HORSE SCD2")
     h = d["DIM_HORSE"][d["DIM_HORSE"].HORSE_KEY > 0].sort_values(["HR_NM", "VALID_FROM_DT"])

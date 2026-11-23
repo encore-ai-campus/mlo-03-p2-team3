@@ -2,7 +2,7 @@
 
 - 업무 프로세스: 경주 출전
 - 팩트 FCT_RACE_ENTRY 그레인: 경주별 출전마 1두 (RC_DT + RC_NO + CHUL_NO), 출전표(RC_ENTRY) 1행 = 팩트 1행
-- 측정값: START_CNT(출주), WIN_CNT(1착), PLACE_CNT(3착 안), EXPECT_WIN(배당 기반 예상 우승 확률)
+- 측정값: START_CNT(출주), WIN_CNT(1착), PLACE_CNT(3착 안), EXPECT_WIN_RT(배당 기반 예상 우승 확률)
 - 차원: 공통 차원 DIM_DATE, DIM_RACE, DIM_HORSE(SCD2), DIM_TRAINER (src/common/04_common_dims.py, D-013 ~ D-015)
 
 규칙 (팀 요청서)
@@ -56,7 +56,7 @@ def fact(entry, res, odds, d_race, d_horse, d_trainer):
     f["WIN_CNT"] = (ran & f["FINISH_ORD"].eq(1)).astype(int)
     f["PLACE_CNT"] = (ran & f["FINISH_ORD"].le(3)).astype(int)
     inv = (1 / f["WIN_ODDS"].astype(float)).where(ran, 0.0).fillna(0.0)  # 뛰지 않은 말은 0
-    f["EXPECT_WIN"] = inv / inv.groupby([f["RC_DT"], f["RC_NO"]]).transform("sum")
+    f["EXPECT_WIN_RT"] = inv / inv.groupby([f["RC_DT"], f["RC_NO"]]).transform("sum")
     f["DATE_KEY"] = f["RC_DT"].map(lambda d: int(d.strftime("%Y%m%d")))
     for k in ["RACE_KEY", "HORSE_KEY", "TRAINER_KEY"]:
         f[k] = f[k].fillna(UNKNOWN_KEY)  # 차원에서 못 찾으면 미상 행 (D-013)
@@ -70,7 +70,7 @@ def fact(entry, res, odds, d_race, d_horse, d_trainer):
         "START_CNT": pa.array(f["START_CNT"].tolist(), pa.int32()),
         "WIN_CNT": pa.array(f["WIN_CNT"].tolist(), pa.int32()),
         "PLACE_CNT": pa.array(f["PLACE_CNT"].tolist(), pa.int32()),
-        "EXPECT_WIN": pa.array(f["EXPECT_WIN"].tolist(), pa.float64()),
+        "EXPECT_WIN_RT": pa.array(f["EXPECT_WIN_RT"].tolist(), pa.float64()),
     })
 
 
