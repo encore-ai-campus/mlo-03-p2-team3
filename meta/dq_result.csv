@@ -1,0 +1,27 @@
+﻿RULE_ID,DIM,TABLE_NM,RULE_DESC,ACTION,DECISION_ID,BRONZE_CNT,SILVER_STD_CNT,FINAL_CNT,TARGET_ROWS,EXAMPLE_ROWS,NOTE
+DQ-U01,유일성,BET_TICKET,"완전 중복 행 (추적 컬럼 제외 업무값 기준, 최소 행 번호 외)",EXCLUDE,D-002,1052,1052,1052,523416,"31, 1801, 2326","FINAL_CNT = 제외한 행 수 (기준 1,052)"
+DQ-U02,유일성,BET_TICKET,PK(전표번호 + 마권 순번)가 중복된 행,CHECK,D-002,2104,2104,0,522364,,중복된 두 행 모두 셈
+DQ-U03,유일성,그 외 12개 테이블,"테이블별 PK가 중복된 행 (BET_ORDER(ORDER_NO), MBR_MASTER(MBR_NO), HR_WEEKLY_SNAPSHOT(SNAPSHOT_DT+HR_NM), TR_WEEKLY_SNAPSHOT(SNAPSHOT_DT+TR_NM), RC_RACE(RC_DT+RC_NO), RC_ENTRY(RC_DT+RC_NO+CHUL_NO), RC_ODDS(RC_DT+RC_NO+CHUL_NO), RC_RESULT(RC_DT+RC_NO+CHUL_NO), RC_SALES(RC_DT+RC_NO+BET_TYPE_CD), RC_SALES_TOTAL(RC_DT+RC_NO), HR_VET_HIST(VET_SEQ), RC_CHANGE_EVENT(_SRC_ROW_NO))",CHECK,D-001,,0,0,101995,,
+DQ-C01,완전성,BET_TICKET,마명 빈칸 (마번은 있음),FIX,D-005,1563,1563,1560,522364,"130, 386, 959","보정 1,560 / 연결 안 됨 0 → HR_NM_FILLED_YN"
+DQ-V01,유효성,날짜·일시 컬럼 전체,날짜·일시 형식 불일치 (Bronze: 주된 형식이 아닌 원천값 / Silver: 변환 실패),CHECK,MR-5,1791,0,0,627075,,"BET_ORDER.SALE_DTM 1,543; MBR_MASTER.BIRTH_DT 248"
+DQ-V02,유효성,코드 컬럼 전체,표준 코드가 아닌 값 (Bronze: 원천값 ≠ 표준코드 / Silver: 코드표 밖 값),CHECK,MR-6,153947,0,0,627075,,
+DQ-V03,유효성,BET_TICKET,0원 마권,FLAG,D-003,3638,3638,3632,522364,"1198, 9849, 9850","상태별 CANCEL 1, SOLD 3,630, VOID 1 → INVALID_YN"
+DQ-V04,유효성,BET_TICKET,금액 ≠ 구좌 수 × 100,CHECK,MR-8,0,0,0,522364,,
+DQ-S01,일관성,BET_ORDER ↔ BET_TICKET,전표의 장수·총액 ≠ 마권 개수·합계,FLAG,D-006,,1062,93,27907,"4176, 4684, 4970",→ HEADER_MISMATCH_YN
+DQ-S02,일관성,BET_TICKET ↔ BET_ORDER,"전표 종류와 마권 상태가 안 맞음 (취소 전표인데 CANCEL이 아니거나, 구매 전표인데 CANCEL)",CHECK,D-001,,,0,522364,,
+DQ-S03,일관성,RC_SALES ↔ RC_SALES_TOTAL,승식별 매출 합 ≠ 경주 합계 (합계 테이블은 대사용),CHECK,MR-3,,,0,386,,
+DQ-S04,일관성,HR_VET_HIST ↔ HR_WEEKLY_SNAPSHOT,진료 기록의 조 ≠ 진료일 직전 스냅샷의 조,FLAG,D-007,,,11,1488,"127, 186, 268",직전 스냅샷이 없는 행은 제외하고 비교 → TR_GRP_MISMATCH_YN
+DQ-S05,일관성,RC_ENTRY ↔ RC_RESULT,같은 출전 키인데 출전표와 결과표의 마명이 다름,CHECK,D-001,,,0,3666,,
+DQ-S06,일관성,BET_TICKET ↔ RC_ENTRY,원래 마명이 있는 마권의 마명 ≠ 출전표 마명 (C01 보정의 전제),CHECK,D-005,,,0,520804,,
+DQ-S07,일관성,BET_TICKET ↔ RC_RESULT,무효(VOID) 마권인데 고른 말이 모두 출주함,CHECK,D-001,,,0,1770,,
+DQ-S08,일관성,BET_TICKET ↔ RC_RESULT,정상(SOLD) 마권인데 고른 말 중 뛰지 않은 말이 있음,CHECK,D-001,,,0,511013,,
+DQ-S09,일관성,HR_VET_TYPE_BRIDGE,"쉼표로 잘못 나뉜 진료명 통합 ('일,열사병' → '일·열사병')",FIX,D-011,,,2,1664,"595, 664","진료 기록 2건, 브리지 1,664 → 1,662행"
+DQ-R01,참조 무결성,BET_TICKET → RC_ENTRY,마권의 경주 + 마번(복승 두 번째 말 포함)이 출전표에 없음,CHECK,D-001,,,0,522364,,
+DQ-R02,참조 무결성,BET_ORDER → MBR_MASTER,전표의 회원번호가 회원 마스터에 없음,CHECK,D-001,,,0,22986,,
+DQ-R03,참조 무결성,BET_ORDER,취소 전표에 원전표번호가 없음,FLAG,D-006,,,644,4105,"1, 2, 3",→ ORIG_MISSING_YN
+DQ-R04,참조 무결성,BET_ORDER,원전표번호가 구매 전표를 가리키지 않음,CHECK,D-001,,,0,3461,,
+DQ-R05,참조 무결성,HR_VET_HIST → HR_WEEKLY_SNAPSHOT,진료일 이전(엄격) 말 스냅샷이 없음,FLAG,D-007,,,71,1488,"1, 2, 3",→ PRIOR_SNAPSHOT_MISSING_YN
+DQ-T01,시점,BET_TICKET + BET_ORDER + RC_RACE,구매 시각 ≥ 그 마권 경주의 출발 시각,CHECK,D-001,,,0,512783,,
+DQ-T02,시점,BET_TICKET,늦은 취소: 취소 시각 ≥ 그 마권 경주의 출발 시각 (마권),FLAG,D-004,,1001,1000,9581,"25, 39, 40",그중 0원 늦은 취소 0 → LATE_CANCEL_YN
+DQ-T03,시점,BET_ORDER,늦은 취소 마권이 있는 전표 (고유 전표 수),FLAG,D-004,,546,546,4105,"4, 13, 14",전부 늦은 취소 277 / 일부만 269 → LATE_CANCEL_YN
+DQ-T04,시점,HR_VET_HIST,보고일 < 진료일,CHECK,D-001,,,0,1488,,
