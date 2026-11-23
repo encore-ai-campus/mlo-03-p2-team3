@@ -10,14 +10,15 @@ flowchart LR
     C --> D["Gold 공통 차원"]
     C --> G["Gold 팩트 4개 · 전용 차원 · 브리지"]
     D --> G
-    G -.-> A["AI Ready Data: 진행 중"]
+    G --> A["AI Ready Data: 출주마별 피처 · 정답 · 날짜 분할"]
+    C -->|"취소 피처의 출발 전 거래 재계산"| A
 ```
 
 1. **Bronze:** 원천 문자열·JSON 원문을 Parquet로 보존하고 출처·행 번호·SHA-256을 기록합니다. 같은 파일 해시는 기존 적재 시각을 재사용합니다.
 2. **Silver 표준화:** 입력 행을 보존하면서 이름·타입·단위·코드를 통일합니다. 매출 합계 행을 분리하고 진료명을 브리지로 펼칩니다.
 3. **품질 관리:** 완전 중복을 먼저 분리한 뒤 보정·플래그를 계산합니다. 표준화 결과와 clean을 분리하고 행별 규칙·결정 ID를 기록합니다. 진료 유형 통합은 원래 진료 기록을 보존하며 브리지를 다시 구성합니다.
 4. **Gold:** 공용 clean manifest의 버전을 기준으로 공통 차원과 각 grain의 팩트·전용 차원을 생성합니다. PK·FK·행 수·측정값을 대사합니다.
-5. **AI Ready Data:** 출전마별 3착 이내 예측 데이터를 구성합니다. 경주 출발 이전 정보를 사용하고 날짜 기준으로 학습·검증을 분할합니다. 완료 후 검증 결과를 추가합니다.
+5. **AI Ready Data:** 실제 출주마별 과거 성적·진료·매출·취소 피처와 `PLACE_YN` 정답을 결합합니다. 취소는 clean 거래에서 출발 전 정보만으로 다시 판정하며, 날짜 기준 TRAIN/TEST 분할과 모델 입력용 인코딩을 적용합니다.
 
 ### 실행 순서
 
@@ -42,6 +43,9 @@ python -X utf8 src/bet_cancel/04_fct_bet_cancel.py
 python -X utf8 src/common/04_common_dims_check.py
 python -X utf8 src/race_entry/04_fct_race_entry_check.py
 python -X utf8 src/horse_medical/04_gold_horse_medical.py --check
+
+python -X utf8 src/ai_ready/05_ai_ready.py
+python -X utf8 src/ai_ready/05_ai_ready_check.py
 ```
 
 매출·취소 생성 코드는 내부 검증을 수행합니다. 매출은 [`_validation.json`](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/data/03_gold/race_sales/_validation.json), 진료는 [`_manifest.json`](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/data/03_gold/horse_medical/_manifest.json)에 검증 근거를 남깁니다.
@@ -56,12 +60,13 @@ python -X utf8 src/horse_medical/04_gold_horse_medical.py --check
 │   ├── 02_silver/        # 표준화 Parquet 14개
 │   │   ├── clean/        # 품질 관리 후 Parquet 14개 + manifest
 │   │   └── _excluded/    # 중복 제외 마권 1,052행
-│   └── 03_gold/
-│       ├── common/       # 공통 차원 6개
-│       ├── race_entry/    # 경주 출전
-│       ├── horse_medical/ # 말 진료
-│       ├── race_sales/    # 마권 매출
-│       └── bet_cancel/    # 50대 단승 취소
+│   ├── 03_gold/
+│   │   ├── common/       # 공통 차원 6개
+│   │   ├── race_entry/    # 경주 출전
+│   │   ├── horse_medical/ # 말 진료
+│   │   ├── race_sales/    # 마권 매출
+│   │   └── bet_cancel/    # 50대 단승 취소
+│   └── 04_ai_ready/      # 피처·인코딩 테이블, 미출주 제외 데이터
 ├── src/                  # 단계별 생성·검증 코드
 ├── docs/                 # AS-IS·단계 보고서·Gold 설계
 ├── meta/                 # 사전·매핑·결정·적재·품질 로그

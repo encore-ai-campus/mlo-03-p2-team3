@@ -62,6 +62,23 @@
 
 FK 누락 0건은 업무 속성이 모두 알려져 있다는 뜻은 아닙니다. 진료 71행의 말, 매출 308행의 채널은 실제 차원에 존재하는 **미상 키 0**을 참조합니다. 취소일이 없는 취소 팩트 40,187행도 날짜 키 0을 사용합니다.
 
+### AI Ready Data 대사 결과
+
+| 검증 항목 | 결과 |
+| --- | --- |
+| 유지 + 미출주 제외 = 출전표 | 3,644 + 22 = 3,666행, 겹침 0 |
+| PK `RACE_KEY + CHUL_NO` | 중복 0건 |
+| 정답 `PLACE_YN` | clean 결과표의 3착 이내 여부와 일치, 양성 1,158행 |
+| 날짜 분할 | TRAIN 2,895행(~2026-10-09), TEST 749행(2026-10-10~) |
+| 과거 성적·진료·매출 | 시점 조건을 적용한 독립 재계산 불일치 0 |
+| 출발 전 확인 취소 | 905묶음·3,812,500원, 출발 전 거래만으로 재판정 |
+| 인코딩 | 같은 행·순서, `SPLIT_CD` 제외 숫자형·결측 0건 |
+| 재현성 | 저장 파일과 두 번 재생성한 결과의 SHA-256 일치 |
+
+취소 피처는 Gold 전체 기간 취소 합계와 범위가 다릅니다. 원구매 연결 후보도 출발 전 판매로 제한하고, 출발 이후의 거래가 피처 판정을 바꾸지 않도록 합니다. 최종 배당은 비교용 기준선으로만 사용합니다.
+
+상세 피처·관측 시점 가정은 [AI Ready 문서](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/ai_ready.md)를 참고합니다.
+
 ### 검증 명령
 
 저장된 산출물 검증:
@@ -73,4 +90,5 @@ python -X utf8 src/03_quality_check.py
 python -X utf8 src/common/04_common_dims_check.py
 python -X utf8 src/race_entry/04_fct_race_entry_check.py
 python -X utf8 src/horse_medical/04_gold_horse_medical.py --check
+python -X utf8 src/ai_ready/05_ai_ready_check.py
 ```
