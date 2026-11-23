@@ -41,7 +41,7 @@
 | `mongodb` | 변경 공지 `race_change_events.jsonl` | 1 | 149 |
 | **합계** | **CSV 11개 + JSONL 1개** | **12** | **625,411** |
 
-경주 기간: **2026-05-22 ~ 2026-11-14** · 경마일 **52일** · 경주 **386개**. 테이블별 범위는 [데이터 안내서](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/DATA_GUIDE.md)에서 확인할 수 있습니다.
+경주 기간: **2026-05-22 ~ 2026-11-14** · 경마일 **52일** · 경주 **386개**. 테이블별 범위는 [데이터 안내서](docs/DATA_GUIDE.md)에서 확인할 수 있습니다.
 
 ### 프로젝트 필요성: AS-IS
 
@@ -54,7 +54,7 @@
 | 업무상 확인이 필요한 기록 | 0원 마권, 늦은 취소, 전표 헤더·상세 불일치 | 품질 플래그와 처리 근거 기록 |
 | 시점에 따른 속성 변화 | 말의 등급·소속 조·조교사 등 변경 | SCD2 이력 차원, 기준일 이전 스냅샷 사용 |
 
-그대로 결합하면 중복으로 집계가 부풀거나 취소·미출주 기록을 잘못 해석할 수 있습니다. 원천 문제의 건수·변환 예시는 [AS-IS 보고서](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/AS-IS.md), 처리 근거는 [결정 로그](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/meta/decision_log.md)에 기록합니다.
+그대로 결합하면 중복으로 집계가 부풀거나 취소·미출주 기록을 잘못 해석할 수 있습니다. 원천 문제의 건수·변환 예시는 [AS-IS 보고서](docs/AS-IS.md), 처리 근거는 [결정 로그](meta/decision_log.md)에 기록합니다.
 
 ### 프로젝트 목표
 
@@ -73,7 +73,7 @@
 | 입력 형식 | ![CSV](https://img.shields.io/badge/CSV-Metadata-217346?style=flat-square) · JSONL | 테이블·중첩 이벤트 원천 |
 | 설계·문서 | ![Markdown](https://img.shields.io/badge/Markdown-Documentation-000000?style=flat-square&logo=markdown&logoColor=white) · Mermaid | 규칙서·품질 보고서·ERD |
 
-의존성은 [requirements.txt](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/requirements.txt)로 관리합니다. 변경 공지는 JSONL 파일로 처리합니다.
+의존성은 [requirements.txt](requirements.txt)로 관리합니다. 변경 공지는 JSONL 파일로 처리합니다.
 
 ## 4. WBS
 
@@ -93,23 +93,23 @@
 
 | ID | 단계 | 핵심 요구사항 | 검증 방법 | 결과 |
 | --- | --- | --- | --- | --- |
-| B-01 | Bronze | 원천을 값 변경 없이 Parquet로 보존하고 파일별 행 수를 일치시킨다. | [01_bronze_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/01_bronze_check.py) | ✅ 12개·625,411행 일치 |
-| B-02 | Bronze | 원천 파일·적재 시각·행 번호·해시를 기록해 출처와 재적재 이력을 추적한다. | [01_bronze_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/01_bronze_check.py) · 적재 로그 | ✅ 출처·원천 해시 확인 |
-| N-01 | 표준화 | 컬럼명·날짜·타입·코드·단위를 통일하고 데이터 사전에 기록한다. | [02_normalize_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/02_normalize_check.py) · 사전/스키마 대조 | ✅ 변환 실패·코드표 밖 값 0건 |
-| N-02 | 표준화 | 기본 행을 보존하고, 매출 합계 분리·진료 브리지 확장은 출력 단위에 맞게 대사한다. | [02_normalize_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/02_normalize_check.py) | ✅ 매출 3,088 = 2,702 + 386, 진료명 항목 1,664개 |
-| N-03 | 표준화 | 원천값의 변경·NULL 처리·제외 사유를 기록한다. | [02_normalize_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/02_normalize_check.py) · 데이터 사전·이슈 로그 | ✅ 원천 컬럼 기록·값 보존 대사 통과 |
-| Q-01 | 품질 검증 | 6개 품질 차원의 규칙을 정의하고 근거 결정 ID를 연결한다. | [03_quality_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/03_quality_check.py) · 결정 로그 | ✅ 26개 규칙 근거 확인 |
-| Q-02 | 품질 검증 | 키·금액·참조·시점을 점검하고 위반 행의 처리 근거를 남긴다. | [03_quality_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/03_quality_check.py) · 규칙별 결과 | ✅ 확인용 16개 규칙 위반 0, 표시·보정 이력 보존 |
-| S-01 | Silver | 완전 중복을 분리 보존하고 입력 = 유지 + 제외, 유지·제외 겹침 0을 확인한다. | [03_quality_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/03_quality_check.py) | ✅ 마권 523,416 = 522,364 + 1,052행 |
-| S-02 | Silver | 마명을 근거에 따라 보정하고 0원·늦은 취소·불일치는 플래그로 보존한다. | [03_quality_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/03_quality_check.py) | ✅ 마명 1,560행 보정·플래그 재계산 일치 |
-| S-03 | Silver | 정제 결과를 공용 clean으로 관리하고 버전·파일 해시를 고정한다. | [clean manifest](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/data/02_silver/clean/_manifest.json) · SHA-256 대조 | ✅ 14개 파일 일치 |
+| B-01 | Bronze | 원천을 값 변경 없이 Parquet로 보존하고 파일별 행 수를 일치시킨다. | [01_bronze_check.py](src/01_bronze_check.py) | ✅ 12개·625,411행 일치 |
+| B-02 | Bronze | 원천 파일·적재 시각·행 번호·해시를 기록해 출처와 재적재 이력을 추적한다. | [01_bronze_check.py](src/01_bronze_check.py) · 적재 로그 | ✅ 출처·원천 해시 확인 |
+| N-01 | 표준화 | 컬럼명·날짜·타입·코드·단위를 통일하고 데이터 사전에 기록한다. | [02_normalize_check.py](src/02_normalize_check.py) · 사전/스키마 대조 | ✅ 변환 실패·코드표 밖 값 0건 |
+| N-02 | 표준화 | 기본 행을 보존하고, 매출 합계 분리·진료 브리지 확장은 출력 단위에 맞게 대사한다. | [02_normalize_check.py](src/02_normalize_check.py) | ✅ 매출 3,088 = 2,702 + 386, 진료명 항목 1,664개 |
+| N-03 | 표준화 | 원천값의 변경·NULL 처리·제외 사유를 기록한다. | [02_normalize_check.py](src/02_normalize_check.py) · 데이터 사전·이슈 로그 | ✅ 원천 컬럼 기록·값 보존 대사 통과 |
+| Q-01 | 품질 검증 | 6개 품질 차원의 규칙을 정의하고 근거 결정 ID를 연결한다. | [03_quality_check.py](src/03_quality_check.py) · 결정 로그 | ✅ 26개 규칙 근거 확인 |
+| Q-02 | 품질 검증 | 키·금액·참조·시점을 점검하고 위반 행의 처리 근거를 남긴다. | [03_quality_check.py](src/03_quality_check.py) · 규칙별 결과 | ✅ 확인용 16개 규칙 위반 0, 표시·보정 이력 보존 |
+| S-01 | Silver | 완전 중복을 분리 보존하고 입력 = 유지 + 제외, 유지·제외 겹침 0을 확인한다. | [03_quality_check.py](src/03_quality_check.py) | ✅ 마권 523,416 = 522,364 + 1,052행 |
+| S-02 | Silver | 마명을 근거에 따라 보정하고 0원·늦은 취소·불일치는 플래그로 보존한다. | [03_quality_check.py](src/03_quality_check.py) | ✅ 마명 1,560행 보정·플래그 재계산 일치 |
+| S-03 | Silver | 정제 결과를 공용 clean으로 관리하고 버전·파일 해시를 고정한다. | [clean manifest](data/02_silver/clean/_manifest.json) · SHA-256 대조 | ✅ 14개 파일 일치 |
 | G-01 | Gold | 같은 clean에서 업무별 grain에 맞는 팩트와 공통 차원을 생성한다. | 팩트별 입력·grain 대사 | ✅ 팩트 4개·공통 차원 6개 |
-| G-02 | Gold | PK 중복·NULL과 FK 누락이 없어야 하며 말의 SCD2 기준일을 지킨다. | [공통 차원 검증](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/common/04_common_dims_check.py) · 팩트별 키/시점 검증 | ✅ 키 오류 0건·기간 검증 통과 |
+| G-02 | Gold | PK 중복·NULL과 FK 누락이 없어야 하며 말의 SCD2 기준일을 지킨다. | [공통 차원 검증](src/common/04_common_dims_check.py) · 팩트별 키/시점 검증 | ✅ 키 오류 0건·기간 검증 통과 |
 | G-03 | Gold | 팩트·브리지의 행 수와 측정값을 해당 입력·집계 정의에 맞춰 대사한다. | [팩트별 검증 결과](docs/wiki/Results.md) | ✅ 행 수·금액·건수 일치 |
-| A-01 | AI Ready | 실제 출주마 1두를 1행으로 구성하고 미출주마는 사유와 함께 별도 보존한다. | [05_ai_ready_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/ai_ready/05_ai_ready_check.py) | ✅ 유지 3,644 + 제외 22 = 3,666행, PK 중복 0 |
-| A-02 | AI Ready | 출발 전 정보로 피처를 구성하고 정답·최종 배당을 학습 피처와 분리한다. | [05_ai_ready_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/ai_ready/05_ai_ready_check.py) · 과거 성적/진료/거래 재계산 | ✅ 시점별 재계산 일치 |
-| A-03 | AI Ready | 범주형을 인코딩하고 결측 표시를 유지해 학습 피처를 숫자형으로 만든다. | [05_ai_ready_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/ai_ready/05_ai_ready_check.py) · 원-핫/결측 검증 | ✅ 행·순서 일치, 결측 0건 |
-| A-04 | AI Ready | 정답은 3착 이내 여부로 정의하고 TRAIN/TEST를 날짜로 분할한다. | [05_ai_ready_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/ai_ready/05_ai_ready_check.py) · 정답/분할 검증 | ✅ TRAIN 2,895행·TEST 749행, 날짜 겹침 0 |
+| A-01 | AI Ready | 실제 출주마 1두를 1행으로 구성하고 미출주마는 사유와 함께 별도 보존한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) | ✅ 유지 3,644 + 제외 22 = 3,666행, PK 중복 0 |
+| A-02 | AI Ready | 출발 전 정보로 피처를 구성하고 정답·최종 배당을 학습 피처와 분리한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 과거 성적/진료/거래 재계산 | ✅ 시점별 재계산 일치 |
+| A-03 | AI Ready | 범주형을 인코딩하고 결측 표시를 유지해 학습 피처를 숫자형으로 만든다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 원-핫/결측 검증 | ✅ 행·순서 일치, 결측 0건 |
+| A-04 | AI Ready | 정답은 3착 이내 여부로 정의하고 TRAIN/TEST를 날짜로 분할한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 정답/분할 검증 | ✅ TRAIN 2,895행·TEST 749행, 날짜 겹침 0 |
 
 ## 6. ERD
 
@@ -123,14 +123,27 @@
 
 ### 팩트 grain
 
-| 주제 · 팩트 | 한 행의 의미 | PK | 실제 행 수 |
-| --- | --- | --- | ---: |
-| [경주 출전](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/race_entry.md) · `FCT_RACE_ENTRY` | 경주별 출전표에 오른 말 1두 | `RACE_KEY + CHUL_NO` | 3,666 |
-| [말 진료](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/horse_medical.md) · `FCT_HORSE_MEDICAL` | 진료 기록 1건 | `VET_SEQ` | 1,488 |
-| [마권 매출](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/race_sales.md) · `race_sales` | 전표 내 마권 기록 1건(발매·취소·무효 포함) | `ORDER_NO + TICKET_SEQ` | 522,364 |
-| [50대 단승 취소](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/bet_cancel.md) · `FCT_BET_SELECTION_CANCEL_50S` | 만 50~59세 회원의 전표별·경주별·출주마별 단승 구매 묶음 | `FACT_ID` | 41,141 |
+| 주제 · 팩트 | 한 행의 의미 | PK | 주요 측정값 | 실제 행 수 |
+| --- | --- | --- | --- | ---: |
+| [경주 출전](docs/gold/race_entry.md) · `FCT_RACE_ENTRY` | 경주별 출전표에 오른 말 1두 | `RACE_KEY + CHUL_NO` | `START_CNT`, `WIN_CNT`, `PLACE_CNT`, `EXPECT_WIN` | 3,666 |
+| [말 진료](docs/gold/horse_medical.md) · `FCT_HORSE_MEDICAL` | 진료 기록 1건 | `VET_SEQ` | `VET_CNT` | 1,488 |
+| [마권 매출](docs/gold/race_sales.md) · `FCT_RACE_SALES` | 전표 내 마권 기록 1건(발매·취소·무효 포함) | `ORDER_NO + TICKET_SEQ` | `VIRTUAL_GROSS_SALES_AMT`, `SOLD_TICKET_CNT`, `CANCEL_AMT`, `VOID_AMT`, `NET_AFTER_CANCEL_AMT` | 522,364 |
+| [50대 단승 취소](docs/gold/bet_cancel.md) · `FCT_BET_SELECTION_CANCEL_50S` | 만 50~59세 회원의 전표별·경주별·출주마별 단승 구매 묶음 | `FACT_ID` | `PURCHASE_DETAIL_COUNT`, `PURCHASE_AMOUNT_KRW`, `VERIFIED_CANCEL_AMOUNT_KRW`, `HAS_VERIFIED_CUSTOMER_CANCEL` | 41,141 |
 
-[차원 구성·측정값 계산 정의](docs/wiki/Star-Schema.md)
+### 공통 차원
+
+| 공통 차원 | PK | 행 수(미상 포함) | 주요 속성·연결 기준 |
+| --- | --- | ---: | --- |
+| `DIM_DATE` | `DATE_KEY` | 188 | 연속 187일 + 미상. 경주·구매·취소·진료·보고·스냅샷 날짜를 역할별 FK로 연결 |
+| `DIM_RACE` | `RACE_KEY` | 387 | 경주 386개 + 미상. 경주일·경주번호, 거리·등급·날씨·주로 |
+| `DIM_HORSE` | `HORSE_KEY` | 4,127 | 말 1,250두의 SCD2 버전 4,126개 + 미상. 기준일 이전 스냅샷 사용 |
+| `DIM_TRAINER` | `TRAINER_KEY` | 19 | 조교사 18명 + 미상. 조교사명·소속 조 |
+| `DIM_MEMBER` | `MEMBER_KEY` | 4,385 | 회원 4,383명 + 비회원 + 미상. 비회원은 별도 양수 키 |
+| `DIM_CHANNEL` | `CHANNEL_KEY` | 40 | 현장·앱·장외 37개 지점 + 미상. 채널·지점 조합 |
+
+미상 키는 `0`입니다. 말의 SCD2 버전은 스냅샷 다음 날부터 유효하며, `VALID_FROM_DT ≤ 기준일 ≤ VALID_TO_DT`로 연결합니다.
+
+[측정값 계산 정의](docs/wiki/Star-Schema.md#측정값) · [공통 차원 연결 규칙](docs/gold/common.md)
 
 ## 7. 주요 프로시저
 
@@ -161,11 +174,14 @@ flowchart LR
 | 항목 | 내용 |
 | --- | --- |
 | 예측 대상 · 정답 | 실제 출주마의 3착 이내 여부 · `PLACE_YN` (0/1) |
+| 입력 피처 | 인코딩 전 27개. 식별자·분할 코드·정답·배당 기준선 제외 |
+| 전체 정답 비율 | 3착 이내 1,158 / 3,644행 = **31.8%** |
 | 행 단위 · PK | 경주별 실제 출주마 1두 · `RACE_KEY + CHUL_NO` |
 | 행 수 대사 | 출전표 3,666 = 유지 3,644 + 미출주 제외 22행 (`NOT_STARTED`) |
 | TRAIN | 2026-10-09까지 · 2,895행 |
 | TEST | 2026-10-10부터 · 749행 |
 | 산출물 | 사람이 읽는 피처 테이블 · 모델 입력용 인코딩 테이블 · 제외 데이터 |
+| TEST 기준선 (Precision@3) | 경주별 무작위 3두의 기대 정밀도 **31.0%** / 최종 배당 상위 3두 정밀도 **52.4%** (121/231) |
 
 | 피처 출처 | 핵심 내용 |
 | --- | --- |
@@ -174,9 +190,11 @@ flowchart LR
 | 매출 | 출발 전 발매액·마권 수·취소액·취소율 |
 | 50대 단승 취소 | 출발 전 구매와 확인 취소의 건수·금액; 원구매 연결도 출발 전 판매로 제한 |
 
+기준선은 TEST 77경주에서 경주마다 3두를 선택했을 때의 정밀도입니다. 전체 정답 비율 31.8%와는 집계 범위가 다릅니다. 최종 배당은 사후 비교용이며 모델 학습 성능이 아닙니다.
+
 범주형은 원-핫, Y/N은 1/0으로 인코딩하고 결측값은 0과 `_NA` 표시로 구분합니다. 최종 배당 `BASE_EXPECT_WIN`은 비교용 기준선이며 학습 입력에서 제외합니다. 날씨·주로 상태는 출발 전에 공개된 값으로 가정합니다.
 
-[AI Ready 데이터·피처 정의](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/ai_ready.md) · [산출물](https://github.com/encore-ai-campus/mlo-03-p2-team3/tree/develop/data/04_ai_ready) · [05_ai_ready_check.py](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/src/ai_ready/05_ai_ready_check.py)
+[AI Ready 데이터·피처 정의](docs/ai_ready.md) · [산출물](data/04_ai_ready) · [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py)
 
 ## 8. 수행결과
 

@@ -48,7 +48,7 @@ python -X utf8 src/ai_ready/05_ai_ready.py
 python -X utf8 src/ai_ready/05_ai_ready_check.py
 ```
 
-매출·취소 생성 코드는 내부 검증을 수행합니다. 매출은 [`_validation.json`](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/data/03_gold/race_sales/_validation.json), 진료는 [`_manifest.json`](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/data/03_gold/horse_medical/_manifest.json)에 검증 근거를 남깁니다.
+매출·취소 생성 코드는 내부 검증을 수행합니다. 매출은 [`_validation.json`](../../data/03_gold/race_sales/_validation.json), 진료는 [`_manifest.json`](../../data/03_gold/horse_medical/_manifest.json)에 검증 근거를 남깁니다.
 
 ### 디렉터리 구조
 
@@ -74,4 +74,4 @@ python -X utf8 src/ai_ready/05_ai_ready_check.py
 └── AGENTS.md             # 저장소 운영 규칙
 ```
 
-이전 단계 데이터는 다음 단계에서 읽기만 합니다. `main`은 공용 원천·폴더 구조를 공유하고 단계별 산출물은 작업 브랜치에서 관리·통합합니다. 현재 완료 결과의 기준 브랜치는 `develop`입니다.
+이전 단계 데이터는 다음 단계에서 읽기만 합니다. `main`은 공용 원천·폴더 구조를 공유하고 단계별 산출물은 작업 브랜치에서 관리·통합합니다. Bronze부터 AI Ready까지의 코드·데이터·문서는 `main`에 통합되어 있습니다.

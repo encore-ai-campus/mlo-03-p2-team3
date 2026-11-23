@@ -5,7 +5,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="rel-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#BE9557;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.5;exitY=0;entryX=0.81;entryY=1;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_TICKET_STATUS" target="race_sales">
+        <mxCell id="rel-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#BE9557;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.5;exitY=0;entryX=0.81;entryY=1;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_TICKET_STATUS" target="FCT_RACE_SALES">
           <mxGeometry as="geometry" relative="1">
             <Array as="points">
               <mxPoint x="2260" y="1270" />
@@ -13,7 +13,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#BE9557;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.5;exitY=0;entryX=0.46;entryY=1;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_BET_TYPE" target="race_sales">
+        <mxCell id="rel-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#BE9557;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.5;exitY=0;entryX=0.46;entryY=1;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_BET_TYPE" target="FCT_RACE_SALES">
           <mxGeometry as="geometry" relative="1">
             <Array as="points">
               <mxPoint x="1790" y="1250" />
@@ -52,7 +52,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.66;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_CHANNEL" target="race_sales">
+        <mxCell id="rel-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.66;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_CHANNEL" target="FCT_RACE_SALES">
           <mxGeometry as="geometry" relative="1">
             <Array as="points">
               <mxPoint x="2200.0" y="575" />
@@ -68,7 +68,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.49;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_MEMBER" target="race_sales">
+        <mxCell id="rel-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.25;exitY=1;entryX=0.49;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_MEMBER" target="FCT_RACE_SALES">
           <mxGeometry as="geometry" relative="1">
             <Array as="points">
               <mxPoint x="1790.0" y="552" />
@@ -124,7 +124,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.4;exitY=1;entryX=0.32;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_RACE" target="race_sales">
+        <mxCell id="rel-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.4;exitY=1;entryX=0.32;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_RACE" target="FCT_RACE_SALES">
           <mxGeometry as="geometry" relative="1">
             <Array as="points">
               <mxPoint x="614.0" y="486" />
@@ -148,7 +148,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="rel-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.55;exitY=1;entryX=0.15;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_DATE" target="race_sales">
+        <mxCell id="rel-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#7990B2;strokeWidth=1.4;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=0.55;exitY=1;entryX=0.15;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="DIM_DATE" target="FCT_RACE_SALES">
           <mxGeometry as="geometry" relative="1">
             <Array as="points">
               <mxPoint x="258.0" y="466" />
@@ -778,184 +778,184 @@
         <mxCell id="FCT_HORSE_MEDICAL-count" value="1,488 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#6A47A2;fillColor=#F0EBFA;spacingLeft=14;" vertex="1" parent="FCT_HORSE_MEDICAL">
           <mxGeometry as="geometry" x="0" y="283" width="520" height="30" />
         </mxCell>
-        <mxCell id="race_sales" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#9E6316;strokeWidth=1.6;" vertex="1" parent="1">
+        <mxCell id="FCT_RACE_SALES" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#9E6316;strokeWidth=1.6;" vertex="1" parent="1">
           <mxGeometry as="geometry" x="1320" y="660" width="520" height="502" />
         </mxCell>
-        <mxCell id="race_sales-title" value="race_sales" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#9E6316;spacingLeft=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-title" value="FCT_RACE_SALES" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fillColor=#9E6316;spacingLeft=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="0" width="520" height="44" />
         </mxCell>
-        <mxCell id="race_sales-subtitle" value="마권 기록 1건 / 발매 · 취소 · 무효 보존" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=14;fontColor=#9E6316;fillColor=#FFF2DC;spacingLeft=14;spacingRight=10;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-subtitle" value="마권 기록 1건 / 발매 · 취소 · 무효 보존" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=14;fontColor=#9E6316;fillColor=#FFF2DC;spacingLeft=14;spacingRight=10;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="44" width="520" height="50" />
         </mxCell>
-        <mxCell id="race_sales-row-ORDER_NO" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-ORDER_NO" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="94" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-ORDER_NO" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-ORDER_NO" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="94" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-ORDER_NO" value="ORDER_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-ORDER_NO" value="ORDER_NO" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="94" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-ORDER_NO" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-ORDER_NO" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="94" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-TICKET_SEQ" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-TICKET_SEQ" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="121" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-TICKET_SEQ" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-TICKET_SEQ" value="PK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="121" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-TICKET_SEQ" value="TICKET_SEQ" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-TICKET_SEQ" value="TICKET_SEQ" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="121" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-TICKET_SEQ" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-TICKET_SEQ" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="121" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-RACE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-RACE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="148" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-RACE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-RACE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="148" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-RACE_KEY" value="RACE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-RACE_KEY" value="RACE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="148" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-RACE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-RACE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="148" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-DATE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-DATE_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="175" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="175" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-DATE_KEY" value="DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-DATE_KEY" value="DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="175" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="175" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-SALE_DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-SALE_DATE_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="202" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-SALE_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-SALE_DATE_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="202" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-SALE_DATE_KEY" value="SALE_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-SALE_DATE_KEY" value="SALE_DATE_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="202" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-SALE_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-SALE_DATE_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="202" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-MEMBER_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-MEMBER_KEY" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="229" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-MEMBER_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-MEMBER_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="229" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-MEMBER_KEY" value="MEMBER_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-MEMBER_KEY" value="MEMBER_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="229" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-MEMBER_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-MEMBER_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="229" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-CHANNEL_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-CHANNEL_KEY" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="256" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-CHANNEL_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-CHANNEL_KEY" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="256" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-CHANNEL_KEY" value="CHANNEL_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-CHANNEL_KEY" value="CHANNEL_KEY" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="256" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-CHANNEL_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-CHANNEL_KEY" value="int32" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="256" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-BET_TYPE_CD" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-BET_TYPE_CD" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="283" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-BET_TYPE_CD" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-BET_TYPE_CD" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="283" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-BET_TYPE_CD" value="BET_TYPE_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-BET_TYPE_CD" value="BET_TYPE_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="283" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-BET_TYPE_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-BET_TYPE_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="283" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-TICKET_STAT_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-TICKET_STAT_CD" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="310" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-TICKET_STAT_CD" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-TICKET_STAT_CD" value="FK" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="310" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-TICKET_STAT_CD" value="TICKET_STAT_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-TICKET_STAT_CD" value="TICKET_STAT_CD" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="310" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-TICKET_STAT_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-TICKET_STAT_CD" value="string" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="310" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-VIRTUAL_GROSS_SALES_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-VIRTUAL_GROSS_SALES_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="337" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-VIRTUAL_GROSS_SALES_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-VIRTUAL_GROSS_SALES_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="337" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-VIRTUAL_GROSS_SALES_AMT" value="VIRTUAL_GROSS_SALES_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-VIRTUAL_GROSS_SALES_AMT" value="VIRTUAL_GROSS_SALES_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="337" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-VIRTUAL_GROSS_SALES_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-VIRTUAL_GROSS_SALES_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="337" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-SOLD_TICKET_CNT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-SOLD_TICKET_CNT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="364" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-SOLD_TICKET_CNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-SOLD_TICKET_CNT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="364" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-SOLD_TICKET_CNT" value="SOLD_TICKET_CNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-SOLD_TICKET_CNT" value="SOLD_TICKET_CNT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="364" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-SOLD_TICKET_CNT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-SOLD_TICKET_CNT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="364" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-CANCEL_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-CANCEL_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="391" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-CANCEL_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-CANCEL_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="391" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-CANCEL_AMT" value="CANCEL_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-CANCEL_AMT" value="CANCEL_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="391" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-CANCEL_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-CANCEL_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="391" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-VOID_AMT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-VOID_AMT" value="" style="fillColor=#F7F9FD;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="418" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-VOID_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-VOID_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="418" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-VOID_AMT" value="VOID_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-VOID_AMT" value="VOID_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="418" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-VOID_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-VOID_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="418" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-row-NET_AFTER_CANCEL_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-row-NET_AFTER_CANCEL_AMT" value="" style="fillColor=#FFFFFF;strokeColor=none;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="445" width="520" height="27" />
         </mxCell>
-        <mxCell id="race_sales-flag-NET_AFTER_CANCEL_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-flag-NET_AFTER_CANCEL_AMT" value="" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=12;fontStyle=1;fontColor=#9E6316;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="8" y="445" width="52" height="27" />
         </mxCell>
-        <mxCell id="race_sales-name-NET_AFTER_CANCEL_AMT" value="NET_AFTER_CANCEL_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-name-NET_AFTER_CANCEL_AMT" value="NET_AFTER_CANCEL_AMT" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="64" y="445" width="352" height="27" />
         </mxCell>
-        <mxCell id="race_sales-type-NET_AFTER_CANCEL_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-type-NET_AFTER_CANCEL_AMT" value="int64" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontFamily=Consolas;fontSize=12;fontColor=#66758A;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="420" y="445" width="94" height="27" />
         </mxCell>
-        <mxCell id="race_sales-count" value="522,364 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#9E6316;fillColor=#FFF2DC;spacingLeft=14;" vertex="1" parent="race_sales">
+        <mxCell id="FCT_RACE_SALES-count" value="522,364 rows" style="text;html=0;whiteSpace=wrap;overflow=hidden;align=left;verticalAlign=middle;fontFamily=Malgun Gothic;fontColor=#14233B;fontSize=13;fontColor=#9E6316;fillColor=#FFF2DC;spacingLeft=14;" vertex="1" parent="FCT_RACE_SALES">
           <mxGeometry as="geometry" x="0" y="472" width="520" height="30" />
         </mxCell>
         <mxCell id="FCT_BET_SELECTION_CANCEL_50S" value="" style="rounded=0;whiteSpace=wrap;html=0;fillColor=#FFFFFF;strokeColor=#A13B58;strokeWidth=1.6;" vertex="1" parent="1">

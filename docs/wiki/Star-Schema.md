@@ -10,27 +10,29 @@
 
 ## 팩트 grain
 
-| 주제 · 팩트 | 한 행의 의미 | PK | 실제 행 수 |
-| --- | --- | --- | ---: |
-| [경주 출전](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/race_entry.md) · `FCT_RACE_ENTRY` | 경주별 출전표에 오른 말 1두 | `RACE_KEY + CHUL_NO` | 3,666 |
-| [말 진료](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/horse_medical.md) · `FCT_HORSE_MEDICAL` | 진료 기록 1건 | `VET_SEQ` | 1,488 |
-| [마권 매출](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/race_sales.md) · `race_sales` | 전표 내 마권 기록 1건(발매·취소·무효 포함) | `ORDER_NO + TICKET_SEQ` | 522,364 |
-| [50대 단승 취소](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/bet_cancel.md) · `FCT_BET_SELECTION_CANCEL_50S` | 만 50~59세 회원의 전표별·경주별·출주마별 단승 구매 묶음 | `FACT_ID` | 41,141 |
+| 주제 · 팩트 | 한 행의 의미 | PK | 주요 측정값 | 실제 행 수 |
+| --- | --- | --- | --- | ---: |
+| [경주 출전](../gold/race_entry.md) · `FCT_RACE_ENTRY` | 경주별 출전표에 오른 말 1두 | `RACE_KEY + CHUL_NO` | `START_CNT`, `WIN_CNT`, `PLACE_CNT`, `EXPECT_WIN` | 3,666 |
+| [말 진료](../gold/horse_medical.md) · `FCT_HORSE_MEDICAL` | 진료 기록 1건 | `VET_SEQ` | `VET_CNT` | 1,488 |
+| [마권 매출](../gold/race_sales.md) · `FCT_RACE_SALES` | 전표 내 마권 기록 1건(발매·취소·무효 포함) | `ORDER_NO + TICKET_SEQ` | `VIRTUAL_GROSS_SALES_AMT`, `SOLD_TICKET_CNT`, `CANCEL_AMT`, `VOID_AMT`, `NET_AFTER_CANCEL_AMT` | 522,364 |
+| [50대 단승 취소](../gold/bet_cancel.md) · `FCT_BET_SELECTION_CANCEL_50S` | 만 50~59세 회원의 전표별·경주별·출주마별 단승 구매 묶음 | `FACT_ID` | `PURCHASE_DETAIL_COUNT`, `PURCHASE_AMOUNT_KRW`, `VERIFIED_CANCEL_AMOUNT_KRW`, `HAS_VERIFIED_CUSTOMER_CANCEL` | 41,141 |
 
-## 차원
+## 공통 차원
 
-| 공통 차원 | 행 수(미상 포함) | 의미 |
-| --- | ---: | --- |
-| `DIM_DATE` | 188 | 2026-05-16~11-18 연속 187일 + 미상 |
-| `DIM_RACE` | 387 | 경주 386개 + 미상 |
-| `DIM_HORSE` | 4,127 | 말 1,250두의 SCD2 버전 4,126개 + 미상 |
-| `DIM_TRAINER` | 19 | 조교사 18명 + 미상 |
-| `DIM_MEMBER` | 4,385 | 회원 4,383명 + 비회원 + 미상 |
-| `DIM_CHANNEL` | 40 | 현장·앱·장외 37개 지점 + 미상 |
+| 공통 차원 | PK | 행 수(미상 포함) | 주요 속성·연결 기준 |
+| --- | --- | ---: | --- |
+| `DIM_DATE` | `DATE_KEY` | 188 | 연속 187일 + 미상. 경주·구매·취소·진료·보고·스냅샷 날짜를 역할별 FK로 연결 |
+| `DIM_RACE` | `RACE_KEY` | 387 | 경주 386개 + 미상. 경주일·경주번호, 거리·등급·날씨·주로 |
+| `DIM_HORSE` | `HORSE_KEY` | 4,127 | 말 1,250두의 SCD2 버전 4,126개 + 미상. 기준일 이전 스냅샷 사용 |
+| `DIM_TRAINER` | `TRAINER_KEY` | 19 | 조교사 18명 + 미상. 조교사명·소속 조 |
+| `DIM_MEMBER` | `MEMBER_KEY` | 4,385 | 회원 4,383명 + 비회원 + 미상. 비회원은 별도 양수 키 |
+| `DIM_CHANNEL` | `CHANNEL_KEY` | 40 | 현장·앱·장외 37개 지점 + 미상. 채널·지점 조합 |
+
+미상 키는 `0`입니다. 말의 SCD2 버전은 스냅샷 다음 날부터 유효하며, `VALID_FROM_DT ≤ 기준일 ≤ VALID_TO_DT`로 연결합니다.
 
 전용 차원은 진료의 `DIM_AGE_GROUP` 5행·`DIM_VET_TYPE` 53행, 매출의 `DIM_BET_TYPE` 3행·`DIM_TICKET_STATUS` 3행입니다. 진료 유형 브리지 `BRIDGE_HR_VET_TYPE`은 1,662행입니다.
 
-미상 키 `0`은 실제 차원 행으로 존재합니다. 비회원은 별도 양수 키로 연결합니다. 말 버전은 기준일 이전 스냅샷을 사용하며 유효 시작일은 스냅샷 다음 날입니다. 상세 규칙은 [공통 차원 문서](https://github.com/encore-ai-campus/mlo-03-p2-team3/blob/develop/docs/gold/common.md)를 따릅니다.
+상세 규칙은 [공통 차원 문서](../gold/common.md)를 따릅니다.
 
 ## 측정값
 
