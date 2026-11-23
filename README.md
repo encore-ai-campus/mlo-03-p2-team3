@@ -63,8 +63,6 @@
 | **언어** | ![Python](https://img.shields.io/badge/Python-3.14-3776AB?style=flat-square&logo=python&logoColor=white) |
 | **데이터 처리** | ![pandas](https://img.shields.io/badge/pandas-3.1.1-150458?style=flat-square&logo=pandas&logoColor=white) ![PyArrow](https://img.shields.io/badge/PyArrow-26.0.1-E95420?style=flat-square) |
 | **저장 형식** | ![Parquet](https://img.shields.io/badge/Parquet-Data-50ABF1?style=flat-square) ![CSV](https://img.shields.io/badge/CSV-Metadata-217346?style=flat-square) ![Markdown](https://img.shields.io/badge/Markdown-Documentation-000000?style=flat-square&logo=markdown&logoColor=white) |
-| **협업** | ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white) (Pull Request 리뷰 후 `develop`에 병합) |
-| **AI 도구** | ![Claude Code](https://img.shields.io/badge/Claude-Code-D97757?style=flat-square) ![Codex](https://img.shields.io/badge/OpenAI-Codex-412991?style=flat-square&logo=openai&logoColor=white) |
 
 
 ## 4. WBS
