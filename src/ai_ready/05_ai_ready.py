@@ -142,16 +142,27 @@ def cancel_50s():
     p = p[full_age(p["BIRTH_DT"], p["SALE_DTM"]).between(50, 59)]
 
     k = ["RC_DT", "RC_NO", "CHUL_NO"]
-    c = x[x["ORDER_TYPE_CD"].eq("CANCEL") & x["BET_TYPE_CD"].eq("WIN")]  # 같은 전표의 연승·복승 취소가 섞이지 않게
-    c = c.merge(p[["ORDER_NO", "MBR_NO", "SALE_DTM"] + k].drop_duplicates(["ORDER_NO", "MBR_NO"] + k),
-                left_on=["ORIG_ORDER_NO", "MBR_NO"] + k, right_on=["ORDER_NO", "MBR_NO"] + k, suffixes=("", "_P"))
-    c = c[(c["SALE_DTM_P"] <= c["SALE_DTM"]) & (c["SALE_DTM"] < c["START_DTM"])]
-    # '검증 통과 취소'는 Gold 취소 팩트의 판정을 그대로 쓴다 (취소액 > 구매액, 연결 불확실 묶음은 AMBIGUOUS라 제외)
-    g = gold("bet_cancel/FCT_BET_SELECTION_CANCEL_50S.parquet")
-    g = g[g["CANCEL_LABEL_STATUS"].eq("VERIFIED_CANCEL")][["ORIGINAL_ORDER_NO", "RACE_KEY", "CHUL_NO"]]
-    g = g.merge(pd.read_parquet(COMMON / "DIM_RACE.parquet")[["RACE_KEY", "RC_DT", "RC_NO"]], on="RACE_KEY", validate="m:1")
-    g["RC_NO"] = g["RC_NO"].astype("int32")
-    c = c.merge(g.drop(columns="RACE_KEY").rename(columns={"ORIGINAL_ORDER_NO": "ORIG_ORDER_NO"}), on=["ORIG_ORDER_NO"] + k, validate="m:1")
+    grp = ["ORDER_NO"] + k  # 구매 묶음 = 원전표 + 경주 + 출전 번호
+    pg = p.groupby(grp + ["MBR_NO"], as_index=False).agg(P_DTM=("SALE_DTM", "min"), P_AMT=("BET_AMT", "sum"))
+
+    # 출발 전 단승 취소만 본다 (같은 전표의 연승·복승 취소가 섞이지 않게 단승만)
+    c = x[x["ORDER_TYPE_CD"].eq("CANCEL") & x["BET_TYPE_CD"].eq("WIN") & (x["SALE_DTM"] < x["START_DTM"])]
+    # 원구매에 연결되는 취소: 원전표가 같은 회원의 SALE 전표이고 같은 말에 단승 마권이 있음 (시각·상태와 무관하게 연결 여부만)
+    sale_win = t.merge(o[["ORDER_NO", "ORDER_TYPE_CD", "MBR_NO"]], on="ORDER_NO")
+    sale_win = sale_win[sale_win["ORDER_TYPE_CD"].eq("SALE") & sale_win["BET_TYPE_CD"].eq("WIN")][["ORDER_NO", "MBR_NO"] + k].drop_duplicates()
+    c = c.merge(sale_win.rename(columns={"ORDER_NO": "ORIG_ORDER_NO"}).assign(LINKABLE=True), on=["ORIG_ORDER_NO", "MBR_NO"] + k, how="left")
+    c["LINKABLE"] = c["LINKABLE"].fillna(False).astype(bool)
+    linked = c[c["LINKABLE"]].merge(pg.rename(columns={"ORDER_NO": "ORIG_ORDER_NO"}), on=["ORIG_ORDER_NO", "MBR_NO"] + k)
+
+    # 출발 전 거래만으로 다시 판정 (은빈 님 Gold의 판정 기준을 출발 전 거래에 적용)
+    bad = set()
+    over = linked.assign(A=linked["BET_AMT"].abs()).groupby(["ORIG_ORDER_NO"] + k).agg(A=("A", "sum"), P=("P_AMT", "first"))
+    bad |= set(over.index[over["A"] > over["P"]])  # 출발 전 취소액 > 구매액
+    bad |= set(map(tuple, linked.loc[linked["SALE_DTM"] < linked["P_DTM"], ["ORIG_ORDER_NO"] + k].values))  # 구매보다 이른 취소
+    # 같은 회원·말인데 원구매에 연결되지 않는 출발 전 취소가 그 구매 뒤에 있으면, 어느 구매의 취소인지 불확실
+    loose = c[~c["LINKABLE"]].merge(pg.rename(columns={"ORDER_NO": "P_ORDER_NO"}), on=["MBR_NO"] + k)
+    bad |= set(map(tuple, loose.loc[loose["SALE_DTM"] >= loose["P_DTM"], ["P_ORDER_NO"] + k].values))
+    c = linked[~pd.Series(list(map(tuple, linked[["ORIG_ORDER_NO"] + k].values)), index=linked.index).isin(bad)]
 
     pa_ = p.groupby(k).agg(WIN_50S_PURCHASE_GROUP_CNT=("ORDER_NO", "nunique"), WIN_50S_PURCHASE_AMT=("BET_AMT", "sum"))
     ca_ = c.assign(A=c["BET_AMT"].abs()).groupby(k).agg(WIN_50S_CANCEL_GROUP_CNT=("ORIG_ORDER_NO", "nunique"), WIN_50S_CANCEL_AMT=("A", "sum"))
