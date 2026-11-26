@@ -14,3 +14,5 @@
 | 4.3 | 11/23(월) 11:16 | 취소 팩트 문서 보완 | Gold 문서 · [`67513df`](https://github.com/encore-ai-campus/mlo-03-p2-team3/commit/67513df) |
 | 5.1 | 11/23(월) | 출전마별 3착 이내 예측 테이블·인코딩·날짜 분할 | AI Ready 3,644행·제외 22행 · [`69cfc10`](https://github.com/encore-ai-campus/mlo-03-p2-team3/commit/69cfc10) |
 | 5.2 | 11/23(월) | 취소 판정·원구매 연결을 출발 전 거래로 제한 | 시점 누수 검증 · [`1fd2f23`](https://github.com/encore-ai-campus/mlo-03-p2-team3/commit/1fd2f23), [`c30d021`](https://github.com/encore-ai-campus/mlo-03-p2-team3/commit/c30d021) |
+| 6.1 | 11/23(월) | Gold 컬럼 이름을 매핑 규칙서 13장에 맞춰 통일 (43개), 이름 검사 추가 | 규칙서 13장·D-017 · [`ea46ab7`](https://github.com/encore-ai-campus/mlo-03-p2-team3/commit/ea46ab7) |
+| 6.2 | 11/24(화) | 데이터 사전을 Silver·Gold·AI Ready 종합 사전으로 확장, 사전 대조 검사 | `meta/data_dictionary.csv` 448행 · [`29a265d`](https://github.com/encore-ai-campus/mlo-03-p2-team3/commit/29a265d) |

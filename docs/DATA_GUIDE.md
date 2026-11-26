@@ -200,3 +200,4 @@
 | Gold 마권 매출 | `data/03_gold/race_sales/` | 팩트 `FCT_RACE_SALES` (마권 1장 = 1행, 522,364행), 전용 차원 `DIM_BET_TYPE`·`DIM_TICKET_STATUS` → `docs/gold/race_sales.md` |
 | Gold 50대 단승 취소 | `data/03_gold/bet_cancel/` | 팩트 `FCT_BET_SELECTION_CANCEL_50S` (50대 회원의 단승 구매 묶음 1건 = 1행, 41,141행) → `docs/gold/bet_cancel.md` |
 | AI Ready | `data/04_ai_ready/` | 출주마 1두 = 1행(3,644행), 정답 `PLACE_YN`(3착 이내), 피처 27개, TRAIN/TEST 날짜 분할. 피처 테이블·인코딩 테이블·`_excluded/`(미출주 22행) → `docs/ai_ready.md` |
+| 데이터 사전 | `meta/data_dictionary.csv` | 종합 데이터 사전 448행. `LAYER`(SILVER 162 / GOLD 170 / AI_READY 116)별 테이블·컬럼·타입·출처·규칙. 이름 규칙은 `meta/mapping_rules.md` 13장 |

@@ -409,7 +409,7 @@
 | Silver에서 가져온 컬럼 | **이름을 바꾸지 않는다** | `HR_SEX_CD`, `ORIG_ORDER_NO`, `Y1_RC_CNT`는 Gold에서도 같은 이름 |
 | 새로 만든 컬럼 | 2장의 주제어(`HR_`, `MBR_`, `RC_`, `TR_`, `CHNL_`)와 접미사(`_AMT`, `_CNT`, `_DT`, `_DTM`, `_SEC`, `_RT`, `_YN`, `_CD`, `_NM`)를 따른다 | `PURCHASE_AMT`, `CANCEL_ORDER_CNT`, `FIRST_CANCEL_DTM` |
 | 테이블 | 팩트 `FCT_`, 차원 `DIM_`, 브리지 `BRIDGE_` | `FCT_RACE_ENTRY`, `DIM_HORSE` |
-| 대리키 | `차원이름_KEY`, 정수, 미상은 `0`. 주제어로 줄이지 않는다 | `HORSE_KEY`, `MEMBER_KEY`, `TRAINER_KEY` |
+| 대리키 | `차원이름_KEY`, 정수, 미상은 `0`. 주제어로 줄이지 않는다. Gold에서 만든 연결용 번호와 Silver에서 온 속성(`TR_NM`, `MBR_NO`)을 이름으로 구분하기 위함 | `HORSE_KEY`, `MEMBER_KEY`, `TRAINER_KEY` |
 | 날짜 키 | 경주일은 `DATE_KEY`, 그 외 역할은 `역할_DT_KEY` | `SALE_DT_KEY`, `VET_DT_KEY`, `PURCHASE_DT_KEY` |
 | 여부 | `_YN`, 값은 `Y`/`N`. 판단할 수 없으면 NULL | `ANALYSIS_ELIGIBLE_YN`, `HEADER_MISMATCH_YN` |
 | 비율·확률 | `_RT` | `EXPECT_WIN_RT`, `Y1_WIN_RT` |

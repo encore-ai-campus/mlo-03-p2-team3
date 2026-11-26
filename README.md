@@ -107,6 +107,7 @@
 | 5 | 11/20~11/23 | 스타 스키마 설계·Gold 생성 | 팩트 4개·전용 차원·브리지 | ✅ |
 | 6 | 11/23 | 공통 차원 통합·Gold 검증 | 공통 차원 6개·PK/FK·측정값 대사 | ✅ |
 | 7 | 11/23 | AI Ready Data 구성·검증 | 출주마 3,644행·인코딩 테이블·TRAIN/TEST 날짜 분할 | ✅ |
+| 8 | 11/23~11/24 | Gold 이름 통일·종합 데이터 사전 | 매핑 규칙서 13장·Gold 43개 이름 변경·종합 사전 448행·이름/사전 검사 | ✅ |
 
 [세부 일정·산출물](docs/wiki/WBS.md)
 
@@ -126,8 +127,8 @@
 | S-03 | Silver | 정제 결과를 공용 clean으로 관리하고 버전·파일 해시를 고정한다. | [clean manifest](data/02_silver/clean/_manifest.json) · SHA-256 대조 | ✅ 14개 파일 일치 |
 | G-01 | Gold | 같은 clean에서 업무별 grain에 맞는 팩트와 공통 차원을 생성한다. | 팩트별 입력·grain 대사 | ✅ 팩트 4개·공통 차원 6개 |
 | G-02 | Gold | PK 중복·NULL과 FK 누락이 없어야 하며 말의 SCD2 기준일을 지킨다. | [공통 차원 검증](src/common/04_common_dims_check.py) · 팩트별 키/시점 검증 | ✅ 키 오류 0건·기간 검증 통과 |
-| G-04 | Gold | 컬럼 이름이 매핑 규칙서 13장(Gold 이름 규칙)을 따르고, 종합 데이터 사전과 실제 파일이 같다. | [04_gold_naming_check.py](src/common/04_gold_naming_check.py) | ✅ 이름 위반 0, 사전 대조 18개 테이블 일치 |
 | G-03 | Gold | 팩트·브리지의 행 수와 측정값을 해당 입력·집계 정의에 맞춰 대사한다. | [팩트별 검증 결과](docs/wiki/Results.md) | ✅ 행 수·금액·건수 일치 |
+| G-04 | Gold | 컬럼 이름이 매핑 규칙서 13장(Gold 이름 규칙)을 따르고, 종합 데이터 사전과 실제 파일이 같다. | [04_gold_naming_check.py](src/common/04_gold_naming_check.py) | ✅ 이름 위반 0, 사전 대조 18개 테이블 일치 |
 | A-01 | AI Ready | 실제 출주마 1두를 1행으로 구성하고 미출주마는 사유와 함께 별도 보존한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) | ✅ 유지 3,644 + 제외 22 = 3,666행, PK 중복 0 |
 | A-02 | AI Ready | 출발 전 정보로 피처를 구성하고 정답·최종 배당을 학습 피처와 분리한다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 과거 성적/진료/거래 재계산 | ✅ 시점별 재계산 일치 |
 | A-03 | AI Ready | 범주형을 인코딩하고 결측 표시를 유지해 학습 피처를 숫자형으로 만든다. | [05_ai_ready_check.py](src/ai_ready/05_ai_ready_check.py) · 원-핫/결측 검증 | ✅ 행·순서 일치, 결측 0건 |
@@ -184,7 +185,7 @@ Bronze의 원천값은 보존하고 Silver에서 이름·타입·단위·코드�
 | `DIM_MEMBER` | `MEMBER_KEY` | 4,385 | 회원 4,383명 + 비회원 + 미상. 비회원은 별도 양수 키 |
 | `DIM_CHANNEL` | `CHANNEL_KEY` | 40 | 현장·앱·장외 37개 지점 + 미상. 채널·지점 조합 |
 
-미상 키는 `0`입니다. 말의 SCD2 버전은 스냅샷 다음 날부터 유효하며, `VALID_FROM_DT ≤ 기준일 ≤ VALID_TO_DT`로 연결합니다.
+미상 키는 `0`입니다. 대리키는 Gold에서 새로 만든 연결용 번호라 `차원이름_KEY`(`TRAINER_KEY`, `MEMBER_KEY`)로 짓고, 조교사명·회원번호 같은 속성은 Silver 표준 이름(`TR_NM`, `MBR_NO`)을 그대로 씁니다. 키와 원천 속성을 이름만 보고 구분하려고 일부러 나눈 규칙입니다(매핑 규칙서 13장, D-017). 말의 SCD2 버전은 스냅샷 다음 날부터 유효하며, `VALID_FROM_DT ≤ 기준일 ≤ VALID_TO_DT`로 연결합니다.
 
 [측정값 계산 정의](docs/wiki/Star-Schema.md#측정값) · [공통 차원 연결 규칙](docs/gold/common.md)
 
