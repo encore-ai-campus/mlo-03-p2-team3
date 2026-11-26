@@ -28,7 +28,7 @@
 | `DIM_MEMBER` | `MEMBER_KEY` | 4,385 | 회원 4,383명 + 비회원 + 미상. 비회원은 별도 양수 키 |
 | `DIM_CHANNEL` | `CHANNEL_KEY` | 40 | 현장·앱·장외 37개 지점 + 미상. 채널·지점 조합 |
 
-미상 키는 `0`입니다. 말의 SCD2 버전은 스냅샷 다음 날부터 유효하며, `VALID_FROM_DT ≤ 기준일 ≤ VALID_TO_DT`로 연결합니다.
+미상 키는 `0`입니다. 대리키는 Gold에서 새로 만든 연결용 번호라 `차원이름_KEY`(`TRAINER_KEY`, `MEMBER_KEY`)로 짓고, 조교사명·회원번호 같은 속성은 Silver 표준 이름(`TR_NM`, `MBR_NO`)을 그대로 씁니다. 키와 원천 속성을 이름만 보고 구분하려고 일부러 나눈 규칙입니다(매핑 규칙서 13장, D-017). 말의 SCD2 버전은 스냅샷 다음 날부터 유효하며, `VALID_FROM_DT ≤ 기준일 ≤ VALID_TO_DT`로 연결합니다.
 
 전용 차원은 진료의 `DIM_AGE_GROUP` 5행·`DIM_VET_TYPE` 53행, 매출의 `DIM_BET_TYPE` 3행·`DIM_TICKET_STATUS` 3행입니다. 진료 유형 브리지 `BRIDGE_HR_VET_TYPE`은 1,662행입니다.
 
